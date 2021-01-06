@@ -1,13 +1,21 @@
+import { useSelector } from "react-redux";
 import { Button } from "semantic-ui-react";
+import { selectOneCar } from "./carsSlice";
 import redCar from "../../images/red-vintage-car.jpg";
 
-const car = {
-  title: "Chevrolet Cruze 2013",
-  location: "Glendale, CA 91204",
-  price: 20,
-};
+const CarPage = ({ match }) => {
+  const carId = match.params.id;
+  const car = useSelector((state) => selectOneCar(state, carId));
+  console.log("car", car);
 
-const CarPage = () => {
+  if (!car) {
+    return (
+      <main className="car-info">
+        <h2>Car Not Found</h2>
+      </main>
+    );
+  }
+
   return (
     <main className="car-page">
       <section className="car-info">

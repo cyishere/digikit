@@ -11,8 +11,12 @@ const baseUrl = "http://localhost:3001/api/cars";
 
 // communicate with API
 export const getAllCars = createAsyncThunk("cars/getAllCars", async () => {
-  const response = await axios.get(baseUrl);
-  return response.data;
+  try {
+    const response = await axios.get(baseUrl);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 // the slice
@@ -39,3 +43,6 @@ export default carsSlice.reducer;
 
 // selectors
 export const selectAllCars = (state) => state.cars.entities;
+
+export const selectOneCar = (state, carId) =>
+  state.cars.entities.find((car) => car.id === carId);

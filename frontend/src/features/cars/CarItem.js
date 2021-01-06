@@ -1,8 +1,9 @@
+import { Link } from "react-router-dom";
 import { Card } from "semantic-ui-react";
 
 const CarItem = ({ car }) => {
   return (
-    <Card>
+    <Card as={Link} to={`/cars/${car.id}`}>
       <Card.Content>
         <Card.Header as="h3">{car.title}</Card.Header>
         <Card.Meta>{car.location}</Card.Meta>
