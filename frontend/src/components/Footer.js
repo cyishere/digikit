@@ -3,7 +3,7 @@ import { Segment } from "semantic-ui-react";
 const Footer = () => {
   return (
     <footer>
-      <Segment textAlign="center">
+      <Segment inverted textAlign="center">
         Made with
         <span className="emoji" role="img">
           ☕

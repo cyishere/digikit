@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Menu } from "semantic-ui-react";
 
 const Navbar = () => {
@@ -7,8 +8,10 @@ const Navbar = () => {
   const handleItemClick = (e) => setActiveItem(e.target.dataset.name);
 
   return (
-    <Menu>
+    <Menu pointing secondary>
       <Menu.Item
+        as={Link}
+        to="/"
         data-name="home"
         active={activeItem === "home"}
         onClick={handleItemClick}
@@ -18,6 +21,8 @@ const Navbar = () => {
 
       <Menu.Menu position="right">
         <Menu.Item
+          as={Link}
+          to="/register"
           data-name="register"
           active={activeItem === "register"}
           onClick={handleItemClick}
@@ -25,6 +30,8 @@ const Navbar = () => {
           Register
         </Menu.Item>
         <Menu.Item
+          as={Link}
+          to="/login"
           data-name="login"
           active={activeItem === "login"}
           onClick={handleItemClick}

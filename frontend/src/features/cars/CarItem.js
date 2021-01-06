@@ -6,7 +6,9 @@ const CarItem = ({ car }) => {
       <Card.Content>
         <Card.Header as="h3">{car.title}</Card.Header>
         <Card.Meta>{car.location}</Card.Meta>
-        <Card.Description className="car-price">${car.price}</Card.Description>
+        <Card.Description>
+          $<span className="price">{car.price}</span>/day
+        </Card.Description>
       </Card.Content>
     </Card>
   );

@@ -1,6 +1,7 @@
 :root {
   --color-purple: #9627ba;
   --color-pink: #e03997;
+  --color-teal: #00b5ad;
 }
 
 a {
@@ -12,14 +13,36 @@ a {
   margin-right: 1rem;
 }
 
+.ui.segment {
+  border-radius: 0;
+}
+
 .ui.menu,
 main {
   margin-bottom: 3rem;
 }
 
-.ui.card > .content > .meta + .description.car-price {
-  color: var(--color-purple);
+.ui.menu {
+  padding-top: 2rem;
+}
+
+.price,
+.ui.card > .content > .meta + .description .price {
+  color: var(--color-teal);
   font-size: 16px;
   font-weight: 700;
   text-align: right;
+}
+
+/* Car Page */
+.car-info {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr 1fr;
+}
+.car-info_images img {
+  max-width: 100%;
+}
+.car-info_content > * {
+  margin-bottom: 1rem;
 }
