@@ -1,6 +1,11 @@
 const router = require("express").Router();
 const User = require("../models/users");
-const { validatorForRegister } = require("../utils/validators");
+const {
+  validatorForBasicUserInfo,
+  validatorForEmail,
+  validatorForName,
+  validatorForRegister,
+} = require("../utils/validators");
 const bcrypt = require("bcrypt");
 
 // Get ALL
@@ -74,7 +79,62 @@ router.post("/", async (req, res) => {
 });
 
 // UPDATE
+router.put("/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const { username, email } = req.body;
+    const { errors, valid } = validatorForBasicUserInfo(username, email);
+
+    if (valid) {
+      const existUser = await User.findById(id);
+
+      if (existUser) {
+        // validate name
+        const { nameError, nameValid } = await validatorForName(username, id);
+        // validate email
+        const { emailError, emailValid } = await validatorForEmail(email, id);
+
+        if (nameValid && emailValid) {
+          // save the update
+          const updatedUser = await User.findByIdAndUpdate(id, req.body, {
+            new: true,
+          });
+          return res.json(updatedUser);
+        } else if (!nameValid) {
+          errors.username = nameError;
+        } else {
+          errors.email = emailError;
+        }
+
+        res.json({ errors });
+      } else {
+        res.status(400).send("User Not Found");
+      }
+    } else {
+      // errors in username or email
+      res.json({ errors });
+    }
+  } catch (error) {
+    console.log("Error at update: ", error.message);
+  }
+});
 
 // DELETE
+router.delete("/:id", async (req, res) => {
+  try {
+    const deletedUser = await User.findByIdAndRemove(req.params.id);
+    if (deletedUser) {
+      return res.json({
+        userId: deletedUser.id,
+        deleted: true,
+      });
+    }
+    res.status(400).send("User Not Found");
+  } catch (error) {
+    console.log("Error at delete: ", error.message);
+  }
+});
+
+// LOGIN
 
 module.exports = router;
