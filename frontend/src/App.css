@@ -54,3 +54,8 @@ main {
 .car-info_content > * {
   margin-bottom: 1rem;
 }
+
+/* Register */
+.ui.button.mt-10 {
+  margin-top: 1rem;
+}
