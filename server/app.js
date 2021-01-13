@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 // import API
 const carRouter = require("./controllers/car");
 const userRouter = require("./controllers/user");
+const rootRouter = require("./controllers/root");
 
 // middlewares & others
 const config = require("./utils/config");
@@ -35,5 +36,6 @@ app.use(middleware.requestLogger);
 // routes
 app.use("/api/car", carRouter);
 app.use("/api/user", userRouter);
+app.use("/api", rootRouter);
 
 module.exports = app;
