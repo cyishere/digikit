@@ -46,11 +46,15 @@ router.post(
           const userForToken = {
             username: user.username,
             id: user.id,
-            role: user.role,
+            role: user.role === "ADMIN" ? "admin" : "user",
           };
 
           const token = jwt.sign(userForToken, config.SECRET);
-          return res.json({ username: user.username, token });
+          return res.json({
+            username: user.username,
+            token,
+            owner: user.role === "ADMIN" ? true : false,
+          });
         }
 
         // when password wrong
@@ -70,7 +74,7 @@ router.post(
 /**
  * @feature REGISTER
  */
-router.post("/", async (req, res) => {
+router.post("/register", async (req, res) => {
   try {
     const { username, email, password, passconf } = req.body;
     const { errors, valid } = validatorForRegister(

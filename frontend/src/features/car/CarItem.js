@@ -3,7 +3,7 @@ import { Card } from "semantic-ui-react";
 
 const CarItem = ({ car }) => {
   return (
-    <Card as={Link} to={`/cars/${car.id}`}>
+    <Card as={Link} to={`/car/${car.id}`}>
       <Card.Content>
         <Card.Header as="h3">{car.title}</Card.Header>
         <Card.Meta>{car.location}</Card.Meta>

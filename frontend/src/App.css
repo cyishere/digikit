@@ -39,6 +39,9 @@ body {
 a {
   color: var(--color-pink);
 }
+a:hover {
+  color: var(--color-teal);
+}
 
 .emoji {
   margin-left: 1rem;
@@ -47,7 +50,8 @@ a {
 
 .ui.text.container,
 .ui.form,
-.ui.menu {
+.ui.menu,
+.ui.segment {
   font-size: 1.6rem;
 }
 
@@ -113,4 +117,42 @@ h2.car-info_title {
 /* Register */
 .ui.button.mt-10 {
   margin-top: 1rem;
+}
+
+/**
+ * ADMIN
+ */
+/* Car List */
+.ui.list .item {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+.ui.list .item .content > * {
+  margin-bottom: 1.6rem;
+}
+.ui.list .item .content > *:last-child {
+  margin-bottom: 0;
+}
+.ui.list .item .header {
+  font-size: 2rem;
+}
+.ui.list .item .car-info_meta {
+  font-size: 1.8rem;
+  margin-right: 3.2rem;
+  position: relative;
+}
+.ui.list .item .car-info_meta::after {
+  content: "/";
+  position: absolute;
+  right: -2rem;
+  top: 0.2rem;
+  color: var(--color-teal);
+}
+.ui.list .item .car-info_price .price {
+  color: var(--color-teal);
+  font-weight: 400;
+  font-size: 1em;
+}
+.ui.list .item .ui.button {
+  font-size: 1.6rem;
 }
