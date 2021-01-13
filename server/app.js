@@ -5,8 +5,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 
 // import API
-const carsRouter = require("./controllers/cars");
-const usersRouter = require("./controllers/users");
+const carRouter = require("./controllers/car");
+const userRouter = require("./controllers/user");
 
 // middlewares & others
 const config = require("./utils/config");
@@ -33,7 +33,7 @@ app.use(express.json());
 app.use(middleware.requestLogger);
 
 // routes
-app.use("/api/cars", carsRouter);
-app.use("/api/users", usersRouter);
+app.use("/api/car", carRouter);
+app.use("/api/user", userRouter);
 
 module.exports = app;

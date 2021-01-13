@@ -5,11 +5,11 @@ const initialState = {
   entities: [],
   errors: {},
 };
-const apiUrl = "http://localhost:3001/api/users";
+const apiUrl = "http://localhost:3001/api/user";
 
 // communicate with api
 export const addNewUser = createAsyncThunk(
-  "users/addNewUser",
+  "user/addNewUser",
   async (userInfo) => {
     try {
       const response = await axios.post(apiUrl, userInfo);
@@ -21,8 +21,8 @@ export const addNewUser = createAsyncThunk(
   }
 );
 
-const usersSlice = createSlice({
-  name: "users",
+const userSlice = createSlice({
+  name: "user",
   initialState,
   reducers: {},
   extraReducers: {
@@ -39,4 +39,4 @@ const usersSlice = createSlice({
   },
 });
 
-export default usersSlice.reducer;
+export default userSlice.reducer;

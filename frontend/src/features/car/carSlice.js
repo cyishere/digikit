@@ -7,10 +7,10 @@ const initialState = {
   error: null,
 };
 
-const baseUrl = "http://localhost:3001/api/cars";
+const baseUrl = "http://localhost:3001/api/car";
 
 // communicate with API
-export const getAllCars = createAsyncThunk("cars/getAllCars", async () => {
+export const getAllCars = createAsyncThunk("car/getAllCars", async () => {
   try {
     const response = await axios.get(baseUrl);
     return response.data;
@@ -20,8 +20,8 @@ export const getAllCars = createAsyncThunk("cars/getAllCars", async () => {
 });
 
 // the slice
-const carsSlice = createSlice({
-  name: "cars",
+const carSlice = createSlice({
+  name: "car",
   initialState,
   reducers: {},
   extraReducers: {
@@ -39,10 +39,10 @@ const carsSlice = createSlice({
   },
 });
 
-export default carsSlice.reducer;
+export default carSlice.reducer;
 
 // selectors
-export const selectAllCars = (state) => state.cars.entities;
+export const selectAllCars = (state) => state.car.entities;
 
 export const selectOneCar = (state, carId) =>
-  state.cars.entities.find((car) => car.id === carId);
+  state.car.entities.find((car) => car.id === carId);

@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const Car = require("../models/cars");
+const Car = require("../models/car");
 const logger = require("../utils/logger");
 
 // Get ALL
