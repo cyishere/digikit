@@ -1,7 +1,31 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;700&display=swap");
+
 :root {
   --color-purple: #9627ba;
   --color-pink: #e03997;
   --color-teal: #00b5ad;
+  --color-text-primary: #3e3b40;
+  --color-text-secondary: #716c7b;
+  --family-font: "Roboto", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+body {
+  font-family: var(--family-font);
+  color: var(--color-text-primary);
+}
+body {
+  font-size: 1.6rem;
+  font-weight: 300;
 }
 
 #root {
@@ -19,6 +43,18 @@ a {
 .emoji {
   margin-left: 1rem;
   margin-right: 1rem;
+}
+
+.ui.text.container,
+.ui.form,
+.ui.menu {
+  font-size: 1.6rem;
+}
+
+.ui.button {
+  font-family: var(--family-font);
+  font-size: 2rem;
+  font-weight: 300;
 }
 
 .ui.segment {
@@ -52,7 +88,26 @@ main {
   max-width: 100%;
 }
 .car-info_content > * {
-  margin-bottom: 1rem;
+  margin-bottom: 2.4rem;
+}
+h2.car-info_title {
+  font-size: 3.2rem;
+}
+.car-info_meta,
+.car-info_description {
+  color: var(--color-text-secondary);
+}
+.car-info_meta {
+  font-size: 2.4rem;
+}
+.car-info_price {
+  font-size: 1.8rem;
+  color: var(--color-text-primary);
+}
+.car-info_price .price {
+  font-size: 1.5em;
+  margin-left: 0.4rem;
+  margin-right: 0.4rem;
 }
 
 /* Register */

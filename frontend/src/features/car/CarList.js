@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import { Grid, Loader, Message } from "semantic-ui-react";
 import CarItem from "./CarItem";
 
-import { getAllCars, selectAllCars } from "./carsSlice";
+import { getAllCars, selectAllCars } from "./carSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const CarList = () => {
   const cars = useSelector(selectAllCars);
-  const { status, error } = useSelector((state) => state.cars);
+  const { status, error } = useSelector((state) => state.car);
   const dispatch = useDispatch();
 
   useEffect(() => {

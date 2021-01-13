@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Container, Form, Header, Message } from "semantic-ui-react";
 
-import { addNewUser } from "../features/users/usersSlice";
+import { addNewUser } from "../features/user/userSlice";
 
 const Register = () => {
   const [userInfo, setUserInfo] = useState({
@@ -14,7 +14,7 @@ const Register = () => {
   });
   const [requestStatus, setRequestStatus] = useState("idle");
 
-  const errors = useSelector((state) => state.users.errors);
+  const errors = useSelector((state) => state.user.errors);
 
   const dispatch = useDispatch();
 
@@ -119,8 +119,8 @@ const Register = () => {
             type="submit"
             className={
               requestStatus === "loading"
-                ? "ui button primary mt-10 loading"
-                : "ui button primary mt-10"
+                ? "ui button secondary mt-10 loading"
+                : "ui button secondary mt-10"
             }
           >
             Register
