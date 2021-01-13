@@ -1,7 +1,15 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Container, Icon, Image, List, Loader } from "semantic-ui-react";
+import {
+  Breadcrumb,
+  Container,
+  Header,
+  Icon,
+  Image,
+  List,
+  Loader,
+} from "semantic-ui-react";
 import { getAllCars, selectAllCars } from "./carSlice";
 import redCar from "../../images/red-vintage-car.jpg";
 
@@ -18,7 +26,19 @@ const CarAdminList = () => {
   }, [dispatch, status]);
 
   return (
-    <Container>
+    <Container className="page">
+      <Header dividing className="clearing">
+        <Link className="ui button secondary right floated" to="/admin/car/add">
+          + Add New Car
+        </Link>
+        <Breadcrumb size="massive">
+          <Breadcrumb.Section as={Link} to="/admin">
+            Dashboard
+          </Breadcrumb.Section>
+          <Breadcrumb.Divider icon="right chevron" />
+          <Breadcrumb.Section active>Car List</Breadcrumb.Section>
+        </Breadcrumb>
+      </Header>
       <List divided>
         {cars.length > 0 &&
           cars.map((car) => (

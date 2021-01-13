@@ -122,6 +122,16 @@ h2.car-info_title {
 /**
  * ADMIN
  */
+.page .ui.header {
+  margin-bottom: 2.4rem;
+  padding-bottom: 2.4rem;
+}
+.ui.header .ui.massive.breadcrumb {
+  font-size: 2.4rem;
+}
+.ui.header .ui.button {
+  padding: 0.4em 0.6em;
+}
 /* Car List */
 .ui.list .item {
   padding-top: 2rem;
