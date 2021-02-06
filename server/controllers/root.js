@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { body, validationResult } = require("express-validator");
 const User = require("../models/user");
-const logger = require("../utils/logger");
 const config = require("../utils/config");
 const { validatorForRegister } = require("../utils/validators");
 
@@ -46,14 +45,13 @@ router.post(
           const userForToken = {
             username: user.username,
             id: user.id,
-            role: user.role === "ADMIN" ? "admin" : "user",
+            role: user.role,
           };
 
           const token = jwt.sign(userForToken, config.SECRET);
           return res.json({
             username: user.username,
             token,
-            owner: user.role === "ADMIN" ? true : false,
           });
         }
 
@@ -66,7 +64,7 @@ router.post(
       // 401
       res.json({ errors });
     } catch (error) {
-      logger.error("error in login: ", error);
+      console.error("error in login: ", error);
     }
   }
 );

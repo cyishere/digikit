@@ -1,4 +1,6 @@
+const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+const config = require("../utils/config");
 
 const regEx = /^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/;
 
@@ -87,9 +89,26 @@ const validatorForEmail = async (email, id) => {
   };
 };
 
+/**
+ * Authenticate Token
+ */
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (token === null) return res.sendStatus(401);
+
+  jwt.verify(token, config.USER_STATUS, (err, userInfoInToken) => {
+    if (err) return res.sendStatus(403);
+    req.userInfoInToken = userInfoInToken;
+    next();
+  });
+};
+
 module.exports = {
   validatorForBasicUserInfo,
   validatorForEmail,
   validatorForName,
   validatorForRegister,
+  authenticateToken,
 };

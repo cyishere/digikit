@@ -1,14 +1,26 @@
-const logger = require("./logger");
-
 /**
  * Request Logger
  */
 const requestLogger = (req, res, next) => {
-  logger.info("Method:", req.method);
-  logger.info("Path:", req.path);
-  logger.info("Body:", req.body);
-  logger.info("---");
+  console.info("Method:", req.method);
+  console.info("Path:", req.path);
+  console.info("Body:", req.body);
+  console.info("---");
   next();
 };
 
-module.exports = { requestLogger };
+/**
+ * Error Handler
+ */
+const errorHandler = (err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+
+  next(
+    res.status(statusCode).json({
+      type: "error",
+      message: err.message,
+    })
+  );
+};
+
+module.exports = { requestLogger, errorHandler };

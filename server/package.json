@@ -1,7 +1,7 @@
 {
-  "name": "funcars-api-server",
+  "name": "digitools-api-server",
   "version": "1.0.0",
-  "description": "The API server for the mock e-commerce website FunCars.",
+  "description": "The API server for the mock e-commerce website DigiTools.",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js"
@@ -17,5 +17,8 @@
     "express-validator": "^6.9.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.10"
+  },
+  "devDependencies": {
+    "eslint": "^7.19.0"
   }
 }
