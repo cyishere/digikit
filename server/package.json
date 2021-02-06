@@ -1,7 +1,7 @@
 {
-  "name": "digitools-api-server",
+  "name": "digikit-api-server",
   "version": "1.0.0",
-  "description": "The API server for the mock e-commerce website DigiTools.",
+  "description": "The API server for the mock e-commerce website DigiKit.",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js"
