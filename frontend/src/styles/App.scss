@@ -1,14 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;700&display=swap");
 
-:root {
-  --color-purple: #9627ba;
-  --color-pink: #e03997;
-  --color-teal: #00b5ad;
-  --color-text-primary: #3e3b40;
-  --color-text-secondary: #716c7b;
-  --family-font: "Roboto", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial,
-    sans-serif;
-}
+@import "./variables";
 
 html {
   font-size: 62.5%;
@@ -20,27 +12,42 @@ h3,
 h4,
 h5,
 body {
-  font-family: var(--family-font);
-  color: var(--color-text-primary);
+  font-family: $family-font;
+  color: $color-text-primary;
 }
 body {
   font-size: 1.6rem;
+  line-height: 1.5;
   font-weight: 300;
 }
 
 #root {
   min-height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: stretch;
+  // align-items: stretch;
 }
 
 a {
-  color: var(--color-pink);
+  color: $color-pink;
+  text-decoration: none;
 }
 a:hover {
-  color: var(--color-teal);
+  color: $color-teal;
+}
+
+h1 {
+  font-size: 4.4rem
+}
+
+h2 {
+  font-size: 3.6rem
+}
+
+h3 {
+  font-size: 2.8rem
 }
 
 .emoji {
@@ -48,38 +55,30 @@ a:hover {
   margin-right: 1rem;
 }
 
-.ui.text.container,
-.ui.form,
-.ui.menu,
-.ui.segment {
-  font-size: 1.6rem;
+.container {
+  max-width: 120rem;
+  width: 100%;
+  margin: 0 auto;
 }
 
-.ui.button {
-  font-family: var(--family-font);
-  font-size: 2rem;
-  font-weight: 300;
+.main,
+.ms-page {
+  margin: 0 auto 3rem auto;
 }
 
-.ui.segment {
-  border-radius: 0;
+.main {
+  width: 100%;
 }
 
-.ui.menu,
-main {
-  margin-bottom: 3rem;
+.ms-page {
+  max-width: 80rem;
 }
 
-.ui.menu {
-  padding-top: 2rem;
-}
-
-.price,
-.ui.card > .content > .meta + .description .price {
-  color: var(--color-teal);
-  font-size: 16px;
-  font-weight: 700;
-  text-align: right;
+.page-header {
+  h2.page-header__title, .page-header__title {
+    margin-bottom: .5em;
+    padding-top: 2em;
+  }
 }
 
 /* Car Page */
@@ -99,14 +98,14 @@ h2.car-info_title {
 }
 .car-info_meta,
 .car-info_description {
-  color: var(--color-text-secondary);
+  color: $color-text-secondary;
 }
 .car-info_meta {
   font-size: 2.4rem;
 }
 .car-info_price {
   font-size: 1.8rem;
-  color: var(--color-text-primary);
+  color: $color-text-primary;
 }
 .car-info_price .price {
   font-size: 1.5em;
@@ -115,23 +114,10 @@ h2.car-info_title {
 }
 
 /* Register */
-.ui.button.mt-10 {
+.button.mt-10 {
   margin-top: 1rem;
 }
 
-/**
- * ADMIN
- */
-.page .ui.header {
-  margin-bottom: 2.4rem;
-  padding-bottom: 2.4rem;
-}
-.ui.header .ui.massive.breadcrumb {
-  font-size: 2.4rem;
-}
-.ui.header .ui.button {
-  padding: 0.4em 0.6em;
-}
 /* Car List */
 .ui.list .item {
   padding-top: 2rem;
@@ -156,10 +142,10 @@ h2.car-info_title {
   position: absolute;
   right: -2rem;
   top: 0.2rem;
-  color: var(--color-teal);
+  color: $color-teal;
 }
 .ui.list .item .car-info_price .price {
-  color: var(--color-teal);
+  color: $color-teal;
   font-weight: 400;
   font-size: 1em;
 }

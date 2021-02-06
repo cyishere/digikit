@@ -1,15 +1,15 @@
-import { Segment } from "semantic-ui-react";
+import "./Footer.scss";
 
 const Footer = () => {
   return (
-    <footer>
-      <Segment inverted textAlign="center">
+    <footer className="footer">
+      <section className="section">
         Made with
         <span className="emoji" role="img">
           ☕
         </span>
         by <a href="https://cyishere.dev">CY</a>.
-      </Segment>
+      </section>
     </footer>
   );
 };

@@ -1,0 +1,29 @@
+@import "../styles/_variables.scss";
+
+.button {
+  background: rgb(240, 240, 240);
+  font: inherit;
+  padding: 0.5rem 1rem;
+  color: #333333;
+  border: none;
+  margin-right: 1rem;
+  cursor: pointer;
+
+  &:hover {
+    background: rgb(245, 245, 245);
+  }
+
+  &:active, &:focus {
+    box-shadow: none;
+    outline: none;
+  }
+
+  &.button-primary {
+    background-color: $color-pink;
+    color: white;
+
+    &:hover {
+      background-color: $color-teal;
+    }
+  }
+}
