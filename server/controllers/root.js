@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { body, validationResult } = require("express-validator");
 const User = require("../models/user");
 const config = require("../utils/config");
 const {
@@ -20,58 +19,45 @@ router.get("/", (req, res) => {
 /**
  * @feature LOGIN
  */
-router.post(
-  "/login",
-  [
-    body("username").not().isEmpty().trim(),
-    body("password").not().isEmpty().trim(),
-  ],
-  async (req, res) => {
-    const errors = {};
-    const validationErr = validationResult(req);
+router.post("/login", async (req, res, next) => {
+  const { email, password } = req.body;
+  const emailTrimed = email.trim();
+  const passwordTrimed = password.trim();
 
-    // when un valid
-    if (!validationErr.isEmpty()) {
-      errors.message = "Username and password must not be empty.";
-      return res.json({ errors });
+  try {
+    if (emailTrimed === "" || passwordTrimed === "") {
+      const error = new Error("Input cannot be empty.");
+      error.statusCode = 400;
+      throw error;
     }
 
-    // valid
-    try {
-      const { username, password } = req.body;
+    const foundUser = await User.findOne({ email });
 
-      const user = await User.findOne({ username });
-
-      if (user) {
-        const passwordCorrect = await bcrypt.compare(password, user.password);
-
-        if (passwordCorrect) {
-          const userForToken = {
-            username: user.username,
-            id: user.id,
-            role: user.role,
-          };
-
-          const token = jwt.sign(userForToken, config.SECRET);
-          return res.json({
-            username: user.username,
-            token,
-          });
-        }
-
-        // when password wrong
-        errors.password = "Wrong password";
-      } else {
-        // when username wrong
-        errors.username = "There's no this user.";
-      }
-      // 401
-      res.json({ errors });
-    } catch (error) {
-      console.error("error in login: ", error);
+    if (!foundUser) {
+      const error = new Error("This email haven't registered.");
+      error.statusCode = 400;
+      throw error;
     }
+
+    const isEqual = await bcrypt.compare(passwordTrimed, foundUser.password);
+
+    if (!isEqual) {
+      const error = new Error("Password is wrong.");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const token = jwt.sign(
+      { id: foundUser._id.toString(), email: emailTrimed },
+      config.SECRET
+    );
+
+    res.json({ userId: foundUser._id.toString(), token });
+  } catch (error) {
+    console.log({ error });
+    next(error);
   }
-);
+});
 
 /**
  * @feature REGISTER
