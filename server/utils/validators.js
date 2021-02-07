@@ -68,61 +68,6 @@ const validatePassword = (passwordTrimed, passconfTrimed, next) => {
   }
 };
 
-const validatorForBasicUserInfo = (username, email) => {
-  const errors = {};
-
-  if (username.trim() === "") {
-    errors.username = "Username must not be empty.";
-  }
-
-  if (email.trim() === "") {
-    errors.email = "Email must not be empty.";
-  } else {
-    if (!email.match(regEx)) {
-      errors.email = "Email must be a valid email address.";
-    }
-  }
-
-  return {
-    errors,
-    valid: Object.keys(errors).length < 1,
-  };
-};
-
-// validate name
-const validatorForName = async (username, id) => {
-  let nameError = "";
-  const user = await User.findOne({ username });
-
-  if (user) {
-    if (user._id.toString() !== id) {
-      nameError = "This username is taken.";
-    }
-  }
-
-  return {
-    nameError,
-    nameValid: nameError === "" ? true : false,
-  };
-};
-
-// validate email
-const validatorForEmail = async (email, id) => {
-  let emailError = "";
-  const user = await User.findOne({ email });
-
-  if (user) {
-    if (user._id.toString() !== id) {
-      emailError = "This email is taken.";
-    }
-  }
-
-  return {
-    emailError,
-    emailValid: emailError === "" ? true : false,
-  };
-};
-
 /**
  * Authenticate Token
  */
@@ -140,9 +85,6 @@ const authenticateToken = (req, res, next) => {
 };
 
 module.exports = {
-  validatorForBasicUserInfo,
-  validatorForEmail,
-  validatorForName,
   authenticateToken,
   validateUsername,
   validateEmail,
