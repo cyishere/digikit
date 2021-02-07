@@ -7,8 +7,6 @@ import { useFormChange } from "../utils/hooks";
 import { addNewUser } from "../features/user/userSlice";
 import fetchStates from "../utils/fetchStates";
 
-// import { createUser } from "../services/user";
-
 import "../styles/form.scss";
 import "../styles/button.scss";
 
@@ -16,7 +14,7 @@ const Register = () => {
   const [requestStatus, setRequestStatus] = useState(fetchStates.idle);
   const [message, setMessage] = useState(null);
 
-  const { values, handleChange } = useFormChange({
+  const { values, handleChange, resetValues } = useFormChange({
     username: "",
     email: "",
     password: "",
@@ -31,8 +29,6 @@ const Register = () => {
     try {
       const result = await dispatch(addNewUser(values));
 
-      console.log("result:", result);
-
       if (result.payload.type === "error") {
         setRequestStatus(fetchStates.error);
         setMessage(result.payload.message);
@@ -44,8 +40,8 @@ const Register = () => {
             <Link to="/login">login page</Link>.
           </p>
         );
+        resetValues();
       }
-      // await createUser(values);
     } catch (error) {
       setRequestStatus(fetchStates.error);
     }

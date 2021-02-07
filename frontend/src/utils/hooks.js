@@ -10,8 +10,13 @@ export const useFormChange = (initialValues) => {
     });
   };
 
+  const resetValues = () => {
+    setValues(initialValues);
+  };
+
   return {
     values,
     handleChange,
+    resetValues,
   };
 };

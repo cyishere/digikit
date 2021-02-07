@@ -1,57 +1,48 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-// import { useDispatch, useSelector } from "react-redux";
-
+import { useDispatch } from "react-redux";
+import Message from "../components/Message/Message";
 import { useFormChange } from "../utils/hooks";
-// import { userLogin } from "../features/user/userSlice";
+import { userLogin } from "../features/user/userSlice";
+import fetchStates from "../utils/fetchStates";
+
 import "../styles/form.scss";
 import "../styles/button.scss";
 
 const Login = () => {
-  const [requestStatus, setRequestStatus] = useState("idle");
-  const { values, handleChange } = useFormChange({
-    username: "",
+  const [requestStatus, setRequestStatus] = useState(fetchStates.idle);
+  const [message, setMessage] = useState(null);
+
+  const { values, handleChange, resetValues } = useFormChange({
+    email: "",
     password: "",
   });
 
-  // const loginUser = useSelector((state) => state.user.loginUser);
-  // const errors = useSelector((state) => state.user.errors);
-
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // try {
-    //   const returnedLoginInfo = await dispatch(userLogin(values));
+    try {
+      const result = await dispatch(userLogin(values));
 
-    //   // failed
-    //   if (returnedLoginInfo.payload.hasOwnProperty("errors")) {
-    //     setRequestStatus("failed");
-    //   } else {
-    //     localStorage.setItem(
-    //       "funcars_user",
-    //       JSON.stringify(returnedLoginInfo.payload)
-    //     );
-    //   }
-    // } catch (error) {
-    //   setRequestStatus("failed");
-    //   console.log("error in login page: ", error);
-    // }
+      if (result.payload.type === "error") {
+        setRequestStatus(fetchStates.error);
+        setMessage(result.payload.message);
+      } else {
+        setRequestStatus(fetchStates.success);
+        setMessage(
+          <p>
+            Successfully Logged-in! Go to <Link to="/">home page</Link>.
+          </p>
+        );
+        resetValues();
+      }
+    } catch (error) {
+      console.log(error);
+      setRequestStatus(fetchStates.error);
+    }
   };
-
-  // if (loginUser) {
-  //   return (
-  //     <Message>
-  //       <Message.Header>
-  //         {loginUser.username} has already logged in.
-  //       </Message.Header>
-  //       <p>
-  //         Go to <Link to="/">home page</Link>.
-  //       </p>
-  //     </Message>
-  //   );
-  // }
 
   return (
     <main className="ms-page">
@@ -59,15 +50,20 @@ const Login = () => {
         <h2 className="page-header__title">Login</h2>
       </header>
 
+      {(requestStatus === fetchStates.error ||
+        requestStatus === fetchStates.success) && (
+        <Message msgContent={message} msgStatus={requestStatus} />
+      )}
+
       <form className="form" onSubmit={handleSubmit}>
         <div className="form-control">
-          <label htmlFor="username">Username</label>
+          <label htmlFor="email">E-mail</label>
           <input
             type="text"
-            name="username"
-            id="username"
-            placeholder="Please input your username"
-            value={values.username}
+            name="email"
+            id="email"
+            placeholder="Please input your email"
+            value={values.email}
             onChange={handleChange}
             required
           />
@@ -85,7 +81,13 @@ const Login = () => {
           />
         </div>
         <div className="form-actions">
-          <button className="button button-primary">Login</button>
+          <button
+            className="button button-primary"
+            type="submit"
+            disabled={requestStatus === fetchStates.fetching}
+          >
+            Login
+          </button>
         </div>
       </form>
     </main>

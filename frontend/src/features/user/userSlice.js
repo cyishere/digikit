@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 
 const initialState = {
   entities: [],
@@ -36,17 +35,27 @@ export const addNewUser = createAsyncThunk("user/addNewUser", (userInfo) => {
 /**
  * @feature LOGIN
  */
-export const userLogin = createAsyncThunk(
-  "user/userLogin",
-  async (userInfo) => {
-    try {
-      const response = await axios.post(`${apiUrl}/login`, userInfo);
-      return response.data;
-    } catch (error) {
-      console.error("error in login action: ", error);
-    }
-  }
-);
+export const userLogin = createAsyncThunk("user/userLogin", (userInfo) => {
+  return fetch(`${apiUrl}/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userInfo),
+  })
+    .then((response) => {
+      console.log("response in reducer:", response);
+      return response.json();
+    })
+    .then((json) => {
+      console.log("json in reducer:", json);
+      return json;
+    })
+    .catch((error) => {
+      console.log("error in reducer:", error);
+      return error;
+    });
+});
 
 const userSlice = createSlice({
   name: "user",
@@ -61,21 +70,15 @@ const userSlice = createSlice({
   },
   extraReducers: {
     [addNewUser.fulfilled]: (state, action) => {
-      if (!action.payload.type === "error") {
-        state.message = action.payload.message;
-      } else {
+      if (action.payload.type !== "error") {
         state.entities = state.entities.concat(action.payload);
       }
     },
     [userLogin.fulfilled]: (state, action) => {
-      if (action.payload.hasOwnProperty("errors")) {
-        state.errors = action.payload.errors;
-      } else {
+      if (action.payload.type !== "error") {
+        console.log("HEY!");
         state.loginUser = action.payload;
       }
-    },
-    [userLogin.rejected]: (state, action) => {
-      state.errors = { msg: action.payload };
     },
   },
 });
