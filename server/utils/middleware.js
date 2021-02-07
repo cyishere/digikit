@@ -15,12 +15,12 @@ const requestLogger = (req, res, next) => {
 const errorHandler = (err, req, res, next) => {
   const statusCode = err.statusCode || 500;
 
-  next(
-    res.status(statusCode).json({
-      type: "error",
-      message: err.message,
-    })
-  );
+  res.status(statusCode).json({
+    type: "error",
+    message: err.message,
+  });
+
+  next();
 };
 
 module.exports = { requestLogger, errorHandler };

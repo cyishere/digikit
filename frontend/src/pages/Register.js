@@ -1,54 +1,70 @@
 import { useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
+import Message from "../components/Message/Message";
+import { useFormChange } from "../utils/hooks";
 import { addNewUser } from "../features/user/userSlice";
+import fetchStates from "../utils/fetchStates";
+
+// import { createUser } from "../services/user";
 
 import "../styles/form.scss";
 import "../styles/button.scss";
 
 const Register = () => {
-  const [userInfo, setUserInfo] = useState({
+  const [requestStatus, setRequestStatus] = useState(fetchStates.idle);
+
+  const { values, handleChange } = useFormChange({
     username: "",
     email: "",
     password: "",
     passconf: "",
   });
-  const [requestStatus, setRequestStatus] = useState("idle");
 
-  // const errors = useSelector((state) => state.user.errors);
+  const message = useSelector((state) => state.user.message);
 
-  // const dispatch = useDispatch();
-
-  const handleChange = (e) => {
-    const value = e.target.value;
-    setUserInfo({
-      ...userInfo,
-      [e.target.name]: value,
-    });
-  };
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // setRequestStatus("loading");
-    // try {
-    //   const result = await dispatch(addNewUser(userInfo));
-    //   if (result.payload.hasOwnProperty("errors")) {
-    //     setRequestStatus("failed");
-    //   } else {
-    //     setRequestStatus("success");
-    //   }
-    // } catch (error) {
-    //   setRequestStatus("failed");
-    //   console.log("error in register frontend: ", error.message);
-    // }
+    setRequestStatus(fetchStates.fetching);
+    try {
+      const result = await dispatch(addNewUser(values));
+      console.log("result:", result);
+      if (result.payload.type === "error") {
+        setRequestStatus(fetchStates.error);
+      } else {
+        setRequestStatus(fetchStates.success);
+      }
+      // await createUser(values);
+    } catch (error) {
+      setRequestStatus(fetchStates.error);
+      console.log("error in register frontend: ", error.message);
+    } finally {
+      setRequestStatus(fetchStates.idle);
+    }
   };
+
+  const successContent = (
+    <p>
+      Successfully registered! Please go to <Link to="/login">login page</Link>.
+    </p>
+  );
 
   return (
     <main className="ms-page">
       <header className="page-header">
         <h2 className="page-header__title">Register</h2>
       </header>
+
+      {requestStatus === fetchStates.error && (
+        <Message msgContent={message} msgStatus={requestStatus} />
+      )}
+
+      {requestStatus === fetchStates.success && (
+        <Message msgContent={successContent} msgStatus={requestStatus} />
+      )}
 
       <form className="form" onSubmit={handleSubmit}>
         <div className="form-control">
@@ -58,7 +74,7 @@ const Register = () => {
             name="username"
             id="username"
             placeholder="Please input your username"
-            value={userInfo.username}
+            value={values.username}
             onChange={handleChange}
             required
           />
@@ -71,7 +87,7 @@ const Register = () => {
             name="email"
             id="email"
             placeholder="Please input your e-mail"
-            value={userInfo.email}
+            value={values.email}
             onChange={handleChange}
             required
           />
@@ -84,7 +100,7 @@ const Register = () => {
             name="password"
             id="password"
             placeholder="Please input your password"
-            value={userInfo.password}
+            value={values.password}
             onChange={handleChange}
             required
           />
@@ -97,14 +113,18 @@ const Register = () => {
             name="passconf"
             id="passconf"
             placeholder="Confirm your password"
-            value={userInfo.passconf}
+            value={values.passconf}
             onChange={handleChange}
             required
           />
         </div>
 
         <div className="form-actions">
-          <button className="button button-primary" type="submit">
+          <button
+            className="button button-primary"
+            type="submit"
+            disabled={requestStatus === fetchStates.fetching}
+          >
             Register
           </button>
         </div>

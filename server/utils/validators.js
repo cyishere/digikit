@@ -52,13 +52,13 @@ const validatePassword = (passwordTrimed, passconfTrimed, next) => {
   try {
     if (passwordTrimed.length < 3 || passwordTrimed.length > 30) {
       const error = new Error("Password's length must between 3 and 30.");
-      error.statusCode = 400;
+      // error.statusCode = 400;
       throw error;
     }
 
     if (passwordTrimed !== passconfTrimed) {
       const error = new Error("Passwords must match.");
-      error.statusCode = 400;
+      // error.statusCode = 400;
       throw error;
     }
 
