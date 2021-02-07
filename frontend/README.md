@@ -1,3 +1,3 @@
 ## todos:
 
-- [ ] refactor `Register.js` with `useFormChange`;
+- [x] refactor `Register.js` with `useFormChange`;
