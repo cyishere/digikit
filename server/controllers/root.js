@@ -4,7 +4,11 @@ const jwt = require("jsonwebtoken");
 const { body, validationResult } = require("express-validator");
 const User = require("../models/user");
 const config = require("../utils/config");
-const { validatorForRegister } = require("../utils/validators");
+const {
+  validateUsername,
+  validateEmail,
+  validatePassword,
+} = require("../utils/validators");
 
 /**
  * @feature API ROOT ENTRY
@@ -72,49 +76,54 @@ router.post(
 /**
  * @feature REGISTER
  */
-router.post("/register", async (req, res) => {
+router.post("/register", async (req, res, next) => {
+  const { username, email, password, passconf } = req.body;
+
+  const usernameTrimed = username.trim();
+  const emailTrimed = email.trim();
+  const passwordTrimed = password.trim();
+  const passconfTrimed = passconf.trim();
+
   try {
-    const { username, email, password, passconf } = req.body;
-    const { errors, valid } = validatorForRegister(
-      username,
-      email,
-      password,
-      passconf
-    );
-
-    if (valid) {
-      const findUserByName = await User.findOne({ username });
-      const findUserByEmail = await User.findOne({ email });
-
-      if (findUserByName) {
-        errors.username = "This username already be taken.";
-      } else if (findUserByEmail) {
-        errors.email = "This email already be used.";
-      } else {
-        // hash the password
-        const saltRounds = 10;
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-        // make new user
-        const newUser = new User({
-          username,
-          email,
-          password: hashedPassword,
-          createdAt: new Date(),
-        });
-
-        // save it
-        const savedUser = await newUser.save();
-        res.json(savedUser);
-      }
-      // return the errors when username or email be taken
-      res.json({ errors });
-    } else {
-      // not valid
-      res.json({ errors });
+    if (
+      usernameTrimed === "" ||
+      emailTrimed === "" ||
+      passwordTrimed === "" ||
+      passconfTrimed === ""
+    ) {
+      const error = new Error("Input cannot be empty.");
+      error.statusCode = 400;
+      throw error;
     }
+
+    const usernameValid = await validateUsername(usernameTrimed, next);
+    if (!usernameValid) return;
+
+    const emailValid = await validateEmail(emailTrimed, next);
+    if (!emailValid) return;
+
+    const passwordValid = validatePassword(
+      passwordTrimed,
+      passconfTrimed,
+      next
+    );
+    if (!passwordValid) return;
+
+    const saltRounds = 12;
+    const passwordHashed = await bcrypt.hash(passwordTrimed, saltRounds);
+
+    const newUser = new User({
+      username: usernameTrimed,
+      email: emailTrimed,
+      password: passwordHashed,
+      createdAt: new Date(),
+    });
+
+    const savedUser = await newUser.save();
+
+    res.json({ user: savedUser });
   } catch (error) {
-    console.log("Error at register: ", error.message);
+    next(error);
   }
 });
 
