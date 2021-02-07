@@ -6,7 +6,7 @@ const regEx = /^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\
 
 const validateUsername = async (usernameTrimed, next) => {
   try {
-    if (usernameTrimed.length < 2 || usernameTrimed.trim().length > 20) {
+    if (usernameTrimed.length < 2 || usernameTrimed.length > 20) {
       const error = new Error("Username'length must between 2 and 20.");
       error.statusCode = 400;
       throw error;
@@ -66,36 +66,6 @@ const validatePassword = (passwordTrimed, passconfTrimed, next) => {
   } catch (error) {
     next(error);
   }
-};
-
-const validatorForRegister = (username, email, password, passconf) => {
-  const errors = {};
-
-  // username
-  if (username.trim() === "") {
-    errors.username = "Username must not be empty.";
-  }
-
-  // email
-  if (email.trim() === "") {
-    errors.email = "Email must not be empty.";
-  } else {
-    if (!email.match(regEx)) {
-      errors.email = "Email must be a valid email address.";
-    }
-  }
-
-  // password
-  if (password.trim() === "") {
-    errors.password = "Password must not be empty.";
-  } else if (passconf.trim() !== password.trim()) {
-    errors.passconf = "Passwords must match.";
-  }
-
-  return {
-    errors,
-    valid: Object.keys(errors).length < 1,
-  };
 };
 
 const validatorForBasicUserInfo = (username, email) => {
@@ -173,7 +143,6 @@ module.exports = {
   validatorForBasicUserInfo,
   validatorForEmail,
   validatorForName,
-  validatorForRegister,
   authenticateToken,
   validateUsername,
   validateEmail,
