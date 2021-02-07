@@ -13,10 +13,12 @@
   &.error {
     color: $color-error-red;
     background: $color-error-red-light;
+    border-color: $color-error-red;
   }
 
   &.success {
     color: $color-success-green;
     background: $color-success-green-light;
+    border-color: $color-success-green;
   }
 }

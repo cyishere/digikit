@@ -22,15 +22,14 @@ export const addNewUser = createAsyncThunk("user/addNewUser", (userInfo) => {
     body: JSON.stringify(userInfo),
   })
     .then((response) => {
-      console.log("response in reducer:", response);
       return response.json();
     })
     .then((json) => {
-      console.log("json in reducer:", json);
       return json;
     })
     .catch((error) => {
       console.log("error in reducer:", error);
+      return error;
     });
 });
 
@@ -62,16 +61,11 @@ const userSlice = createSlice({
   },
   extraReducers: {
     [addNewUser.fulfilled]: (state, action) => {
-      console.log("addNewUser.fulfilled:", action.payload);
-      if (action.payload.type === "error") {
+      if (!action.payload.type === "error") {
         state.message = action.payload.message;
       } else {
         state.entities = state.entities.concat(action.payload);
       }
-    },
-    [addNewUser.rejected]: (state, action) => {
-      console.log("addNewUser.rejectd:", action.payload);
-      state.message = action.payload;
     },
     [userLogin.fulfilled]: (state, action) => {
       if (action.payload.hasOwnProperty("errors")) {

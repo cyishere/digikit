@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 import Message from "../components/Message/Message";
@@ -14,6 +14,7 @@ import "../styles/button.scss";
 
 const Register = () => {
   const [requestStatus, setRequestStatus] = useState(fetchStates.idle);
+  const [message, setMessage] = useState(null);
 
   const { values, handleChange } = useFormChange({
     username: "",
@@ -22,8 +23,6 @@ const Register = () => {
     passconf: "",
   });
 
-  const message = useSelector((state) => state.user.message);
-
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
@@ -31,26 +30,26 @@ const Register = () => {
     setRequestStatus(fetchStates.fetching);
     try {
       const result = await dispatch(addNewUser(values));
+
       console.log("result:", result);
+
       if (result.payload.type === "error") {
         setRequestStatus(fetchStates.error);
+        setMessage(result.payload.message);
       } else {
         setRequestStatus(fetchStates.success);
+        setMessage(
+          <p>
+            Successfully registered! Please go to{" "}
+            <Link to="/login">login page</Link>.
+          </p>
+        );
       }
       // await createUser(values);
     } catch (error) {
       setRequestStatus(fetchStates.error);
-      console.log("error in register frontend: ", error.message);
-    } finally {
-      setRequestStatus(fetchStates.idle);
     }
   };
-
-  const successContent = (
-    <p>
-      Successfully registered! Please go to <Link to="/login">login page</Link>.
-    </p>
-  );
 
   return (
     <main className="ms-page">
@@ -58,12 +57,9 @@ const Register = () => {
         <h2 className="page-header__title">Register</h2>
       </header>
 
-      {requestStatus === fetchStates.error && (
+      {(requestStatus === fetchStates.error ||
+        requestStatus === fetchStates.success) && (
         <Message msgContent={message} msgStatus={requestStatus} />
-      )}
-
-      {requestStatus === fetchStates.success && (
-        <Message msgContent={successContent} msgStatus={requestStatus} />
       )}
 
       <form className="form" onSubmit={handleSubmit}>
