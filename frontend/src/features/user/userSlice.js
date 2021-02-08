@@ -4,7 +4,10 @@ const initialState = {
   entities: [],
   message: "",
   errors: {},
-  loginUser: null,
+  loginUser: {
+    userId: null,
+    token: null,
+  },
 };
 const apiUrl = "http://localhost:3001/api";
 
@@ -65,7 +68,10 @@ const userSlice = createSlice({
       state.loginUser = action.payload;
     },
     logoutUser: (state, action) => {
-      state.loginUser = null;
+      state.loginUser = {
+        userId: null,
+        token: null,
+      };
     },
   },
   extraReducers: {
@@ -76,7 +82,6 @@ const userSlice = createSlice({
     },
     [userLogin.fulfilled]: (state, action) => {
       if (action.payload.type !== "error") {
-        console.log("HEY!");
         state.loginUser = action.payload;
       }
     },

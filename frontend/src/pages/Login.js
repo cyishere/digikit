@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import Message from "../components/Message/Message";
 import { useFormChange } from "../utils/hooks";
@@ -13,7 +12,7 @@ const Login = () => {
   const [requestStatus, setRequestStatus] = useState(fetchStates.idle);
   const [message, setMessage] = useState(null);
 
-  const { values, handleChange, resetValues } = useFormChange({
+  const { values, handleChange } = useFormChange({
     email: "",
     password: "",
   });
@@ -30,13 +29,7 @@ const Login = () => {
         setRequestStatus(fetchStates.error);
         setMessage(result.payload.message);
       } else {
-        setRequestStatus(fetchStates.success);
-        setMessage(
-          <p>
-            Successfully Logged-in! Go to <Link to="/">home page</Link>.
-          </p>
-        );
-        resetValues();
+        localStorage.setItem("digiUser", JSON.stringify(result.payload));
       }
     } catch (error) {
       console.log(error);
@@ -50,8 +43,7 @@ const Login = () => {
         <h2 className="page-header__title">Login</h2>
       </header>
 
-      {(requestStatus === fetchStates.error ||
-        requestStatus === fetchStates.success) && (
+      {requestStatus === fetchStates.error && (
         <Message msgContent={message} msgStatus={requestStatus} />
       )}
 

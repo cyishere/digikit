@@ -1,36 +1,45 @@
-// import { useEffect } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
-import "./styles/App.scss";
-
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
+import { setLocalUserToState } from "./features/user/userSlice";
 import Navbar from "./components/Navbar/Navbar";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Footer from "./components/Footer/Footer";
 import ProductPage from "./features/product/ProductPage";
+import UserPage from "./features/user/UserPage";
+
+import "./styles/App.scss";
 
 const App = () => {
-  // const user = useSelector((state) => state.user.loginUser);
+  const loginUser = useSelector((state) => state.user.loginUser);
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   const loggedInUser = localStorage.getItem("funcars_user");
-  //   if (loggedInUser) {
-  //     const foundUser = JSON.parse(loggedInUser);
-  //     dispatch(setLocalUserToState(foundUser));
-  //   }
-  // }, []);
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("digiUser");
+    console.log("loggedInUser:", loggedInUser);
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      dispatch(setLocalUserToState(foundUser));
+    }
+  }, []);
 
   return (
     <Router>
       <div className="container">
-        <Navbar />
+        <Navbar token={loginUser.token} />
         <Switch>
+          {loginUser.token && <Redirect exact from="/login" to="/" />}
           <Route exact path="/" component={ProductPage} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/user" component={UserPage} />
         </Switch>
       </div>
       <Footer />

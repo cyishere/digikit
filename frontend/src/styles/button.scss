@@ -13,7 +13,8 @@
     background: rgb(245, 245, 245);
   }
 
-  &:active, &:focus {
+  &:active,
+  &:focus {
     box-shadow: none;
     outline: none;
   }
@@ -25,5 +26,9 @@
     &:hover {
       background-color: $color-teal;
     }
+  }
+
+  &.button-link {
+    background: none;
   }
 }
