@@ -71,21 +71,43 @@ const validatePassword = (passwordTrimed, passconfTrimed, next) => {
 /**
  * Authenticate Token
  */
-const authenticateToken = (req, res, next) => {
+const isAuth = (req, res, next) => {
   const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
 
-  if (token === null) return res.sendStatus(401);
+  if (!authHeader) {
+    req.authenticated = false;
+    return next();
+  }
 
-  jwt.verify(token, config.USER_STATUS, (err, userInfoInToken) => {
-    if (err) return res.sendStatus(403);
-    req.userInfoInToken = userInfoInToken;
-    next();
-  });
+  const token = authHeader.split(" ")[1];
+
+  if (!token || token === "") {
+    req.authenticated = false;
+    return next();
+  }
+
+  const decodedToken = jwt.verify(token, config.SECRET);
+
+  if (!decodedToken) {
+    req.authenticated = false;
+    return next();
+  }
+
+  let admin = false;
+
+  if (decodedToken.role === config.USER_STATUS) {
+    console.log("boss");
+    admin = true;
+  }
+
+  req.authenticated = true;
+  req.userId = decodedToken.userId;
+  req.userAdmin = admin;
+  next();
 };
 
 module.exports = {
-  authenticateToken,
+  isAuth,
   validateUsername,
   validateEmail,
   validatePassword,

@@ -13,6 +13,7 @@ import Login from "./pages/Login";
 import Footer from "./components/Footer/Footer";
 import ProductPage from "./features/product/ProductPage";
 import UserPage from "./features/user/UserPage";
+import CategoryPage from "./features/category/CategoryPage";
 
 import "./styles/App.scss";
 
@@ -40,6 +41,9 @@ const App = () => {
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/user" component={UserPage} />
+          <Route exact path="/category">
+            <CategoryPage token={loginUser.token} />
+          </Route>
         </Switch>
       </div>
       <Footer />
