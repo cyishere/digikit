@@ -2,13 +2,13 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "./productSlice";
+import PageHeader from "../../components/PageHeader/PageHeader";
 
 import "./Product.scss";
 import "../../styles/card.scss";
 
 const ProductList = () => {
   const products = useSelector((state) => state.product.entities);
-  console.log("products:", products);
 
   const dispatch = useDispatch();
 
@@ -18,9 +18,7 @@ const ProductList = () => {
 
   return (
     <main className="main-page">
-      <header className="page-header">
-        <h2 className="page-header__title">All Products</h2>
-      </header>
+      <PageHeader titleText="All Products" />
       <div className="products-grid">
         {products.map((product) => (
           <div className="card" key={product.id}>

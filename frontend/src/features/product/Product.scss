@@ -1,5 +1,81 @@
+@import "../../styles/_variables.scss";
+
 .products-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.6em;
+}
+
+.product-card {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1em;
+}
+
+.product-media {
+  .product-media__image {
+    max-width: 100%;
+    max-height: 50em;
+  }
+}
+
+.product-meta {
+  margin-bottom: 1.6rem;
+
+  &.price {
+    font-size: 2.4rem;
+    font-weight: 400;
+    color: $color-error-red;
+  }
+
+  .meta {
+    padding: 0.4rem 0.6rem;
+    margin-right: 0.6rem;
+    color: $color-gray-dim;
+
+    &.category {
+      background: $color-teal;
+    }
+
+    &.brand {
+      background: $color-purple;
+    }
+  }
+}
+
+.product-actions {
+  margin-top: 5em;
+
+  .product-meta {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    * {
+      margin-right: 0.6rem;
+    }
+
+    input {
+      width: 5rem;
+      padding: 1rem;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+
+      &:focus {
+        outline: none;
+        border: 1px solid rgba(0, 0, 0, 0.25);
+      }
+    }
+
+    .meta {
+      color: $color-success-green;
+
+      &.warning {
+        color: $color-text-secondary;
+      }
+    }
+  }
+
+  .button {
+    font-size: 2.4rem;
+  }
 }

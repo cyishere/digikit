@@ -32,7 +32,7 @@ const Navbar = ({ token }) => {
 
   return (
     <nav className="navbar">
-      <div className="brand">
+      <div className="navbar-brand">
         <Link to="/">DigiKit</Link>
       </div>
       <ul className="navbar-nav">

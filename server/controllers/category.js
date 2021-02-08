@@ -34,9 +34,6 @@ router.post("/", async (req, res, next) => {
  * Get ALL
  */
 router.get("/", async (req, res, next) => {
-  console.log("hello");
-  console.log("req.authenticated:", req.authenticated);
-  console.log(("req.userAdmin", req.userAdmin));
   try {
     if (!req.userAdmin) {
       const error = new Error("403 Unauthorized");
@@ -46,6 +43,27 @@ router.get("/", async (req, res, next) => {
 
     const categories = await Category.find({});
     res.json({ categories });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * Get ONE
+ */
+router.get("/:id", async (req, res, next) => {
+  try {
+    const categoryId = req.params.id;
+
+    const category = await Category.findById(categoryId);
+
+    if (!category) {
+      const error = new Error("Category not found.");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    res.json({ category });
   } catch (error) {
     next(error);
   }

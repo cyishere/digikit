@@ -27,6 +27,23 @@ export const getAllCategories = createAsyncThunk(
   }
 );
 
+// Get One
+export const getOneCategory = createAsyncThunk(
+  "category/getOneCategory",
+  (categoryId) => {
+    return fetch(`${BACKEND.API_ADDRESS}/category/${categoryId}`)
+      .then((response) => response.json())
+      .then((json) => json)
+      .catch((error) => {
+        console.log("error in reducer:", error);
+        return error;
+      });
+  }
+);
+
+/**
+ * Main Slice
+ */
 const categorySlice = createSlice({
   name: "category",
   initialState,

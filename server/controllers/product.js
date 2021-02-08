@@ -87,7 +87,19 @@ router.get("/:id", async (req, res, next) => {
       throw error;
     }
 
-    res.json({ product });
+    product._doc.id = product._doc._id;
+    delete product._doc._id;
+    delete product._doc.__v;
+
+    const category = await Category.findById(product.category);
+
+    res.json({
+      product: {
+        ...product._doc,
+        category: category.title,
+      },
+    });
+    // res.json({ product });
   } catch (error) {
     next(error);
   }

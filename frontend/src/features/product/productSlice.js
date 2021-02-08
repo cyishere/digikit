@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { BACKEND } from "../../utils/config";
+import { getOneCategory } from "../category/categorySlice";
 
 const initialState = {
   entities: [],
@@ -12,19 +13,27 @@ const initialState = {
  */
 export const getAllProducts = createAsyncThunk("product/getAllProducts", () => {
   return fetch(`${BACKEND.API_ADDRESS}/product`)
-    .then((response) => {
-      console.log("response:", response);
-      return response.json();
-    })
-    .then((json) => {
-      console.log("json:", json);
-      return json;
-    })
+    .then((response) => response.json())
+    .then((json) => json)
     .catch((error) => {
       console.log("error in reducer:", error);
       return error.message;
     });
 });
+
+// Get One
+export const getProductById = createAsyncThunk(
+  "product/getProductById",
+  (productId) => {
+    return fetch(`${BACKEND.API_ADDRESS}/product/${productId}`)
+      .then((response) => response.json())
+      .then((json) => json)
+      .catch((error) => {
+        console.log("error in reducer:", error);
+        return error.message;
+      });
+  }
+);
 
 /**
  * Main Slice
@@ -42,6 +51,16 @@ const productSlice = createSlice({
       }
     },
     [getAllProducts.rejected]: (state, action) => {
+      state.message = action.payload;
+    },
+    [getProductById.fulfilled]: (state, action) => {
+      if (action.payload.type !== "error") {
+        state.currentProduct = action.payload.product;
+      } else {
+        state.message = action.payload.message;
+      }
+    },
+    [getProductById.rejected]: (state, action) => {
       state.message = action.payload;
     },
   },

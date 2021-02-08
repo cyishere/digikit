@@ -15,6 +15,7 @@ import ProductPage from "./features/product/ProductPage";
 import UserPage from "./features/user/UserPage";
 import CategoryPage from "./features/category/CategoryPage";
 import ProductList from "./features/product/ProductList";
+import ProductShowPage from "./features/product/ProductShowPage";
 
 import "./styles/App.scss";
 
@@ -45,6 +46,7 @@ const App = () => {
             <CategoryPage token={loginUser.token} />
           </Route>
           <Route exact path="/product" component={ProductList} />
+          <Route exact path="/product/:id" component={ProductShowPage} />
         </Switch>
       </div>
       <Footer />
