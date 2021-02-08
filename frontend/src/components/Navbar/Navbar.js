@@ -41,6 +41,9 @@ const Navbar = ({ token }) => {
             Home
           </NavLink>
         </li>
+        <li className="navbar-nav__item">
+          <NavLink to="/product">Producs</NavLink>
+        </li>
         {showLink}
       </ul>
     </nav>

@@ -5,7 +5,6 @@ import Message from "../../components/Message/Message";
 
 const CategoryPage = ({ token }) => {
   const categories = useSelector((state) => state.category.entities);
-  console.log("categories:", categories);
   const message = useSelector((state) => state.category.message);
 
   const dispatch = useDispatch();

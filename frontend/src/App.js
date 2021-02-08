@@ -14,6 +14,7 @@ import Footer from "./components/Footer/Footer";
 import ProductPage from "./features/product/ProductPage";
 import UserPage from "./features/user/UserPage";
 import CategoryPage from "./features/category/CategoryPage";
+import ProductList from "./features/product/ProductList";
 
 import "./styles/App.scss";
 
@@ -24,7 +25,6 @@ const App = () => {
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("digiUser");
-    console.log("loggedInUser:", loggedInUser);
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser);
       dispatch(setLocalUserToState(foundUser));
@@ -44,6 +44,7 @@ const App = () => {
           <Route exact path="/category">
             <CategoryPage token={loginUser.token} />
           </Route>
+          <Route exact path="/product" component={ProductList} />
         </Switch>
       </div>
       <Footer />
