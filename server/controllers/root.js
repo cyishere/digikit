@@ -117,4 +117,20 @@ router.post("/register", async (req, res, next) => {
   }
 });
 
+/**
+ * @feature ADMIN ACCESS AUTH
+ */
+router.get("/auth", async (req, res, next) => {
+  try {
+    if (!req.userAdmin) {
+      const error = new Error("403 Unauthorized");
+      error.statusCode = 403;
+      throw error;
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

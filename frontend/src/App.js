@@ -16,6 +16,8 @@ import UserPage from "./features/user/UserPage";
 import CategoryPage from "./features/category/CategoryPage";
 import ProductList from "./features/product/ProductList";
 import ProductShowPage from "./features/product/ProductShowPage";
+import ProductForm from "./features/product/ProductForm";
+import Page404 from "./pages/Page404";
 
 import "./styles/App.scss";
 
@@ -42,11 +44,18 @@ const App = () => {
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/user" component={UserPage} />
-          <Route exact path="/category">
-            <CategoryPage token={loginUser.token} />
+          {loginUser.token && (
+            <Route exact path="/category">
+              <CategoryPage token={loginUser.token} />
+            </Route>
+          )}
+          <Route exact path="/product/add">
+            <ProductForm token={loginUser.token} />
           </Route>
-          <Route exact path="/product" component={ProductList} />
           <Route exact path="/product/:id" component={ProductShowPage} />
+          <Route exact path="/product" component={ProductList} />
+
+          <Route component={Page404} />
         </Switch>
       </div>
       <Footer />

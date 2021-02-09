@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { BACKEND } from "../../utils/config";
 
 const initialState = {
   entities: [],
@@ -8,6 +9,7 @@ const initialState = {
     userId: null,
     token: null,
   },
+  authAcessStatus: false,
 };
 const apiUrl = "http://localhost:3001/api";
 
@@ -60,6 +62,26 @@ export const userLogin = createAsyncThunk("user/userLogin", (userInfo) => {
     });
 });
 
+/**
+ * @feature Auth for Page Access
+ */
+export const authAcess = createAsyncThunk("user/authAcess", (token) => {
+  return fetch(`${BACKEND.API_ADDRESS}/auth`, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      console.log("json", json);
+      return json;
+    })
+    .catch((error) => {
+      console.log("error in reducer:", error);
+      return error;
+    });
+});
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -84,6 +106,16 @@ const userSlice = createSlice({
       if (action.payload.type !== "error") {
         state.loginUser = action.payload;
       }
+    },
+    [authAcess.fulfilled]: (state, action) => {
+      if (action.payload.type !== "error") {
+        state.authAcessStatus = true;
+      } else {
+        state.message = action.payload.message;
+      }
+    },
+    [authAcess.rejected]: (state, action) => {
+      state.message = action.payload.message;
     },
   },
 });

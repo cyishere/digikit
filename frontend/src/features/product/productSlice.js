@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { BACKEND } from "../../utils/config";
-import { getOneCategory } from "../category/categorySlice";
 
 const initialState = {
   entities: [],

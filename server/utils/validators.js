@@ -96,7 +96,6 @@ const isAuth = (req, res, next) => {
   let admin = false;
 
   if (decodedToken.role === config.USER_STATUS) {
-    console.log("boss");
     admin = true;
   }
 

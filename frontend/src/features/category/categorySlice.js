@@ -11,13 +11,8 @@ const initialState = {
  */
 export const getAllCategories = createAsyncThunk(
   "category/getAllCategories",
-  (token) => {
-    return fetch(`${BACKEND.API_ADDRESS}/category`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    })
+  () => {
+    return fetch(`${BACKEND.API_ADDRESS}/category`)
       .then((response) => response.json())
       .then((json) => json)
       .catch((error) => {

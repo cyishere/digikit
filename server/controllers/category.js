@@ -35,12 +35,6 @@ router.post("/", async (req, res, next) => {
  */
 router.get("/", async (req, res, next) => {
   try {
-    if (!req.userAdmin) {
-      const error = new Error("403 Unauthorized");
-      error.statusCode = 403;
-      throw error;
-    }
-
     const categories = await Category.find({});
     res.json({ categories });
   } catch (error) {
