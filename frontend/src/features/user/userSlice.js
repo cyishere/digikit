@@ -72,10 +72,7 @@ export const authAcess = createAsyncThunk("user/authAcess", (token) => {
     },
   })
     .then((response) => response.json())
-    .then((json) => {
-      console.log("json", json);
-      return json;
-    })
+    .then((json) => json)
     .catch((error) => {
       console.log("error in reducer:", error);
       return error;

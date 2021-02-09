@@ -32,7 +32,7 @@ const App = () => {
       const foundUser = JSON.parse(loggedInUser);
       dispatch(setLocalUserToState(foundUser));
     }
-  }, []);
+  }, [dispatch]);
 
   return (
     <Router>

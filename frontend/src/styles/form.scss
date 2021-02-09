@@ -12,8 +12,10 @@
   label {
     margin-bottom: 0.6rem;
   }
-  
-  input, textarea {
+
+  input,
+  textarea,
+  select {
     width: 100%;
     padding: 1rem;
     border: 1px solid rgba(0, 0, 0, 0.1);

@@ -6,22 +6,29 @@ const Product = require("../models/product");
  * Post One
  */
 router.post("/", async (req, res, next) => {
-  const {
-    title,
-    price,
-    description,
-    brand,
-    category,
-    countInStock,
-    images,
-  } = req.body;
   try {
+    if (!req.userAdmin) {
+      const error = new Error("403 Unauthorized");
+      error.statusCode = 403;
+      throw error;
+    }
+
+    const {
+      title,
+      price,
+      description,
+      brand,
+      category,
+      countInStock,
+      imageUrl,
+    } = req.body;
+
     if (
       title.trim() === "" ||
       description.trim() === "" ||
       price.toString().trim() === "" ||
       brand.trim() === "" ||
-      images.length === 0
+      imageUrl.trim() === ""
     ) {
       const error = new Error("Content cannot be empty...");
       error.statusCode = 400;
@@ -48,8 +55,8 @@ router.post("/", async (req, res, next) => {
       price: +price,
       brand,
       category,
-      countInStock,
-      images,
+      countInStock: +countInStock,
+      images: [imageUrl],
       createdAt: new Date(),
     });
 

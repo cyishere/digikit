@@ -127,7 +127,7 @@ router.get("/auth", async (req, res, next) => {
       error.statusCode = 403;
       throw error;
     }
-    next();
+    res.json({ message: "accessed" });
   } catch (error) {
     next(error);
   }
