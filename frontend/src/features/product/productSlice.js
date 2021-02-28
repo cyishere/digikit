@@ -87,6 +87,7 @@ const productSlice = createSlice({
         state.message = action.payload.message;
       } else {
         state.entities = state.entities.concat(action.payload.product);
+        state.message = action.payload.message;
       }
     },
   },

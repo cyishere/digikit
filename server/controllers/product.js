@@ -59,7 +59,7 @@ router.post("/", async (req, res, next) => {
 
     await newProduct.save();
 
-    res.json({ product: newProduct });
+    res.json({ product: newProduct, message: "Product is added!" });
   } catch (error) {
     next(error);
   }
