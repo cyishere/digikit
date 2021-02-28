@@ -105,9 +105,18 @@ const isAuth = (req, res, next) => {
   next();
 };
 
+const notAdmin = (req) => {
+  if (!req.userAdmin) {
+    const error = new Error("403 Unauthorized");
+    error.statusCode = 403;
+    throw error;
+  }
+};
+
 module.exports = {
   isAuth,
   validateUsername,
   validateEmail,
   validatePassword,
+  notAdmin,
 };

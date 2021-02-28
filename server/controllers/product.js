@@ -1,17 +1,14 @@
 const router = require("express").Router();
 const Category = require("../models/category");
 const Product = require("../models/product");
+const { notAdmin } = require("../utils/validators");
 
 /**
  * Post One
  */
 router.post("/", async (req, res, next) => {
   try {
-    if (!req.userAdmin) {
-      const error = new Error("403 Unauthorized");
-      error.statusCode = 403;
-      throw error;
-    }
+    notAdmin(req);
 
     const {
       title,
@@ -120,6 +117,8 @@ router.get("/:id", async (req, res, next) => {
  */
 router.delete("/:id", async (req, res, next) => {
   try {
+    notAdmin(req);
+
     const product = await Product.findByIdAndRemove(req.params.id);
 
     if (!product) {
