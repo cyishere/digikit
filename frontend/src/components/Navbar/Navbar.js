@@ -1,9 +1,16 @@
 import { useDispatch } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
+import CartIcon from "../Cart/CartIcon";
 import "./Navbar.scss";
 import "../../styles/button.scss";
 
 import { logoutUser } from "../../features/user/userSlice";
+
+const CartLi = () => (
+  <li>
+    <CartIcon />
+  </li>
+);
 
 const Navbar = ({ token }) => {
   const dispatch = useDispatch();
@@ -27,6 +34,7 @@ const Navbar = ({ token }) => {
       <li className="navbar-nav__item">
         <NavLink to="/login">Login</NavLink>
       </li>
+      <CartLi />
     </>
   );
 
@@ -45,6 +53,7 @@ const Navbar = ({ token }) => {
           <NavLink to="/product">Producs</NavLink>
         </li>
         {showLink}
+        <CartLi />
       </ul>
     </nav>
   );
