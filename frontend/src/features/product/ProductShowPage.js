@@ -55,7 +55,7 @@ const ProductShowPage = (props) => {
                 className="button button-primary"
                 disabled={product.countInStock === 0}
               >
-                Add to Cart
+                <i className="la la-cart-arrow-down"></i> Add to Cart
               </button>
             </div>
           </div>

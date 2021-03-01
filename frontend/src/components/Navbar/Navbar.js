@@ -7,7 +7,7 @@ import "../../styles/button.scss";
 import { logoutUser } from "../../features/user/userSlice";
 
 const CartLi = () => (
-  <li>
+  <li className="navbar-nav__item">
     <CartIcon />
   </li>
 );
