@@ -48,7 +48,7 @@ const Navbar = ({ token }) => {
         </li>
         {/* TODO: Remove this */}
         <li className="navbar-nav__item">
-          <NavLink to="/cart">Cart</NavLink>
+          <NavLink to="/checkout/cart">Cart</NavLink>
         </li>
         {showLink}
         <CartSpot />

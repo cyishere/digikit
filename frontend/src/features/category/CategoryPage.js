@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllCategories } from "./categorySlice";
-import Message from "../../components/Message/Message";
+import Message from "../../components/Message";
 
 const CategoryPage = ({ token }) => {
   const categories = useSelector((state) => state.category.entities);

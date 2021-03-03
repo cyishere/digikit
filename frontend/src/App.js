@@ -7,17 +7,18 @@ import {
   Redirect,
 } from "react-router-dom";
 import { setLocalUserToState } from "./features/user/userSlice";
-import Navbar from "./components/Navbar/Navbar";
+import Navbar from "./components/Navbar";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import Footer from "./components/Footer/Footer";
+import Footer from "./components/Footer";
 import ProductPage from "./features/product/ProductPage";
 import UserPage from "./features/user/UserPage";
 import CategoryPage from "./features/category/CategoryPage";
 import ProductList from "./features/product/ProductList";
 import ProductShowPage from "./features/product/ProductShowPage";
 import ProductForm from "./features/product/ProductForm";
-import CartPage from "./features/cart/CartPage";
+import CartPage from "./features/checkout/CartPage";
+import ShippingPage from "./features/checkout/ShippingPage";
 import Page404 from "./pages/Page404";
 
 import "./styles/App.scss";
@@ -55,7 +56,8 @@ const App = () => {
           </Route>
           <Route exact path="/product/:id" component={ProductShowPage} />
           <Route exact path="/product" component={ProductList} />
-          <Route exact path="/cart" component={CartPage} />
+          <Route exact path="/checkout/cart" component={CartPage} />
+          <Route exact path="/checkout/shipping" component={ShippingPage} />
           <Route component={Page404} />
         </Switch>
       </div>

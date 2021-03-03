@@ -1,5 +1,5 @@
 import CartItem from "./CartItem";
-import Button from "../Button/Button";
+import Button from "../Button";
 import "./CartWidget.scss";
 
 const CartWidget = ({ show }) => {

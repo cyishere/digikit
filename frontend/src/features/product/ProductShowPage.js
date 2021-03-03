@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductById } from "./productSlice";
-import PageHeader from "../../components/PageHeader/PageHeader";
-import Button from "../../components/Button/Button";
+import PageHeader from "../../components/PageHeader";
+import Button from "../../components/Button";
 import "./Product.scss";
 
 const ProductShowPage = (props) => {

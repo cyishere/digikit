@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "./productSlice";
-import PageHeader from "../../components/PageHeader/PageHeader";
+import PageHeader from "../../components/PageHeader";
 
 import "./Product.scss";
 import "../../styles/card.scss";
