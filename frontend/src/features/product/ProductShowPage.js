@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductById } from "./productSlice";
 import PageHeader from "../../components/PageHeader/PageHeader";
+import Button from "../../components/Button/Button";
 import "./Product.scss";
-import "../../styles/button.scss";
 
 const ProductShowPage = (props) => {
   const productId = props.match.params.id;
@@ -28,7 +28,7 @@ const ProductShowPage = (props) => {
             />
           </div>
           <div className="product-content">
-            <PageHeader titleText={product.title} />
+            <PageHeader>{product.title}</PageHeader>
             <div className="product-meta price">${product.price}</div>
             <div className="product-meta brand">
               <span className="meta category">{product.category}</span>
@@ -51,12 +51,12 @@ const ProductShowPage = (props) => {
                   {product.countInStock} in stock.
                 </span>
               </div>
-              <button
-                className="button button-primary"
-                disabled={product.countInStock === 0}
+              <Button
+                styleStatus="primary"
+                disableStatus={product.countInStock === 0}
               >
                 <i className="la la-cart-arrow-down"></i> Add to Cart
-              </button>
+              </Button>
             </div>
           </div>
         </div>

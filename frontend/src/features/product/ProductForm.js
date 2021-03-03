@@ -57,7 +57,7 @@ const ProductForm = ({ token }) => {
 
   return (
     <main className="ms-page">
-      <PageHeader titleText="Add Product" />
+      <PageHeader>Add Product</PageHeader>
 
       {(requestStatus === fetchStates.error ||
         requestStatus === fetchStates.success) && (

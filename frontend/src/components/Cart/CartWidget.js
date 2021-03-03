@@ -1,6 +1,6 @@
 import CartItem from "./CartItem";
+import Button from "../Button/Button";
 import "./CartWidget.scss";
-import "../../styles/button.scss";
 
 const CartWidget = ({ show }) => {
   return (
@@ -18,9 +18,9 @@ const CartWidget = ({ show }) => {
           <h4 className="title">Cart Subtotal:</h4>
           <div className="cost">$795.00</div>
         </div>
-        <button className="button button-primary">
-          <i className="la la-cart-arrow-down"></i> Add to Cart
-        </button>
+        <Button styleStatus="primary">
+          <i className="la la-shopping-bag"></i> Checkout
+        </Button>
       </div>
     </div>
   );

@@ -17,6 +17,7 @@ import CategoryPage from "./features/category/CategoryPage";
 import ProductList from "./features/product/ProductList";
 import ProductShowPage from "./features/product/ProductShowPage";
 import ProductForm from "./features/product/ProductForm";
+import CartPage from "./features/cart/CartPage";
 import Page404 from "./pages/Page404";
 
 import "./styles/App.scss";
@@ -54,7 +55,7 @@ const App = () => {
           </Route>
           <Route exact path="/product/:id" component={ProductShowPage} />
           <Route exact path="/product" component={ProductList} />
-
+          <Route exact path="/cart" component={CartPage} />
           <Route component={Page404} />
         </Switch>
       </div>

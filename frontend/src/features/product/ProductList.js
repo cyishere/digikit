@@ -18,7 +18,7 @@ const ProductList = () => {
 
   return (
     <main className="main-page">
-      <PageHeader titleText="All Products" />
+      <PageHeader>All Products</PageHeader>
       <div className="products-grid">
         {products.map((product) => (
           <div className="card" key={product.id}>
