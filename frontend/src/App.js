@@ -19,6 +19,7 @@ import ProductShowPage from "./features/product/ProductShowPage";
 import ProductForm from "./features/product/ProductForm";
 import CartPage from "./features/checkout/CartPage";
 import ShippingPage from "./features/checkout/ShippingPage";
+import PaymentPage from "./features/checkout/PaymentPage";
 import Page404 from "./pages/Page404";
 
 import "./styles/App.scss";
@@ -58,6 +59,7 @@ const App = () => {
           <Route exact path="/product" component={ProductList} />
           <Route exact path="/checkout/cart" component={CartPage} />
           <Route exact path="/checkout/shipping" component={ShippingPage} />
+          <Route exact path="/checkout/payment" component={PaymentPage} />
           <Route component={Page404} />
         </Switch>
       </div>

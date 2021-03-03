@@ -2,8 +2,8 @@ import Button from "../../components/Button";
 
 const CartSidebar = () => {
   return (
-    <aside className="cart-page__sidebar">
-      <h3 className="cart-page__sidebar-title">Order Summary</h3>
+    <aside className="checkout-page__sidebar">
+      <h3 className="checkout-page__sidebar-title">Order Summary</h3>
       <div className="order-status">
         <p>You are ordering</p>
         <p>
