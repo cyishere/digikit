@@ -1,6 +1,6 @@
 import Button from "../../components/Button";
 
-const CartSidebar = () => {
+const CartSidebar = ({ text }) => {
   return (
     <aside className="checkout-page__sidebar">
       <h3 className="checkout-page__sidebar-title">Order Summary</h3>
@@ -28,7 +28,7 @@ const CartSidebar = () => {
           </span>
         </div>
       </ul>
-      <Button styleStatus="primary">Proceed to Checkout</Button>
+      <Button styleStatus="primary">{text}</Button>
     </aside>
   );
 };

@@ -30,7 +30,11 @@ const ShippingPage = (props) => {
   });
 
   return (
-    <Layout path={path} pageTitle="Shipping Infomation">
+    <Layout
+      path={path}
+      pageTitle="Shipping Infomation"
+      proceedText="Proceed to Billing"
+    >
       <form className="form">
         <div className="form-control">
           <label htmlFor="firstName">First Name</label>

@@ -7,7 +7,11 @@ const CartPage = (props) => {
   const path = props.location.pathname.split("/");
 
   return (
-    <Layout path={path} pageTitle="Shipping Cart">
+    <Layout
+      path={path}
+      pageTitle="Shipping Cart"
+      proceedText="Proceed to Checkout"
+    >
       <CartItem />
       <CartItem />
       <CartItem />

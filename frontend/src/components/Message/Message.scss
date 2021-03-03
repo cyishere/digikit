@@ -21,4 +21,10 @@
     background: $color-success-green-light;
     border-color: $color-success-green;
   }
+
+  &.warning {
+    color: $color-warning-brown;
+    background: $color-warning-brown-light;
+    border-color: $color-warning-brown;
+  }
 }
