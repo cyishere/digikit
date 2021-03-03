@@ -9,9 +9,9 @@ const CartWidget = ({ show }) => {
         <h2 className="cart-widget__header-title">Recently added items (3)</h2>
       </div>
       <div className="cart-widget__body">
-        <CartItem />
-        <CartItem />
-        <CartItem />
+        <CartItem styleStatus="small" />
+        <CartItem styleStatus="small" />
+        <CartItem styleStatus="small" />
       </div>
       <div className="cart-widget__footer">
         <div className="cart-widget__meta">

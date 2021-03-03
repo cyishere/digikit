@@ -1,4 +1,3 @@
-import { Children } from "react";
 import "../../styles/button.scss";
 
 const Button = ({ children, styleStatus, disableStatus }) => {

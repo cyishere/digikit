@@ -40,6 +40,7 @@ const ProductShowPage = (props) => {
                 <label htmlFor="qty">Qty:</label>
                 <input
                   type="number"
+                  className="input-text small"
                   value={buyCount}
                   onChange={(e) => setBuyCount(e.target.value)}
                 />

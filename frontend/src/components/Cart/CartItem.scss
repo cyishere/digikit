@@ -5,9 +5,16 @@
   grid-template-areas: "cover info meta";
   border-bottom: 1px solid gainsboro;
   grid-gap: 1em;
+  padding-top: 1em;
+  padding-bottom: 1em;
 
   &__cover {
     grid-area: cover;
+
+    &-img {
+      width: 128px;
+      height: 128px;
+    }
   }
 
   &__info {
@@ -15,6 +22,7 @@
 
     &-title {
       margin: 0;
+      font-size: 2rem;
 
       > * {
         margin: 0;
@@ -25,42 +33,36 @@
 
   &__meta {
     grid-area: meta;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1em;
 
-    .qty {
-      width: 50px;
+    .input-text {
+      margin-left: 4px;
     }
   }
-}
 
-@media not screen and (max-width: 768px) {
-  .cart-item {
+  /* In the Widget */
+  &.small {
     font-size: 1.4rem;
-    padding-top: 1em;
-    padding-bottom: 1em;
 
     grid-template-areas:
       "cover info"
       "cover meta";
 
-    &__cover {
+    .cart-item__cover {
       &-img {
         width: 48px;
         height: 48px;
       }
     }
 
-    &__info {
+    .cart-item__info {
       &-title {
         font-size: 1em;
         font-weight: 400;
       }
-    }
-
-    &__meta {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      gap: 1em;
     }
   }
 }

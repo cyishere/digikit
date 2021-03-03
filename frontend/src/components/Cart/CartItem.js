@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import "./CartItem.scss";
 
-const CartItem = () => {
+const CartItem = ({ styleStatus }) => {
   return (
-    <div className="cart-item">
+    <div className={`cart-item ${styleStatus ? styleStatus : ""}`}>
       <div className="cart-item__cover">
         <img
           className="cart-item__cover-img"
@@ -21,7 +21,12 @@ const CartItem = () => {
       <div className="cart-item__meta">
         <div className="cart-item__count">
           <label htmlFor="count">Qty:</label>
-          <input type="number" id="count" className="qty" defaultValue="1" />
+          <input
+            type="number"
+            id="count"
+            className="input-text small"
+            defaultValue="1"
+          />
         </div>
         <div className="cart-item__price">$265.00</div>
       </div>

@@ -25,6 +25,11 @@
     }
   }
 
+  &__body {
+    max-height: 300px;
+    overflow-y: scroll;
+  }
+
   &__footer {
     display: flex;
     flex-direction: column;
