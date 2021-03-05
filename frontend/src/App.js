@@ -27,7 +27,7 @@ import "./styles/App.scss";
 
 const App = () => {
   const loginUser = useSelector((state) => state.user.loginUser);
-  const cartItems = useSelector((state) => state.cart);
+  const cartItems = useSelector((state) => state.cart.products);
 
   const dispatch = useDispatch();
 
@@ -39,7 +39,7 @@ const App = () => {
     }
 
     const localCart = JSON.parse(localStorage.getItem("digiCart")) || [];
-    console.log({ localCart });
+    console.log("localCart:", localCart[0].countInStock);
     if (localCart.length > 0) {
       dispatch(initCart(localCart));
     }
@@ -65,7 +65,9 @@ const App = () => {
           </Route>
           <Route exact path="/product/:id" component={ProductShowPage} />
           <Route exact path="/product" component={ProductList} />
-          <Route exact path="/checkout/cart" component={CartPage} />
+          <Route exact path="/checkout/cart">
+            <CartPage cartItems={cartItems} />
+          </Route>
           <Route exact path="/checkout/shipping" component={ShippingPage} />
           <Route exact path="/checkout/payment" component={PaymentPage} />
           <Route component={Page404} />

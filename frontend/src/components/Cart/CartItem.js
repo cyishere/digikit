@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import formatCurrency from "../../utils/formatCurrency";
 import "./CartItem.scss";
 
 const CartItem = ({ styleStatus, product }) => {
   const [qty, setQty] = useState(product.qty || 1);
+
+  useEffect(() => {
+    setQty(product.qty);
+  }, [product]);
 
   return (
     <div className={`cart-item ${styleStatus ? styleStatus : ""}`}>
@@ -30,7 +35,7 @@ const CartItem = ({ styleStatus, product }) => {
             onChange={(e) => setQty(e.target.value)}
           />
         </div>
-        <div className="cart-item__price">$265.00</div>
+        <div className="cart-item__price">${formatCurrency(product.price)}</div>
       </div>
     </div>
   );

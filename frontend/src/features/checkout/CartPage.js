@@ -1,10 +1,13 @@
+import { useLocation } from "react-router-dom";
 import Layout from "./Layout";
 import CartItem from "../../components/Cart/CartItem";
 import "../../styles/grid.scss";
 import "./Checkout.scss";
 
-const CartPage = (props) => {
-  const path = props.location.pathname.split("/");
+const CartPage = ({ cartItems }) => {
+  console.log("cartItems:", cartItems);
+  const location = useLocation();
+  const path = location.pathname.split("/");
 
   return (
     <Layout
@@ -12,9 +15,15 @@ const CartPage = (props) => {
       pageTitle="Shipping Cart"
       proceedText="Proceed to Checkout"
     >
-      <CartItem />
-      <CartItem />
-      <CartItem />
+      {cartItems.length === 0 ? (
+        <p>Shopping cart is empty.</p>
+      ) : (
+        <>
+          {cartItems.map((item) => (
+            <CartItem key={item.id} product={item} />
+          ))}
+        </>
+      )}
     </Layout>
   );
 };
