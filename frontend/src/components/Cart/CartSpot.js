@@ -2,15 +2,18 @@ import { useState } from "react";
 import CartIcon from "./CartIcon";
 import CartWidget from "./CartWidget";
 
-const CartSpot = () => {
+const CartSpot = ({ cartItems }) => {
   const [showWidget, setShowWidget] = useState(false);
 
-  const handleShowWidget = () => setShowWidget(!showWidget);
-
   return (
-    <li className="navbar-nav__item" style={{ position: "relative" }}>
-      <CartIcon handleShowWidget={handleShowWidget} />
-      <CartWidget show={showWidget} />
+    <li
+      className="navbar-nav__item"
+      style={{ position: "relative" }}
+      onMouseOver={() => setShowWidget(true)}
+      onMouseOut={() => setShowWidget(false)}
+    >
+      <CartIcon cartItems={cartItems} />
+      <CartWidget show={showWidget} cartItems={cartItems} />
     </li>
   );
 };

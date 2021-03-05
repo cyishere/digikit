@@ -7,6 +7,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import { setLocalUserToState } from "./features/user/userSlice";
+import { initCart } from "./features/checkout/cartSlice";
 import Navbar from "./components/Navbar";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -26,6 +27,7 @@ import "./styles/App.scss";
 
 const App = () => {
   const loginUser = useSelector((state) => state.user.loginUser);
+  const cartItems = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
 
@@ -35,12 +37,18 @@ const App = () => {
       const foundUser = JSON.parse(loggedInUser);
       dispatch(setLocalUserToState(foundUser));
     }
+
+    const localCart = JSON.parse(localStorage.getItem("digiCart")) || [];
+    console.log({ localCart });
+    if (localCart.length > 0) {
+      dispatch(initCart(localCart));
+    }
   }, [dispatch]);
 
   return (
     <Router>
       <div className="container">
-        <Navbar token={loginUser.token} />
+        <Navbar token={loginUser.token} cartItems={cartItems} />
         <Switch>
           {loginUser.token && <Redirect exact from="/login" to="/" />}
           <Route exact path="/" component={ProductPage} />

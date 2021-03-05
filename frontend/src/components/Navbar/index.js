@@ -6,7 +6,7 @@ import "../../styles/button.scss";
 
 import { logoutUser } from "../../features/user/userSlice";
 
-const Navbar = ({ token }) => {
+const Navbar = ({ token, cartItems }) => {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
@@ -28,7 +28,6 @@ const Navbar = ({ token }) => {
       <li className="navbar-nav__item">
         <NavLink to="/login">Login</NavLink>
       </li>
-      <CartSpot />
     </>
   );
 
@@ -51,7 +50,7 @@ const Navbar = ({ token }) => {
           <NavLink to="/checkout/cart">Cart</NavLink>
         </li>
         {showLink}
-        <CartSpot />
+        <CartSpot cartItems={cartItems} />
       </ul>
     </nav>
   );

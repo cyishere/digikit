@@ -1,31 +1,33 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./CartItem.scss";
 
-const CartItem = ({ styleStatus }) => {
+const CartItem = ({ styleStatus, product }) => {
+  const [qty, setQty] = useState(product.qty || 1);
+
   return (
     <div className={`cart-item ${styleStatus ? styleStatus : ""}`}>
       <div className="cart-item__cover">
         <img
           className="cart-item__cover-img"
-          src="https://cdn.shopifycdn.net/s/files/1/1183/1328/products/1_0ce471b1-1a7a-4873-a2f0-fd71d0d15df0_1800x1800.jpg?v=1606275054"
-          alt=""
+          src={product.images[0]}
+          alt={product.title}
         />
       </div>
       <div className="cart-item__info">
         <h3 className="cart-item__info-title">
-          <Link to="/">
-            IQUNIX L80 Formula Typing Wireless Mechanical Keyboard
-          </Link>
+          <Link to={`/product/${product.id}`}>{product.title}</Link>
         </h3>
       </div>
       <div className="cart-item__meta">
         <div className="cart-item__count">
-          <label htmlFor="count">Qty:</label>
+          <label htmlFor="qty">Qty:</label>
           <input
             type="number"
-            id="count"
+            id="qty"
             className="input-text small"
-            defaultValue="1"
+            value={qty}
+            onChange={(e) => setQty(e.target.value)}
           />
         </div>
         <div className="cart-item__price">$265.00</div>
