@@ -37,5 +37,10 @@
 
   &.button-link {
     background: none;
+
+    &.danger {
+      color: $color-error-red;
+      text-decoration: underline;
+    }
   }
 }

@@ -30,7 +30,9 @@ const CartSidebar = ({ text }) => {
             <strong>Total</strong>
           </span>
           <span>
-            <strong>${formatCurrency(total)}</strong>
+            <strong>
+              ${subtotal === 0 ? formatCurrency(0) : formatCurrency(total)}
+            </strong>
           </span>
         </div>
       </ul>
