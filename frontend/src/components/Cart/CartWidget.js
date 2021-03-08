@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
 import CartItem from "./CartItem";
-import Button from "../Button";
 import "./CartWidget.scss";
+import "../../styles/button.scss";
 
 const CartWidget = ({ show, cartItems }) => {
   return (
@@ -26,9 +27,10 @@ const CartWidget = ({ show, cartItems }) => {
           <h4 className="title">Cart Subtotal:</h4>
           <div className="cost">$795.00</div>
         </div>
-        <Button styleStatus="primary">
+
+        <Link className="button button-primary" to="/checkout/cart">
           <i className="la la-shopping-bag"></i> Checkout
-        </Button>
+        </Link>
       </div>
     </div>
   );

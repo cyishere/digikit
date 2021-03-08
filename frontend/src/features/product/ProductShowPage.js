@@ -19,7 +19,7 @@ const ProductShowPage = (props) => {
 
   const handleCheckout = ({ product, qty }) => {
     console.log(`Added ${qty} × ${product.id} to cart!`);
-    dispatch(addToCart({ product, qty }));
+    dispatch(addToCart({ product, qty: parseInt(qty) }));
   };
 
   return (

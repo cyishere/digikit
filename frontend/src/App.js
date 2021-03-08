@@ -39,7 +39,6 @@ const App = () => {
     }
 
     const localCart = JSON.parse(localStorage.getItem("digiCart")) || [];
-    console.log("localCart:", localCart[0].countInStock);
     if (localCart.length > 0) {
       dispatch(initCart(localCart));
     }

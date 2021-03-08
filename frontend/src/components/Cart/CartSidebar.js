@@ -36,7 +36,9 @@ const CartSidebar = ({ text }) => {
           </span>
         </div>
       </ul>
-      <Button styleStatus="primary">{text}</Button>
+      <Button styleStatus="primary" disableStatus={products.length === 0}>
+        {text}
+      </Button>
     </aside>
   );
 };
