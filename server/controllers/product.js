@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Category = require("../models/category");
 const Product = require("../models/product");
+const User = require("../models/user");
 const { notAdmin } = require("../utils/validators");
 
 /**
@@ -46,6 +47,8 @@ router.post("/", async (req, res, next) => {
       throw error;
     }
 
+    const owner = req.userId;
+
     const newProduct = new Product({
       title,
       description,
@@ -54,10 +57,21 @@ router.post("/", async (req, res, next) => {
       category,
       countInStock: +countInStock,
       images: [imageUrl],
+      owner,
       createdAt: new Date(),
     });
 
-    await newProduct.save();
+    const productSaved = await newProduct.save();
+
+    // 1. add productId to user
+    await User.findByIdAndUpdate(owner, {
+      $push: { products: productSaved.id },
+    });
+
+    // 2. add productId to category
+    await Category.findByIdAndUpdate(owner, {
+      $push: { products: productSaved.id },
+    });
 
     res.json({ product: newProduct, message: "Product is added!" });
   } catch (error) {
@@ -126,6 +140,16 @@ router.delete("/:id", async (req, res, next) => {
       error.statusCode = 404;
       throw error;
     }
+
+    // 1. Remove from User
+    await User.findByIdAndUpdate(product.owner, {
+      $pull: { products: product.id },
+    });
+
+    // 2. Remove from Category
+    await Category.findByIdAndUpdate(product.category, {
+      $pull: { products: product.id },
+    });
 
     res.json({ message: "Delete successfully!" });
   } catch (error) {

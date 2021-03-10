@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const config = require("../utils/config");
 const {
-  validateUsername,
+  validateName,
   validateEmail,
   validatePassword,
 } = require("../utils/validators");
@@ -67,16 +67,17 @@ router.post("/login", async (req, res, next) => {
  * @feature REGISTER
  */
 router.post("/register", async (req, res, next) => {
-  const { username, email, password, passconf } = req.body;
+  const { firstName, lastName, email, password, passconf } = req.body;
 
-  const usernameTrimed = username.trim();
+  const firstNameTrimed = firstName.trim();
+  const lastNameTrimed = lastName.trim();
   const emailTrimed = email.trim();
   const passwordTrimed = password.trim();
   const passconfTrimed = passconf.trim();
 
   try {
     if (
-      usernameTrimed === "" ||
+      firstNameTrimed === "" ||
       emailTrimed === "" ||
       passwordTrimed === "" ||
       passconfTrimed === ""
@@ -86,8 +87,11 @@ router.post("/register", async (req, res, next) => {
       throw error;
     }
 
-    const usernameValid = await validateUsername(usernameTrimed, next);
-    if (!usernameValid) return;
+    const firstNameValid = await validateName(firstNameTrimed, next);
+    if (!firstNameValid) return;
+
+    const lastNameValid = await validateName(lastNameTrimed, next);
+    if (!lastNameValid) return;
 
     const emailValid = await validateEmail(emailTrimed, next);
     if (!emailValid) return;
@@ -103,7 +107,8 @@ router.post("/register", async (req, res, next) => {
     const passwordHashed = await bcrypt.hash(passwordTrimed, saltRounds);
 
     const newUser = new User({
-      username: usernameTrimed,
+      firstName: firstNameTrimed,
+      lastName: lastNameTrimed,
       email: emailTrimed,
       password: passwordHashed,
       createdAt: new Date(),

@@ -1,10 +1,10 @@
 const router = require("express").Router();
 const User = require("../models/user");
-const {
-  validatorForBasicUserInfo,
-  validatorForEmail,
-  validatorForName,
-} = require("../utils/validators");
+// const {
+//   validatorForBasicUserInfo,
+//   validatorForEmail,
+//   validatorForName,
+// } = require("../utils/validators");
 
 // Get ALL
 router.get("/", async (req, res) => {
@@ -17,72 +17,52 @@ router.get("/", async (req, res) => {
 });
 
 // Get ONE
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
-    if (user) {
-      res.json(user);
+
+    if (!user) {
+      const error = new Error("User Not Found");
+      error.statusCode = 400;
+      throw error;
     }
-    res.status(400).send("User Not Found");
+
+    res.json(user);
   } catch (error) {
-    console.log("Error at fetch one user: ", error.message);
+    next(error);
   }
 });
 
 // UPDATE
-router.put("/:id", async (req, res) => {
+router.put("/:id", async (req, res, next) => {
   const id = req.params.id;
   try {
-    const { username, email } = req.body;
-    const { errors, valid } = validatorForBasicUserInfo(username, email);
-
-    if (valid) {
-      const existUser = await User.findById(id);
-
-      if (existUser) {
-        // validate name
-        const { nameError, nameValid } = await validatorForName(username, id);
-        // validate email
-        const { emailError, emailValid } = await validatorForEmail(email, id);
-
-        if (nameValid && emailValid) {
-          // save the update
-          const updatedUser = await User.findByIdAndUpdate(id, req.body, {
-            new: true,
-          });
-          return res.json(updatedUser);
-        } else if (!nameValid) {
-          errors.username = nameError;
-        } else {
-          errors.email = emailError;
-        }
-
-        res.json({ errors });
-      } else {
-        res.status(400).send("User Not Found");
-      }
-    } else {
-      // errors in username or email
-      res.json({ errors });
-    }
+    // TODO Update One User
+    await User.findById(id);
   } catch (error) {
     console.log("Error at update: ", error.message);
+    next(error);
   }
 });
 
 // DELETE
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", async (req, res, next) => {
   try {
     const deletedUser = await User.findByIdAndRemove(req.params.id);
-    if (deletedUser) {
-      return res.json({
-        userId: deletedUser.id,
-        deleted: true,
-      });
+
+    if (!deletedUser) {
+      const error = new Error("User Not Found");
+      error.statusCode = 400;
+      throw error;
     }
-    res.status(400).send("User Not Found");
+
+    return res.json({
+      userId: deletedUser.id,
+      deleted: true,
+    });
   } catch (error) {
     console.log("Error at delete: ", error.message);
+    next(error);
   }
 });
 

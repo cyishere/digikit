@@ -4,18 +4,10 @@ const config = require("../utils/config");
 
 const regEx = /^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/;
 
-const validateUsername = async (usernameTrimed, next) => {
+const validateName = async (nameTrimed, next) => {
   try {
-    if (usernameTrimed.length < 2 || usernameTrimed.length > 20) {
-      const error = new Error("Username'length must between 2 and 20.");
-      error.statusCode = 400;
-      throw error;
-    }
-
-    const foundUser = await User.findOne({ username: usernameTrimed });
-
-    if (foundUser) {
-      const error = new Error("This username is already taken.");
+    if (nameTrimed.length < 1 || nameTrimed.length > 20) {
+      const error = new Error("Username'length must between 1 and 20.");
       error.statusCode = 400;
       throw error;
     }
@@ -115,7 +107,7 @@ const notAdmin = (req) => {
 
 module.exports = {
   isAuth,
-  validateUsername,
+  validateName,
   validateEmail,
   validatePassword,
   notAdmin,
