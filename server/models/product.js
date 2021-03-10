@@ -34,6 +34,10 @@ const productSchema = new Schema({
       required: true,
     },
   ],
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
   createdAt: {
     type: Date,
     required: true,

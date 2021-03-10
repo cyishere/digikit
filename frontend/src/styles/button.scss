@@ -35,6 +35,11 @@
     }
   }
 
+  &.button-danger {
+    background-color: $color-error-red;
+    color: white;
+  }
+
   &.button-link {
     background: none;
 

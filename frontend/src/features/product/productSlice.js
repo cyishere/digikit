@@ -34,6 +34,7 @@ export const getProductById = createAsyncThunk(
   }
 );
 
+// Add One
 export const addNewProduct = createAsyncThunk(
   "product/addNewProduct",
   ({ productInfo, token }) => {

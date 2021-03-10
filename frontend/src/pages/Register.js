@@ -15,7 +15,8 @@ const Register = () => {
   const [message, setMessage] = useState(null);
 
   const { values, handleChange, resetValues } = useFormChange({
-    username: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     passconf: "",
@@ -59,17 +60,32 @@ const Register = () => {
       )}
 
       <form className="form" onSubmit={handleSubmit}>
-        <div className="form-control">
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            name="username"
-            id="username"
-            placeholder="Please input your username"
-            value={values.username}
-            onChange={handleChange}
-            required
-          />
+        <div className="grid grid-1-1">
+          <div className="form-control">
+            <label htmlFor="firstName">First Name</label>
+            <input
+              type="text"
+              name="firstName"
+              id="firstName"
+              placeholder="Please input your first name"
+              value={values.firstName}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-control">
+            <label htmlFor="lastName">Last Name</label>
+            <input
+              type="text"
+              name="lastName"
+              id="lastName"
+              placeholder="Please input your last name"
+              value={values.lastName}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </div>
 
         <div className="form-control">

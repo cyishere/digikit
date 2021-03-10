@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import formatCurrency from "../../utils/formatCurrency";
 import { getProductById } from "./productSlice";
 import { addToCart } from "../checkout/cartSlice";
 import PageHeader from "../../components/PageHeader";
@@ -35,7 +36,9 @@ const ProductShowPage = (props) => {
           </div>
           <div className="product-content">
             <PageHeader>{product.title}</PageHeader>
-            <div className="product-meta price">${product.price}</div>
+            <div className="product-meta price">
+              ${formatCurrency(product.price)}
+            </div>
             <div className="product-meta brand">
               <span className="meta category">{product.category}</span>
               <span className="meta brand">{product.brand}</span>

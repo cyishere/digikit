@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import formatCurrency from "../../utils/formatCurrency";
-import Button from "../../components/Button";
+import LinkButton from "../../components/Button/LinkButton";
 
 const CartSidebar = ({ text }) => {
   const { products, subtotal, shippingFee, total } = useSelector(
@@ -36,9 +36,12 @@ const CartSidebar = ({ text }) => {
           </span>
         </div>
       </ul>
-      <Button styleStatus="primary" disableStatus={products.length === 0}>
-        {text}
-      </Button>
+
+      {products.length > 0 && (
+        <LinkButton styleStatus="primary" toDirection="/checkout/shipping">
+          {text}
+        </LinkButton>
+      )}
     </aside>
   );
 };

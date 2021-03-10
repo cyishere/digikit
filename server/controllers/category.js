@@ -28,7 +28,7 @@ router.post("/", async (req, res, next) => {
     const newCategory = new Category({ title });
     await newCategory.save();
 
-    res.json({ category: newCategory });
+    res.json({ category: newCategory, message: "Successfully add!" });
   } catch (error) {
     return next(error);
   }
