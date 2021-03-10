@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import CartItem from "./CartItem";
 import "./CartWidget.scss";
 import "../../styles/button.scss";
 
 const CartWidget = ({ show, cartItems }) => {
+  const subtotal = useSelector((state) => state.cart.subtotal);
+
   return (
     <div className={`cart-widget ${show ? "show" : ""}`}>
       <div className="cart-widget__header">
@@ -25,7 +28,7 @@ const CartWidget = ({ show, cartItems }) => {
       <div className="cart-widget__footer">
         <div className="cart-widget__meta">
           <h4 className="title">Cart Subtotal:</h4>
-          <div className="cost">$795.00</div>
+          <div className="cost">${subtotal}</div>
         </div>
 
         <Link className="button button-primary" to="/checkout/cart">

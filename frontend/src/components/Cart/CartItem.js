@@ -1,24 +1,20 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { updateCart, removeFromCart } from "../../features/checkout/cartSlice";
+import { updateQty, removeFromCart } from "../../features/checkout/cartSlice";
 import formatCurrency from "../../utils/formatCurrency";
 import Button from "../Button";
 import "./CartItem.scss";
 
 const CartItem = ({ styleStatus, product }) => {
-  const [qty, setQty] = useState(product.qty || 1);
-
-  const productId = product.id;
-
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    setQty(product.qty);
-    // dispatch(updateCart({ productId, qty }));
-  }, [product]);
-
-  // TODO Update qty
+  // Update qty
+  const handleQtyChange = (e) => {
+    dispatch(
+      updateQty({ productId: product.id, newQty: parseInt(e.target.value) })
+    );
+  };
 
   const deleteItemFromCart = (productInfo) => {
     console.log("product id:", productInfo);
@@ -59,9 +55,10 @@ const CartItem = ({ styleStatus, product }) => {
             type="number"
             id="qty"
             className="input-text small"
-            value={qty}
-            onChange={(e) => setQty(e.target.value)}
+            value={product.qty}
+            onChange={handleQtyChange}
             min="1"
+            max={product.countInStock}
           />
         </div>
         <div className="cart-item__price">${formatCurrency(product.price)}</div>

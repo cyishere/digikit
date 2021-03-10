@@ -45,19 +45,23 @@ const cartSlice = createSlice({
       state.total = state.subtotal + state.shippingFee;
       localStorage.setItem("digiCart", JSON.stringify(state.products));
     },
-    updateCart: (state, action) => {
-      // `action.payload` is the `{ productId, qty }`
-      const { productId, qty } = action.payload;
+    updateQty: (state, action) => {
+      // `action.payload` is { productId, newQty }
+      const { productId, newQty } = action.payload;
+
+      let price = null;
+      let diffQty = null;
 
       state.products.forEach((product) => {
         if (product.id === productId) {
-          product.qty = qty;
-
-          state.subtotal += product.price * qty;
-
-          state.total += product.price * qty;
+          price = product.price;
+          diffQty = newQty - product.qty;
+          product.qty = newQty;
         }
       });
+
+      state.subtotal = state.subtotal + price * diffQty;
+      state.total += price * diffQty;
 
       localStorage.setItem("digiCart", JSON.stringify(state.products));
     },
@@ -81,7 +85,7 @@ const cartSlice = createSlice({
 export const {
   initCart,
   addToCart,
-  updateCart,
+  updateQty,
   removeFromCart,
 } = cartSlice.actions;
 export default cartSlice.reducer;
