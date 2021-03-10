@@ -9,6 +9,11 @@ import {
 import { setLocalUserToState } from "./features/user/userSlice";
 import { initCart } from "./features/checkout/cartSlice";
 import Navbar from "./components/Navbar";
+import AdminDashboard from "./pages/admin/Dashboard";
+import AdminCategoryForm from "./pages/admin/CategoryForm";
+import AdminCategoryList from "./pages/admin/CategoryList";
+import AdminProductList from "./pages/admin/ProductList";
+import AdminProductForm from "./pages/admin/ProductForm";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Footer from "./components/Footer";
@@ -17,7 +22,6 @@ import UserPage from "./features/user/UserPage";
 import CategoryPage from "./features/category/CategoryPage";
 import ProductList from "./features/product/ProductList";
 import ProductShowPage from "./features/product/ProductShowPage";
-import ProductForm from "./features/product/ProductForm";
 import CartPage from "./features/checkout/CartPage";
 import ShippingPage from "./features/checkout/ShippingPage";
 import PaymentPage from "./features/checkout/PaymentPage";
@@ -28,6 +32,8 @@ import "./styles/App.scss";
 const App = () => {
   const loginUser = useSelector((state) => state.user.loginUser);
   const cartItems = useSelector((state) => state.cart.products);
+
+  console.log("loginUser:", loginUser);
 
   const dispatch = useDispatch();
 
@@ -54,21 +60,33 @@ const App = () => {
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/user" component={UserPage} />
-          {loginUser.token && (
-            <Route exact path="/category">
-              <CategoryPage token={loginUser.token} />
-            </Route>
-          )}
-          <Route exact path="/product/add">
-            <ProductForm token={loginUser.token} />
-          </Route>
-          <Route exact path="/product/:id" component={ProductShowPage} />
           <Route exact path="/product" component={ProductList} />
+          <Route exact path="/product/:id" component={ProductShowPage} />
           <Route exact path="/checkout/cart">
             <CartPage cartItems={cartItems} />
           </Route>
           <Route exact path="/checkout/shipping" component={ShippingPage} />
           <Route exact path="/checkout/payment" component={PaymentPage} />
+          {loginUser.token && (
+            <>
+              <Route exact path="/admin/category/add">
+                <AdminCategoryForm token={loginUser.token} />
+              </Route>
+              <Route exact path="/admin/product/add">
+                <AdminProductForm token={loginUser.token} />
+              </Route>
+              <Route exact path="/admin/category">
+                <AdminCategoryList token={loginUser.token} />
+              </Route>
+              <Route exact path="/admin/product">
+                <AdminProductList token={loginUser.token} />
+              </Route>
+              <Route exact path="/admin" component={AdminDashboard} />
+              <Route exact path="/category">
+                <CategoryPage token={loginUser.token} />
+              </Route>
+            </>
+          )}
           <Route component={Page404} />
         </Switch>
       </div>

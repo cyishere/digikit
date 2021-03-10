@@ -36,6 +36,27 @@ export const getOneCategory = createAsyncThunk(
   }
 );
 
+// Add One
+export const addNewCategory = createAsyncThunk(
+  "category/addNewCategory",
+  ({ cateInfo, token }) => {
+    return fetch(`${BACKEND.API_ADDRESS}/category`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify(cateInfo),
+    })
+      .then((response) => response.json())
+      .then((data) => data)
+      .catch((error) => {
+        console.log("error in reducer:", error);
+        return error.message;
+      });
+  }
+);
+
 /**
  * Main Slice
  */
@@ -48,6 +69,14 @@ const categorySlice = createSlice({
       if (action.payload.type !== "error") {
         state.entities = action.payload.categories;
       } else {
+        state.message = action.payload.message;
+      }
+    },
+    [addNewCategory.fulfilled]: (state, action) => {
+      if (action.payload.type === "error") {
+        state.message = action.payload.message;
+      } else {
+        state.entities = state.entities.concat(action.payload.category);
         state.message = action.payload.message;
       }
     },

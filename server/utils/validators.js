@@ -92,7 +92,7 @@ const isAuth = (req, res, next) => {
   }
 
   req.authenticated = true;
-  req.userId = decodedToken.userId;
+  req.userId = decodedToken.id;
   req.userAdmin = admin;
   next();
 };

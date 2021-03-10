@@ -69,7 +69,7 @@ router.post("/", async (req, res, next) => {
     });
 
     // 2. add productId to category
-    await Category.findByIdAndUpdate(owner, {
+    await Category.findByIdAndUpdate(category, {
       $push: { products: productSaved.id },
     });
 
@@ -134,6 +134,7 @@ router.delete("/:id", async (req, res, next) => {
     notAdmin(req);
 
     const product = await Product.findByIdAndRemove(req.params.id);
+    console.log("deletedProduct", product);
 
     if (!product) {
       const error = new Error("Product not found.");
