@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import formatCurrency from "../../utils/formatCurrency";
 import CartItem from "./CartItem";
 import "./CartWidget.scss";
 import "../../styles/button.scss";
@@ -28,7 +29,7 @@ const CartWidget = ({ show, cartItems }) => {
       <div className="cart-widget__footer">
         <div className="cart-widget__meta">
           <h4 className="title">Cart Subtotal:</h4>
-          <div className="cost">${subtotal}</div>
+          <div className="cost">${formatCurrency(subtotal)}</div>
         </div>
 
         <Link className="button button-primary" to="/checkout/cart">
