@@ -168,6 +168,9 @@ const userSlice = createSlice({
       state.message = action.payload.message;
     },
     [updateUserInfo.fulfilled]: (state, action) => {
+      if (action.payload.type !== "error") {
+        state.info = action.payload.user;
+      }
       state.message = action.payload.message;
     },
     [updateUserInfo.rejected]: (state, action) => {

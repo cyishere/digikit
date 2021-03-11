@@ -50,9 +50,9 @@ router.put("/:id", async (req, res, next) => {
       throw error;
     }
 
-    await User.findByIdAndUpdate(id, req.body);
+    const updatedUser = await User.findByIdAndUpdate(id, req.body);
 
-    res.json({ message: "User information updated!" });
+    res.json({ user: updatedUser, message: "User information updated!" });
   } catch (error) {
     console.log("Error at update: ", error.message);
     next(error);
