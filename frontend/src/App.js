@@ -6,7 +6,7 @@ import {
   Switch,
   Redirect,
 } from "react-router-dom";
-import { setLocalUserToState } from "./features/user/userSlice";
+import { setLocalUserToState } from "./slices/userSlice";
 import { initCart } from "./features/checkout/cartSlice";
 import Navbar from "./components/Navbar";
 import AdminDashboard from "./pages/admin/Dashboard";
@@ -17,7 +17,7 @@ import AdminProductForm from "./pages/admin/ProductForm";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Footer from "./components/Footer";
-import ProductPage from "./features/product/ProductPage";
+import HomePage from "./pages/HomePage";
 import UserPage from "./features/user/UserPage";
 import CategoryPage from "./features/category/CategoryPage";
 import ProductList from "./features/product/ProductList";
@@ -56,7 +56,7 @@ const App = () => {
         <Navbar token={loginUser.token} cartItems={cartItems} />
         <Switch>
           {loginUser.token && <Redirect exact from="/login" to="/" />}
-          <Route exact path="/" component={ProductPage} />
+          <Route exact path="/" component={HomePage} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/user" component={UserPage} />

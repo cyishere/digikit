@@ -19,6 +19,13 @@ router.get("/", async (req, res) => {
 // Get ONE
 router.get("/:id", async (req, res, next) => {
   try {
+    // check wheather is the user herself getting it
+    if (req.userId !== req.params.id) {
+      const error = new Error("401 Unauthorized");
+      error.statusCode = 401;
+      throw error;
+    }
+
     const user = await User.findById(req.params.id);
 
     if (!user) {
@@ -27,7 +34,7 @@ router.get("/:id", async (req, res, next) => {
       throw error;
     }
 
-    res.json(user);
+    res.json({ user });
   } catch (error) {
     next(error);
   }
@@ -37,8 +44,15 @@ router.get("/:id", async (req, res, next) => {
 router.put("/:id", async (req, res, next) => {
   const id = req.params.id;
   try {
-    // TODO Update One User
-    await User.findById(id);
+    if (req.userId !== id) {
+      const error = new Error("401 Unauthorized");
+      error.statusCode = 401;
+      throw error;
+    }
+
+    await User.findByIdAndUpdate(id, req.body);
+
+    res.json({ message: "User information updated!" });
   } catch (error) {
     console.log("Error at update: ", error.message);
     next(error);

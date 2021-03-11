@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { BACKEND } from "../../utils/config";
+import { BACKEND } from "../utils/config";
 
 const initialState = {
   entities: [],
@@ -10,6 +10,7 @@ const initialState = {
     token: null,
   },
   authAcessStatus: false,
+  info: {},
 };
 const apiUrl = "http://localhost:3001/api";
 
@@ -79,6 +80,48 @@ export const authAcess = createAsyncThunk("user/authAcess", (token) => {
     });
 });
 
+// Get User Info
+export const getUserInfo = createAsyncThunk(
+  "user/getUserInfo",
+  ({ userId, token }) => {
+    return fetch(`${BACKEND.API_ADDRESS}/user/${userId}`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => data)
+      .catch((error) => {
+        console.log("error in reducer:", error);
+        return error;
+      });
+  }
+);
+
+// Update User Info
+export const updateUserInfo = createAsyncThunk(
+  "user/updateUserInfo",
+  ({ userId, token, userInfo }) => {
+    return fetch(`${BACKEND.API_ADDRESS}/user/${userId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify(userInfo),
+    })
+      .then((response) => response.json())
+      .then((data) => data)
+      .catch((error) => {
+        console.log("error in reducer:", error);
+        return error;
+      });
+  }
+);
+
+/**
+ * @feature The Default Slice
+ */
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -112,6 +155,22 @@ const userSlice = createSlice({
       }
     },
     [authAcess.rejected]: (state, action) => {
+      state.message = action.payload.message;
+    },
+    [getUserInfo.fulfilled]: (state, action) => {
+      if (action.payload.type !== "error") {
+        state.info = action.payload.user;
+      } else {
+        state.message = action.payload.message;
+      }
+    },
+    [getUserInfo.rejected]: (state, action) => {
+      state.message = action.payload.message;
+    },
+    [updateUserInfo.fulfilled]: (state, action) => {
+      state.message = action.payload.message;
+    },
+    [updateUserInfo.rejected]: (state, action) => {
       state.message = action.payload.message;
     },
   },

@@ -54,6 +54,9 @@ userSchema.set("toJSON", {
     delete returnedObject._id;
     delete returnedObject.__v;
     delete returnedObject.password;
+    delete returnedObject.role;
+    delete returnedObject.products;
+    delete returnedObject.orders;
   },
 });
 

@@ -4,7 +4,7 @@ import CartSpot from "../Cart/CartSpot";
 import "./Navbar.scss";
 import "../../styles/button.scss";
 
-import { logoutUser } from "../../features/user/userSlice";
+import { logoutUser } from "../../slices/userSlice";
 
 const Navbar = ({ token, cartItems }) => {
   const dispatch = useDispatch();

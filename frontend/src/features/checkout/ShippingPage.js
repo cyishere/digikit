@@ -7,10 +7,13 @@
  * @param zipCode
  * @param phone "Phone Number"
  */
-
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserInfo, updateUserInfo } from "../../slices/userSlice";
 import { useFormChange } from "../../utils/hooks";
+import fetchStates from "../../utils/fetchStates";
 import Layout from "./Layout";
-import Button from "../../components/Button";
+import Message from "../../components/Message";
 import "../../styles/grid.scss";
 import "../../styles/form.scss";
 import "./Checkout.scss";
@@ -18,16 +21,51 @@ import "./Checkout.scss";
 const ShippingPage = (props) => {
   const path = props.location.pathname.split("/");
 
-  const { values, handleChange, resetValues } = useFormChange({
+  // if the user login, show the basic info
+  const { userId, token } = useSelector((state) => state.user.loginUser);
+  const userInfo = useSelector((state) => state.user.info);
+  const message = useSelector((state) => state.user.message);
+  const initialValues = {
     firstName: "",
     lastName: "",
     email: "",
     address: "",
     city: "",
     country: "",
-    zip: "",
+    zipCode: "",
     phone: "",
+  };
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (token) {
+      dispatch(getUserInfo({ userId, token }));
+    }
+  }, [token, userId, dispatch]);
+
+  const { values, handleChange, resetValues } = useFormChange({
+    ...initialValues,
+    ...userInfo,
   });
+  const [requestStatus, setRequestStatus] = useState(fetchStates.idle);
+
+  // TODO
+  // if not login, please login
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const result = await dispatch(
+      updateUserInfo({ userId, token, userInfo: values })
+    );
+
+    if (result.payload.type === "error") {
+      setRequestStatus(fetchStates.error);
+    } else {
+      setRequestStatus(fetchStates.success);
+      resetValues();
+    }
+  };
 
   return (
     <Layout
@@ -35,12 +73,17 @@ const ShippingPage = (props) => {
       pageTitle="Shipping Infomation"
       proceedText="Proceed to Billing"
     >
-      <form className="form">
+      {(requestStatus === fetchStates.error ||
+        requestStatus === fetchStates.success) && (
+        <Message msgContent={message} msgStatus={requestStatus} />
+      )}
+      <form className="form" onSubmit={handleSubmit}>
         <div className="form-control">
           <label htmlFor="firstName">First Name</label>
           <input
             type="text"
             id="firstName"
+            name="firstName"
             placeholder="Please input your first name"
             value={values.firstName}
             onChange={handleChange}
@@ -53,6 +96,7 @@ const ShippingPage = (props) => {
           <input
             type="text"
             id="lastName"
+            name="lastName"
             placeholder="Please input your last name"
             value={values.lastName}
             onChange={handleChange}
@@ -64,12 +108,11 @@ const ShippingPage = (props) => {
           <label htmlFor="email">E-mail</label>
           <input
             type="text"
-            name="email"
             id="email"
+            name="email"
             placeholder="Please input your email"
             value={values.email}
-            onChange={handleChange}
-            required
+            disabled
           />
         </div>
 
@@ -78,6 +121,7 @@ const ShippingPage = (props) => {
           <input
             type="text"
             id="address"
+            name="address"
             placeholder="Please input your address"
             value={values.address}
             onChange={handleChange}
@@ -90,6 +134,7 @@ const ShippingPage = (props) => {
           <input
             type="text"
             id="city"
+            name="city"
             placeholder="Please input your city"
             value={values.city}
             onChange={handleChange}
@@ -102,6 +147,7 @@ const ShippingPage = (props) => {
           <input
             type="text"
             id="country"
+            name="country"
             placeholder="Please input your country"
             value={values.country}
             onChange={handleChange}
@@ -110,12 +156,13 @@ const ShippingPage = (props) => {
         </div>
 
         <div className="form-control">
-          <label htmlFor="zip">Zip Code</label>
+          <label htmlFor="zipCode">Zip Code</label>
           <input
             type="text"
-            id="zip"
+            id="zipCode"
+            name="zipCode"
             placeholder="Please input your zip code"
-            value={values.zip}
+            value={values.zipCode}
             onChange={handleChange}
             required
           />
@@ -126,6 +173,7 @@ const ShippingPage = (props) => {
           <input
             type="text"
             id="phone"
+            name="phone"
             placeholder="Please input your phone number"
             value={values.phone}
             onChange={handleChange}
@@ -133,7 +181,9 @@ const ShippingPage = (props) => {
           />
         </div>
         <div className="form-actions">
-          <Button styleStatus="primary">Proceed to Billing</Button>
+          <button className="button button-primary" type="submit">
+            Proceed to Billing
+          </button>
         </div>
       </form>
     </Layout>

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import Message from "../components/Message";
 import { useFormChange } from "../utils/hooks";
-import { addNewUser } from "../features/user/userSlice";
+import { addNewUser } from "../slices/userSlice";
 import fetchStates from "../utils/fetchStates";
 
 import "../styles/form.scss";

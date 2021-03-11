@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import Message from "../components/Message";
 import { useFormChange } from "../utils/hooks";
-import { userLogin } from "../features/user/userSlice";
+import { userLogin } from "../slices/userSlice";
 import fetchStates from "../utils/fetchStates";
 
 import "../styles/form.scss";

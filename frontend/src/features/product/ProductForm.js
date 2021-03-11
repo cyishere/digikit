@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { authAcess } from "../user/userSlice";
+import { authAcess } from "../../slices/userSlice";
 import { getAllCategories } from "../category/categorySlice";
 import { addNewProduct } from "./productSlice";
 import { useFormChange } from "../../utils/hooks";

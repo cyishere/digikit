@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { authAcess } from "../../features/user/userSlice";
+import { authAcess } from "../../slices/userSlice";
 import { addNewCategory } from "../../features/category/categorySlice";
 import { useFormChange } from "../../utils/hooks";
 import fetchStates from "../../utils/fetchStates";
