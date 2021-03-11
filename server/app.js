@@ -1,13 +1,14 @@
 const express = require("express");
 const app = express();
 
-const cors = require("cors");
+// const cors = require("cors");
 const mongoose = require("mongoose");
 
 // import API
 const categoryRouter = require("./controllers/category");
 const productRouter = require("./controllers/product");
 const userRouter = require("./controllers/user");
+const orderRouter = require("./controllers/order");
 const rootRouter = require("./controllers/root");
 
 // middlewares & others
@@ -51,6 +52,7 @@ app.use(isAuth);
 app.use("/api/category", categoryRouter);
 app.use("/api/product", productRouter);
 app.use("/api/user", userRouter);
+app.use("/api/order", orderRouter);
 app.use("/api", rootRouter);
 
 app.use(middleware.errorHandler);
