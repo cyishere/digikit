@@ -23,13 +23,29 @@ export const createOrder = createAsyncThunk(
       body: JSON.stringify(orderInfo),
     })
       .then((response) => response.json())
-      .then((json) => json)
+      .then((data) => data)
       .catch((error) => {
         console.log("error in reducer:", error);
         return error.message;
       });
   }
 );
+
+// Get Orders
+export const getOrders = createAsyncThunk("order/getOrders", (token) => {
+  return fetch(`${BACKEND.API_ADDRESS}/order`, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => data)
+    .catch((error) => {
+      console.log("error in reducer:", error);
+      return error.message;
+    });
+});
 
 /**
  * @feature Main Slice
@@ -47,6 +63,16 @@ const orderSlice = createSlice({
       }
     },
     [createOrder.rejected]: (state, action) => {
+      state.message = action.payload.message;
+    },
+    [getOrders.fulfilled]: (state, action) => {
+      if (action.payload.type !== "error") {
+        state.entities = action.payload.orders;
+      } else {
+        state.message = action.payload.message;
+      }
+    },
+    [getOrders.rejected]: (state, action) => {
       state.message = action.payload.message;
     },
   },
