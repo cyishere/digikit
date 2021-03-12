@@ -6,18 +6,19 @@ import {
   Switch,
   Redirect,
 } from "react-router-dom";
-import { setLocalUserToState } from "./features/user/userSlice";
-import { initCart } from "./features/checkout/cartSlice";
+import { setLocalUserToState } from "./slices/userSlice";
+import { initCart } from "./slices/cartSlice";
 import Navbar from "./components/Navbar";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminCategoryForm from "./pages/admin/CategoryForm";
 import AdminCategoryList from "./pages/admin/CategoryList";
 import AdminProductList from "./pages/admin/ProductList";
 import AdminProductForm from "./pages/admin/ProductForm";
+import AdminOrderList from "./pages/admin/OderList";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Footer from "./components/Footer";
-import ProductPage from "./features/product/ProductPage";
+import HomePage from "./pages/HomePage";
 import UserPage from "./features/user/UserPage";
 import CategoryPage from "./features/category/CategoryPage";
 import ProductList from "./features/product/ProductList";
@@ -25,6 +26,7 @@ import ProductShowPage from "./features/product/ProductShowPage";
 import CartPage from "./features/checkout/CartPage";
 import ShippingPage from "./features/checkout/ShippingPage";
 import PaymentPage from "./features/checkout/PaymentPage";
+import OrderHistory from "./pages/Order/OrderHistory";
 import Page404 from "./pages/Page404";
 
 import "./styles/App.scss";
@@ -56,7 +58,7 @@ const App = () => {
         <Navbar token={loginUser.token} cartItems={cartItems} />
         <Switch>
           {loginUser.token && <Redirect exact from="/login" to="/" />}
-          <Route exact path="/" component={ProductPage} />
+          <Route exact path="/" component={HomePage} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/user" component={UserPage} />
@@ -81,7 +83,11 @@ const App = () => {
               <Route exact path="/admin/product">
                 <AdminProductList token={loginUser.token} />
               </Route>
+              <Route exact path="/admin/order">
+                <AdminOrderList token={loginUser.token} />
+              </Route>
               <Route exact path="/admin" component={AdminDashboard} />
+              <Route exact path="/order" component={OrderHistory} />
               <Route exact path="/category">
                 <CategoryPage token={loginUser.token} />
               </Route>

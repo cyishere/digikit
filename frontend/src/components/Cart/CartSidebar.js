@@ -1,14 +1,13 @@
 import { useSelector } from "react-redux";
 import formatCurrency from "../../utils/formatCurrency";
-import LinkButton from "../../components/Button/LinkButton";
 
-const CartSidebar = ({ text }) => {
+const CartSidebar = () => {
   const { products, subtotal, shippingFee, total } = useSelector(
     (state) => state.cart
   );
 
   return (
-    <aside className="checkout-page__sidebar">
+    <>
       <h3 className="checkout-page__sidebar-title">Order Summary</h3>
       <div className="order-status">
         <p>You are ordering</p>
@@ -36,13 +35,7 @@ const CartSidebar = ({ text }) => {
           </span>
         </div>
       </ul>
-
-      {products.length > 0 && (
-        <LinkButton styleStatus="primary" toDirection="/checkout/shipping">
-          {text}
-        </LinkButton>
-      )}
-    </aside>
+    </>
   );
 };
 

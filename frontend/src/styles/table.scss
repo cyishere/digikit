@@ -1,0 +1,30 @@
+@import "variables";
+
+/**
+ * CUSTOM
+ */
+.table {
+  border-collapse: collapse;
+  width: 100%;
+
+  th,
+  td {
+    border: 1px solid $color-border;
+    padding: 0.8em 1.2em;
+    text-align: left;
+  }
+
+  th {
+    border-bottom-width: 2px;
+  }
+
+  td {
+    a.button {
+      display: inline-block;
+    }
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: $color-gray-dimmer;
+  }
+}

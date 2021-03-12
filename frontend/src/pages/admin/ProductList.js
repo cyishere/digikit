@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { authAcess } from "../../features/user/userSlice";
+import { authAcess } from "../../slices/userSlice";
 import Layout from "./Layout";
 import PageHeader from "../../components/PageHeader";
 import Message from "../../components/Message";

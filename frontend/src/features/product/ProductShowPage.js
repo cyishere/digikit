@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import formatCurrency from "../../utils/formatCurrency";
 import { getProductById } from "./productSlice";
-import { addToCart } from "../checkout/cartSlice";
+import { addToCart } from "../../slices/cartSlice";
 import PageHeader from "../../components/PageHeader";
 import Button from "../../components/Button";
 import "./Product.scss";
