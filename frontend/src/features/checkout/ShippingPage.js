@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getUserInfo, updateUserInfo } from "../../slices/userSlice";
@@ -34,7 +34,7 @@ const ShippingPage = (props) => {
 
   const history = useHistory();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (token) {
       dispatch(getUserInfo({ userId, token }));
     }

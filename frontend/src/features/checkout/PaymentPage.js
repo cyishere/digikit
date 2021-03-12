@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { createOrder } from "../../slices/orderSlice";
+import { clearCart } from "../../slices/cartSlice";
 import fetchStates from "../../utils/fetchStates";
 import Layout from "./Layout";
 import CartSidebarLayout from "../../components/Cart/CartSidebarLayout";
@@ -21,14 +22,15 @@ const PaymentPage = (props) => {
 
   const handleConfirmOrder = async () => {
     const productIds = products.map((product) => product.id);
+    const orderInfo = { products: productIds, value: +total };
     try {
-      const result = await dispatch(
-        createOrder({ products: productIds, value: total, token })
-      );
+      // console.log({ products: productIds, value: +total, token });
+      const result = await dispatch(createOrder({ orderInfo, token }));
       if (result.payload.type === "error") {
         setRequestStatus(fetchStates.error);
       } else {
-        // setRequestStatus(fetchStates.success);
+        alert("Payment successful!");
+        dispatch(clearCart());
         history.push("/order");
       }
     } catch (error) {

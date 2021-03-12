@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { updateQty, removeFromCart } from "../../features/checkout/cartSlice";
+import { updateQty, removeFromCart } from "../../slices/cartSlice";
 import formatCurrency from "../../utils/formatCurrency";
 import Button from "../Button";
 import "./CartItem.scss";

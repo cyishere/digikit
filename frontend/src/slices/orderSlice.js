@@ -13,19 +13,20 @@ const initialState = {
 // Create
 export const createOrder = createAsyncThunk(
   "order/createOrder",
-  ({ products, value, token }) => {
+  ({ orderInfo, token }) => {
     return fetch(`${BACKEND.API_ADDRESS}/order`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
       },
-      body: JSON.stringify({ products, value }),
+      body: JSON.stringify(orderInfo),
     })
       .then((response) => response.json())
-      .then((data) => data)
+      .then((json) => json)
       .catch((error) => {
         console.log("error in reducer:", error);
-        return error;
+        return error.message;
       });
   }
 );

@@ -15,11 +15,16 @@ const Navbar = ({ token, cartItems }) => {
   };
 
   const showLink = token ? (
-    <li className="navbar-nav__item">
-      <button className="button button-link" onClick={handleLogout}>
-        Logout
-      </button>
-    </li>
+    <>
+      <li className="navbar-nav__item">
+        <NavLink to="/order">Order</NavLink>
+      </li>
+      <li className="navbar-nav__item">
+        <button className="button button-link" onClick={handleLogout}>
+          Logout
+        </button>
+      </li>
+    </>
   ) : (
     <>
       <li className="navbar-nav__item">

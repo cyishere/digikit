@@ -65,7 +65,6 @@ const cartSlice = createSlice({
 
       localStorage.setItem("digiCart", JSON.stringify(state.products));
     },
-
     removeFromCart: (state, action) => {
       // `action.payload` is { id, price, qty }
 
@@ -79,6 +78,12 @@ const cartSlice = createSlice({
 
       localStorage.setItem("digiCart", JSON.stringify(state.products));
     },
+    clearCart: (state, action) => {
+      state.products = [];
+      state.subtotal = 0;
+      state.total = 0;
+      localStorage.removeItem("digiCart");
+    },
   },
 });
 
@@ -87,6 +92,7 @@ export const {
   addToCart,
   updateQty,
   removeFromCart,
+  clearCart,
 } = cartSlice.actions;
 export default cartSlice.reducer;
 

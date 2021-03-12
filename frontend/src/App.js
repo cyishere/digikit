@@ -7,7 +7,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import { setLocalUserToState } from "./slices/userSlice";
-import { initCart } from "./features/checkout/cartSlice";
+import { initCart } from "./slices/cartSlice";
 import Navbar from "./components/Navbar";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminCategoryForm from "./pages/admin/CategoryForm";
@@ -25,6 +25,7 @@ import ProductShowPage from "./features/product/ProductShowPage";
 import CartPage from "./features/checkout/CartPage";
 import ShippingPage from "./features/checkout/ShippingPage";
 import PaymentPage from "./features/checkout/PaymentPage";
+import OrderHistory from "./pages/Order/OrderHistory";
 import Page404 from "./pages/Page404";
 
 import "./styles/App.scss";
@@ -82,6 +83,7 @@ const App = () => {
                 <AdminProductList token={loginUser.token} />
               </Route>
               <Route exact path="/admin" component={AdminDashboard} />
+              <Route exact path="/order" component={OrderHistory} />
               <Route exact path="/category">
                 <CategoryPage token={loginUser.token} />
               </Route>

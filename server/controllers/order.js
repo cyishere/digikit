@@ -22,6 +22,8 @@ router.post("/", async (req, res, next) => {
 
     const savedOrder = await newOrder.save();
 
+    // TODO remove countInStock from products
+
     res.json({ orderId: savedOrder.id, message: "Purchase successfully!" });
   } catch (error) {
     next(error);
