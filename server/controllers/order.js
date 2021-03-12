@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { v4: uuidv4 } = require("uuid");
 const Order = require("../models/order");
+const Product = require("../models/product");
 const { notAdmin } = require("../utils/validators");
 
 // Create One
@@ -12,11 +13,13 @@ router.post("/", async (req, res, next) => {
       throw error;
     }
 
+    const products = req.body.products;
+
     const newOrder = new Order({
       number: uuidv4(),
       createdAt: new Date(),
       customer: req.userId,
-      products: req.body.products,
+      products,
       value: req.body.value,
       status: "New", // Shipped, Cancelled, Completed
     });
@@ -24,6 +27,12 @@ router.post("/", async (req, res, next) => {
     const savedOrder = await newOrder.save();
 
     // TODO remove countInStock from products
+    products.forEach(async (item) => {
+      const product = await Product.findById(item.id);
+      await Product.findByIdAndUpdate(item.id, {
+        countInStock: product.countInStock - item.qty,
+      });
+    });
 
     res.json({ orderId: savedOrder.id, message: "Purchase successfully!" });
   } catch (error) {

@@ -16,13 +16,7 @@ const orderSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  products: [
-    // TODO refacter
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Product",
-    },
-  ],
+  products: [],
   value: {
     type: Number,
     required: true,

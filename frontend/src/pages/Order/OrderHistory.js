@@ -16,7 +16,7 @@ const OrderHistory = () => {
       await dispatch(getOrders(token));
     };
     fetchOrders();
-  }, []);
+  }, [dispatch, token, orders]);
 
   return (
     <main className="main-page">
