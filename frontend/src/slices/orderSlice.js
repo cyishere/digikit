@@ -47,6 +47,25 @@ export const getOrders = createAsyncThunk("order/getOrders", (token) => {
     });
 });
 
+// Delete One
+export const deleteOrder = createAsyncThunk(
+  "order/deleteOrder",
+  ({ orderId, token }) => {
+    return fetch(`${BACKEND.API_ADDRESS}/order/${orderId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => data)
+      .catch((error) => {
+        console.log("error in reducer:", error);
+        return error.message;
+      });
+  }
+);
+
 /**
  * @feature Main Slice
  */
@@ -73,6 +92,18 @@ const orderSlice = createSlice({
       }
     },
     [getOrders.rejected]: (state, action) => {
+      state.message = action.payload.message;
+    },
+    [deleteOrder.fulfilled]: (state, action) => {
+      if (action.payload.type !== "error") {
+        const { id } = action.payload;
+
+        state.entities = state.entities.filter((order) => order.id !== id);
+      } else {
+        state.message = action.payload.message;
+      }
+    },
+    [deleteOrder.rejected]: (state, action) => {
       state.message = action.payload.message;
     },
   },

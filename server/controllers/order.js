@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { v4: uuidv4 } = require("uuid");
 const Order = require("../models/order");
+const { notAdmin } = require("../utils/validators");
 
 // Create One
 router.post("/", async (req, res, next) => {
@@ -50,6 +51,25 @@ router.get("/", async (req, res, next) => {
     }
 
     res.json({ orders });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Delete
+router.delete("/:id", async (req, res, next) => {
+  try {
+    notAdmin(req);
+
+    const deletedOrder = await Order.findByIdAndRemove(req.params.id);
+
+    if (!deletedOrder) {
+      const error = new Error("Order not found.");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    res.json({ id: deletedOrder.id });
   } catch (error) {
     next(error);
   }

@@ -1,8 +1,7 @@
-import { useEffect, useState, useLayoutEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getUserInfo, updateUserInfo } from "../../slices/userSlice";
-import { useFormChange } from "../../utils/hooks";
 import fetchStates from "../../utils/fetchStates";
 import Layout from "./Layout";
 import Message from "../../components/Message";
@@ -19,32 +18,29 @@ const ShippingPage = (props) => {
   const { userId, token } = useSelector((state) => state.user.loginUser);
   const userInfo = useSelector((state) => state.user.info);
   const message = useSelector((state) => state.user.message);
-  const initialValues = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    address: "",
-    city: "",
-    country: "",
-    zipCode: "",
-    phone: "",
-  };
+  const [values, setValues] = useState({});
+  const [requestStatus, setRequestStatus] = useState(fetchStates.idle);
 
   const dispatch = useDispatch();
 
   const history = useHistory();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (token) {
       dispatch(getUserInfo({ userId, token }));
     }
-  }, [token, userId, dispatch]);
+  }, [token, dispatch, userId]);
 
-  const { values, handleChange } = useFormChange({
-    ...initialValues,
-    ...userInfo,
-  });
-  const [requestStatus, setRequestStatus] = useState(fetchStates.idle);
+  useEffect(() => {
+    setValues(userInfo);
+  }, [userInfo]);
+
+  const handleChange = (e) => {
+    setValues({
+      ...values,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   // TODO
   // if not login, please login
@@ -107,7 +103,7 @@ const ShippingPage = (props) => {
               id="email"
               name="email"
               placeholder="Please input your email"
-              value={values.email}
+              value={userInfo.email}
               disabled
             />
           </div>

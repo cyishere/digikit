@@ -21,10 +21,13 @@ const PaymentPage = (props) => {
   const history = useHistory();
 
   const handleConfirmOrder = async () => {
-    const productIds = products.map((product) => product.id);
-    const orderInfo = { products: productIds, value: +total };
+    const productInfos = products.map((product) => ({
+      id: product.id,
+      qty: product.qty,
+    }));
+    const orderInfo = { products: productInfos, value: +total };
     try {
-      // console.log({ products: productIds, value: +total, token });
+      // console.log({ products: productInfos, value: +total, token });
       const result = await dispatch(createOrder({ orderInfo, token }));
       if (result.payload.type === "error") {
         setRequestStatus(fetchStates.error);

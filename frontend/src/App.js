@@ -14,6 +14,7 @@ import AdminCategoryForm from "./pages/admin/CategoryForm";
 import AdminCategoryList from "./pages/admin/CategoryList";
 import AdminProductList from "./pages/admin/ProductList";
 import AdminProductForm from "./pages/admin/ProductForm";
+import AdminOrderList from "./pages/admin/OderList";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Footer from "./components/Footer";
@@ -81,6 +82,9 @@ const App = () => {
               </Route>
               <Route exact path="/admin/product">
                 <AdminProductList token={loginUser.token} />
+              </Route>
+              <Route exact path="/admin/order">
+                <AdminOrderList token={loginUser.token} />
               </Route>
               <Route exact path="/admin" component={AdminDashboard} />
               <Route exact path="/order" component={OrderHistory} />
