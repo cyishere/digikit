@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const { v4: uuidv4 } = require("uuid");
 const Order = require("../models/order");
-const { notAdmin } = require("../utils/validators");
 
 // Create One
 router.post("/", async (req, res, next) => {
@@ -28,15 +27,29 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-// Get All Orders
+// Get All Orders & Get Orders by User
 router.get("/", async (req, res, next) => {
   try {
-    notAdmin(req);
+    if (!req.authenticated) {
+      const error = new Error("Please login.");
+      error.statusCode = 403;
+      throw error;
+    }
+
+    let orders = null;
+
+    if (req.userAdmin) {
+      // get all
+      orders = await Order.find();
+    } else {
+      // get orders by user
+      orders = await Order.find({ customer: req.userId });
+    }
+
+    res.json({ orders });
   } catch (error) {
     next(error);
   }
 });
-
-// Get Orders by User
 
 module.exports = router;
