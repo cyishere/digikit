@@ -22,6 +22,10 @@ const orderSchema = new Schema({
       ref: "Product",
     },
   ],
+  value: {
+    type: Number,
+    required: true,
+  },
   status: {
     type: String,
     required: true,

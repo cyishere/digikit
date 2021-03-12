@@ -16,6 +16,7 @@ router.post("/", async (req, res, next) => {
       createdAt: new Date(),
       customer: req.userId,
       products: req.body.products,
+      value: req.body.value,
       status: "New", // Shipped, Cancelled, Completed
     });
 

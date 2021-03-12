@@ -12,6 +12,8 @@ const initialState = {
   authAcessStatus: false,
   info: {},
 };
+
+// TODO change endpoint
 const apiUrl = "http://localhost:3001/api";
 
 // communicate with api
