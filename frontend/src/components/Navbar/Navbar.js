@@ -1,16 +1,14 @@
 import styled from "styled-components/macro";
 import { COLORS } from "../../styles/constants";
 import Button from "../Button";
+import Brand from "../Brand";
+import TextLink from "../TextLink";
 import { Cart } from "@styled-icons/ionicons-outline";
 
 const Navbar = () => {
   return (
     <Wrapper>
-      <Brand>
-        <TextLink href="/">
-          digi<TextEm>kit</TextEm>
-        </TextLink>
-      </Brand>
+      <Brand />
       <NavLinks>
         <NavItem>
           <TextLink href="/">products</TextLink>
@@ -44,40 +42,6 @@ const Wrapper = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
-
-const Brand = styled.h1`
-  font-family: Actor;
-  font-size: 2.5rem;
-`;
-
-const TextLink = styled.a`
-  color: ${COLORS.text};
-  text-decoration: none;
-  text-transform: uppercase;
-
-  &:hover {
-    color: ${COLORS.secondary};
-    text-decoration: revert;
-  }
-
-  ${Brand} & {
-    color: ${COLORS.primary};
-    text-transform: none;
-
-    &:hover {
-      color: ${COLORS.text};
-    }
-  }
-`;
-
-const TextEm = styled.span`
-  color: ${COLORS.text};
-  text-transform: uppercase;
-
-  &:hover {
-    color: ${COLORS.primary};
-  }
 `;
 
 const NavLinks = styled.ul`
