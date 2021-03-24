@@ -2,16 +2,13 @@ import styled from "styled-components/macro";
 import Brand from "../Brand";
 import { COLORS } from "../../styles/constants";
 
-const Footer = () => {
+const Footer = ({ children }) => {
   return (
     <Wrapper>
-      <Container>
-        <Content>
-          A mock website made with <Emoji>☕</Emoji> by{" "}
-          <a href="https://cyishere.dev">CY</a>.
-        </Content>
+      <FooterContainer>
+        <Content>{children}</Content>
         <Brand />
-      </Container>
+      </FooterContainer>
     </Wrapper>
   );
 };
@@ -21,7 +18,7 @@ const Wrapper = styled.footer`
   background-color: ${COLORS.white};
 `;
 
-const Container = styled.div`
+export const FooterContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding-top: 24px;
@@ -37,15 +34,6 @@ const Container = styled.div`
 
 const Content = styled.p`
   color: ${COLORS.textLight};
-
-  & a {
-    color: ${COLORS.secondary};
-
-    &:hover {
-      color: ${COLORS.text};
-    }
-  }
 `;
 
-const Emoji = styled.span``;
 export default Footer;

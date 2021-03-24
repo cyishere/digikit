@@ -1,4 +1,5 @@
 import styled from "styled-components/macro";
+import { FooterContainer } from "../Footer/Footer";
 import { COLORS } from "../../styles/constants";
 
 const TextLink = ({ children, href }) => {
@@ -13,6 +14,14 @@ export const Wrapper = styled.a`
   &:hover {
     color: ${COLORS.secondary};
     text-decoration: revert;
+  }
+
+  ${FooterContainer} & {
+    color: ${COLORS.secondary};
+
+    &:hover {
+      color: ${COLORS.text};
+    }
   }
 `;
 
