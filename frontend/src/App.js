@@ -1,9 +1,10 @@
 import GlobalStyles from "./styles/GlobalStyles";
+import Home from "./pages/client/Home";
 
 const App = () => {
   return (
     <>
-      <h1>Hello Voyager!</h1>
+      <Home />
       <GlobalStyles />
     </>
   );

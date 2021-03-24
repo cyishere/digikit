@@ -7,7 +7,7 @@ import { Cart } from "@styled-icons/ionicons-outline";
 
 const Navbar = () => {
   return (
-    <Wrapper>
+    <Container>
       <Brand />
       <NavLinks>
         <NavItem>
@@ -32,11 +32,13 @@ const Navbar = () => {
           </TextLink>
         </NavItem>
       </NavLinks>
-    </Wrapper>
+    </Container>
   );
 };
 
-const Wrapper = styled.nav`
+const Container = styled.nav`
+  max-width: 1200px;
+  margin: 0 auto;
   padding-top: 32px;
   padding-bottom: 32px;
   display: flex;

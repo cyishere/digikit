@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components/macro";
+import { COLORS } from "./constants";
 
 const GlobalStyles = createGlobalStyle`
   /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -50,10 +51,17 @@ const GlobalStyles = createGlobalStyle`
     border-spacing: 0;
   }
 
+  /**
+   * CUSTOM
+   */
   *,
   *::before,
   *::after {
     box-sizing: border-box;
+  }
+
+  html, body {
+    height: 100%;
   }
 
   html {
@@ -64,10 +72,18 @@ const GlobalStyles = createGlobalStyle`
     /* 300, 500, 900 */
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
+    background-color: ${COLORS.grayLight};
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-weight: 500;
+  }
+
+  #root {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 `;
 

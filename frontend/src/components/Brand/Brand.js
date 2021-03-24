@@ -1,5 +1,5 @@
 import styled from "styled-components/macro";
-import { Wrappre as Footer } from "../Footer";
+import { Container as Footer } from "../Footer/Footer";
 import { COLORS } from "../../styles/constants";
 
 const Brand = () => {
