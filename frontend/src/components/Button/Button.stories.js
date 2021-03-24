@@ -1,5 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { action } from "@storybook/addon-actions";
+import styled from "styled-components/macro";
 import Button from "./Button";
 
 export default {
@@ -8,9 +9,14 @@ export default {
 };
 
 export const Default = () => (
-  <Button variant="default" onClick={action("Clicked")}>
-    login
-  </Button>
+  <Wrapper>
+    <Button variant="default" onClick={action("Clicked")}>
+      login
+    </Button>
+    <Button variant="default" href="/login">
+      login
+    </Button>
+  </Wrapper>
 );
 
 export const Primary = () => (
@@ -24,3 +30,9 @@ export const Secondary = () => (
     add to cart
   </Button>
 );
+
+const Wrapper = styled.div`
+  & > * {
+    margin-right: 16px;
+  }
+`;

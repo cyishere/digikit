@@ -16,11 +16,13 @@ const VARIANTS = {
   },
 };
 
-const Button = ({ variant, children, ...rest }) => {
+const Button = ({ variant, href, children, ...rest }) => {
   const styles = VARIANTS[variant];
 
+  const tag = typeof href === "string" ? "a" : "button";
+
   return (
-    <Wrapper style={styles} {...rest}>
+    <Wrapper as={tag} style={styles} {...rest}>
       {children}
     </Wrapper>
   );
@@ -33,6 +35,11 @@ const Wrapper = styled.button`
   text-transform: uppercase;
   border: none;
   font: inherit;
+  cursor: default;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 export default Button;
