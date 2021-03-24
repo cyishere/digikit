@@ -7,34 +7,40 @@ import { Cart } from "@styled-icons/ionicons-outline";
 
 const Navbar = () => {
   return (
-    <Container>
-      <Brand />
-      <NavLinks>
-        <NavItem>
-          <TextLink href="/">products</TextLink>
-        </NavItem>
-        <NavItem>
-          <TextLink href="/orders">orders</TextLink>
-        </NavItem>
-        <NavItem>
-          <Button variant="default" href="/login">
-            login
-          </Button>
-        </NavItem>
-        <NavItem>
-          <Button variant="primary" href="/register">
-            signup
-          </Button>
-        </NavItem>
-        <NavItem>
-          <TextLink href="/checkout/cart">
-            <CartIcon size="36" />
-          </TextLink>
-        </NavItem>
-      </NavLinks>
-    </Container>
+    <Wrapper>
+      <Container>
+        <Brand />
+        <NavLinks>
+          <NavItem>
+            <TextLink href="/">products</TextLink>
+          </NavItem>
+          <NavItem>
+            <TextLink href="/orders">orders</TextLink>
+          </NavItem>
+          <NavItem>
+            <Button variant="default" href="/login">
+              login
+            </Button>
+          </NavItem>
+          <NavItem>
+            <Button variant="primary" href="/register">
+              signup
+            </Button>
+          </NavItem>
+          <NavItem>
+            <TextLink href="/checkout/cart">
+              <CartIcon size="36" />
+            </TextLink>
+          </NavItem>
+        </NavLinks>
+      </Container>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.header`
+  background-color: ${COLORS.white};
+`;
 
 const Container = styled.nav`
   max-width: 1200px;

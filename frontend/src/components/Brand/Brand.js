@@ -1,5 +1,4 @@
 import styled from "styled-components/macro";
-import { Container as Footer } from "../Footer/Footer";
 import { COLORS } from "../../styles/constants";
 
 const Brand = () => {
@@ -15,10 +14,6 @@ const Brand = () => {
 export const Wrapper = styled.h1`
   font-family: Actor;
   font-size: 2.5rem;
-
-  ${Footer} & {
-    font-size: 2rem;
-  }
 `;
 
 export const TextLink = styled.a`
