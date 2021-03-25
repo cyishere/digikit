@@ -1,4 +1,5 @@
 import styled from "styled-components/macro";
+import { Wrapper as Form } from "../Form/Form";
 import { COLORS } from "../../styles/constants";
 
 const VARIANTS = {
@@ -22,7 +23,7 @@ const Button = ({ variant, href, children, ...rest }) => {
   const tag = typeof href === "string" ? "a" : "button";
 
   return (
-    <Wrapper as={tag} style={styles} {...rest}>
+    <Wrapper as={tag} style={styles} href={href} {...rest}>
       {children}
     </Wrapper>
   );
@@ -39,6 +40,10 @@ const Wrapper = styled.button`
 
   &:hover {
     opacity: 0.8;
+  }
+
+  ${Form} & {
+    width: 100%;
   }
 `;
 

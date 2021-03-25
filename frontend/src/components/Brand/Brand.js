@@ -17,13 +17,11 @@ export const Wrapper = styled.h1`
 `;
 
 export const TextLink = styled.a`
-  color: ${COLORS.text};
   text-decoration: none;
   text-transform: uppercase;
 
   &:hover {
     color: ${COLORS.secondary};
-    text-decoration: revert;
   }
 
   ${Wrapper} & {
