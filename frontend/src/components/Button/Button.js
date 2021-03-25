@@ -38,7 +38,6 @@ const Wrapper = styled.button`
   text-decoration: none;
   border: none;
   font: inherit;
-  cursor: default;
 
   &:hover {
     opacity: 0.8;
