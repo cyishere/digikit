@@ -4,7 +4,7 @@ import Footer from "./Footer";
 import TextLink from "../TextLink";
 
 export default {
-  title: "Components/Footer",
+  title: "Client/Footer",
   component: Footer,
 };
 

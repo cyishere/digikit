@@ -2,7 +2,7 @@
 import Brand from "./Brand";
 
 export default {
-  title: "Components/Brand",
+  title: "Client/Brand",
   component: Brand,
 };
 

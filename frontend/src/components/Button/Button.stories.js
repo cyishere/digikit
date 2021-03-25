@@ -4,7 +4,7 @@ import styled from "styled-components/macro";
 import Button from "./Button";
 
 export default {
-  title: "Components/Button",
+  title: "Client/Button",
   component: Button,
 };
 
