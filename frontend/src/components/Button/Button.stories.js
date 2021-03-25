@@ -1,5 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { action } from "@storybook/addon-actions";
+import { Link, Router } from "react-router-dom";
 import styled from "styled-components/macro";
 import Button from "./Button";
 
@@ -10,12 +11,18 @@ export default {
 
 export const Default = () => (
   <Wrapper>
-    <Button variant="default" onClick={action("Clicked")}>
-      login
-    </Button>
-    <Button variant="default" href="/login">
-      login
-    </Button>
+    <Router>
+      <Button variant="default" onClick={action("Clicked")}>
+        login
+      </Button>
+      <Button variant="default" href="/login">
+        login
+      </Button>
+      {/* <Button variant="default" as={Link} to="/admin">
+        link
+      </Button> */}
+      <Link to="/">Example</Link>
+    </Router>
   </Wrapper>
 );
 

@@ -1,12 +1,18 @@
 import styled from "styled-components/macro";
+import { Link } from "react-router-dom";
 import { FooterContainer } from "../Footer/Footer";
 import { COLORS } from "../../styles/constants";
 
-const TextLink = ({ children, href }) => {
-  return <Wrapper href={href}>{children}</Wrapper>;
+const TextLink = ({ children, href, to }) => {
+  const tag = to ? Link : "a";
+  return (
+    <Wrapper as={tag} to={to} href={href}>
+      {children}
+    </Wrapper>
+  );
 };
 
-export const Wrapper = styled.a`
+export const Wrapper = styled.div`
   color: ${COLORS.text};
   text-decoration: none;
   text-transform: uppercase;

@@ -1,4 +1,5 @@
 import styled from "styled-components/macro";
+import { Link } from "react-router-dom";
 import { Wrapper as Form } from "../Form/Form";
 import { COLORS } from "../../styles/constants";
 
@@ -20,10 +21,10 @@ const VARIANTS = {
 const Button = ({ variant, href, children, ...rest }) => {
   const styles = VARIANTS[variant];
 
-  const tag = typeof href === "string" ? "a" : "button";
+  const tag = typeof href === "string" ? Link : "button";
 
   return (
-    <Wrapper as={tag} style={styles} href={href} {...rest}>
+    <Wrapper as={tag} style={styles} to={href} {...rest}>
       {children}
     </Wrapper>
   );
@@ -34,6 +35,7 @@ const Wrapper = styled.button`
   color: var(--textColor);
   padding: 16px 24px;
   text-transform: uppercase;
+  text-decoration: none;
   border: none;
   font: inherit;
   cursor: default;
