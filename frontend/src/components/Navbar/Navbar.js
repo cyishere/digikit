@@ -12,7 +12,7 @@ const Navbar = () => {
         <Brand />
         <NavLinks>
           <NavItem>
-            <TextLink href="/">products</TextLink>
+            <TextLink href="/products">products</TextLink>
           </NavItem>
           <NavItem>
             <TextLink href="/orders">orders</TextLink>
