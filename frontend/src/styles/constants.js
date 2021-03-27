@@ -6,6 +6,8 @@ const COLORS = {
   grayLightDim: "hsl(0,13%,95.5%)",
   grayLight: "hsl(0,0%,97.3%)",
   white: "hsl(0,0%,100%)",
+  danger: "hsl(0,83%,48.4%)",
+  dangerLight: "rgba(226,21,21, 0.5)",
 };
 
 export { COLORS };

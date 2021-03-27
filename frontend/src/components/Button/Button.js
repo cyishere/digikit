@@ -16,6 +16,10 @@ const VARIANTS = {
     "--backgroundColor": COLORS.secondary,
     "--textColor": COLORS.white,
   },
+  danger: {
+    "--backgroundColor": COLORS.danger,
+    "--textColor": COLORS.white,
+  },
 };
 
 const Button = ({ variant, href, children, ...rest }) => {
