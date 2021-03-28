@@ -7,18 +7,26 @@ const VARIANTS = {
   default: {
     "--backgroundColor": COLORS.grayLightDim,
     "--textColor": COLORS.text,
+    "--padding": "16px 24px",
+    "--textDecoration": "none",
   },
   primary: {
     "--backgroundColor": COLORS.primary,
     "--textColor": COLORS.white,
+    "--padding": "16px 24px",
+    "--textDecoration": "none",
   },
   secondary: {
     "--backgroundColor": COLORS.secondary,
     "--textColor": COLORS.white,
+    "--padding": "16px 24px",
+    "--textDecoration": "none",
   },
   danger: {
-    "--backgroundColor": COLORS.danger,
-    "--textColor": COLORS.white,
+    "--backgroundColor": "transparent",
+    "--textColor": COLORS.danger,
+    "--padding": "8px 16px",
+    "--textDecoration": "underline",
   },
 };
 
@@ -37,9 +45,9 @@ const Button = ({ variant, href, children, ...rest }) => {
 const Wrapper = styled.button`
   background-color: var(--backgroundColor);
   color: var(--textColor);
-  padding: 16px 24px;
+  padding: var(--padding);
   text-transform: uppercase;
-  text-decoration: none;
+  text-decoration: var(--textDecoration);
   border: none;
   font: inherit;
 
