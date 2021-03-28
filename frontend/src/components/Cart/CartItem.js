@@ -4,13 +4,15 @@ import formatCurrency from "../../utils/formatCurrency";
 import TextLink from "../TextLink";
 import Button from "../Button";
 import CountGroup from "../CountGroup";
-import { Wrapper as WidgetWrapper } from "./CartWidget";
 
 const CartItem = ({ product, position }) => {
+  let Wrapper;
   let controlContent;
   let title;
 
   if (position === "widget") {
+    Wrapper = WrapperLite;
+
     controlContent = (
       <ControlLite>
         {product.qty} x ${formatCurrency(product.price)}
@@ -22,6 +24,8 @@ const CartItem = ({ product, position }) => {
         ? product.title.substring(0, 12) + "..."
         : product.title;
   } else if (position === "page") {
+    Wrapper = WrapperFull;
+
     controlContent = (
       <ControlFull>
         <Button variant="danger">Remove</Button>
@@ -54,22 +58,29 @@ const CartItem = ({ product, position }) => {
   );
 };
 
-const Wrapper = styled.div`
+const WrapperBase = styled.div`
   display: grid;
+  border-bottom: 8px solid ${COLORS.grayLightDim};
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:first-child {
+    padding-top: 0;
+  }
+`;
+
+const WrapperFull = styled(WrapperBase)`
   grid-template-columns: 150px 1fr;
   grid-gap: 32px;
-  border-bottom: 8px solid ${COLORS.grayLightDim};
   padding: 32px 0;
+`;
 
-  ${WidgetWrapper} & {
-    grid-template-columns: 100px 1fr;
-    grid-gap: 16px;
-    padding: 16px 0;
-
-    &:last-child {
-      border-bottom: none;
-    }
-  }
+const WrapperLite = styled(WrapperBase)`
+  grid-template-columns: 100px 1fr;
+  grid-gap: 16px;
+  padding: 16px 0;
 `;
 
 const Img = styled.img`
@@ -87,7 +98,7 @@ const Content = styled.div`
 const Title = styled.h4`
   font-size: 1.25rem;
 
-  ${WidgetWrapper} & {
+  ${WrapperLite} & {
     font-size: 1rem;
   }
 `;

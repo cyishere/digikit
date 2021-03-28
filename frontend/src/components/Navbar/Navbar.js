@@ -3,7 +3,7 @@ import { COLORS } from "../../styles/constants";
 import Button from "../Button";
 import Brand from "../Brand";
 import TextLink from "../TextLink";
-import { Cart } from "@styled-icons/ionicons-outline";
+import CartSpot from "../Cart/CartSpot";
 
 const Navbar = () => {
   return (
@@ -28,9 +28,7 @@ const Navbar = () => {
             </Button>
           </NavItem>
           <NavItem>
-            <TextLink href="/checkout/cart">
-              <CartIcon size="36" />
-            </TextLink>
+            <CartSpot />
           </NavItem>
         </NavLinks>
       </Container>
@@ -60,16 +58,6 @@ const NavLinks = styled.ul`
 
 const NavItem = styled.li`
   margin-left: 24px;
-`;
-
-const CartIcon = styled(Cart)`
-  color: currentColor;
-  opacity: 0.7;
-
-  &:hover {
-    color: ${COLORS.text};
-    opacity: 1;
-  }
 `;
 
 export default Navbar;

@@ -1,5 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { CartWidget, CartItem } from "./";
+import styled from "styled-components/macro";
+import { CartWidget, CartItem, CartSpot } from "./";
 
 export default {
   title: "Client/Cart",
@@ -14,6 +15,15 @@ const product = {
   qty: 1,
 };
 
-export const Widget = () => <CartWidget />;
-
 export const Item = () => <CartItem product={product} position="page" />;
+
+export const Spot = () => (
+  <SpotWrapper>
+    <CartSpot />
+  </SpotWrapper>
+);
+
+const SpotWrapper = styled.div`
+  width: fit-content;
+  margin-left: 500px;
+`;

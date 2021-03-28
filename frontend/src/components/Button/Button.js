@@ -48,6 +48,7 @@ const Wrapper = styled.button`
   padding: var(--padding);
   text-transform: uppercase;
   text-decoration: var(--textDecoration);
+  text-align: center;
   border: none;
   font: inherit;
 
