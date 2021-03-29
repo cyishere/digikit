@@ -1,12 +1,12 @@
 import styled from "styled-components/macro";
 import { COLORS } from "../../../styles/constants";
-import Layout from "../Layout";
+import AppLayout from "../Layout";
 import PageHeader from "../../../components/PageHeader";
 import { Sidebar } from "../../../components/Checkout";
 import { Breadcrumbs, Crumb } from "../../../components/Breadcrumbs";
 import TextLink from "../../../components/TextLink";
 
-const CheckoutLayout = ({ children, step }) => {
+const Layout = ({ children, step }) => {
   let pageTitle;
 
   if (step === "cart") {
@@ -20,7 +20,7 @@ const CheckoutLayout = ({ children, step }) => {
   }
 
   return (
-    <Layout>
+    <AppLayout>
       <Wrapper>
         <MainContainer>
           <Breadcrumbs>
@@ -37,7 +37,7 @@ const CheckoutLayout = ({ children, step }) => {
         </MainContainer>
         <Sidebar step={step} />
       </Wrapper>
-    </Layout>
+    </AppLayout>
   );
 };
 
@@ -59,4 +59,4 @@ const Content = styled.section`
   padding-top: 36px;
 `;
 
-export default CheckoutLayout;
+export default Layout;

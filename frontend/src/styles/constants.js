@@ -8,6 +8,8 @@ const COLORS = {
   white: "hsl(0,0%,100%)",
   danger: "hsl(0,83%,48.4%)",
   dangerLight: "hsl(0,84.6%,97.5%)",
+  info: "hsl(208.9,91.9%,70.8%)",
+  infoLight: "hsl(214.3,100%,98.6%)",
 };
 
 export { COLORS };
