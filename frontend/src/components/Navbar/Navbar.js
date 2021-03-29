@@ -1,8 +1,8 @@
 import styled from "styled-components/macro";
 import { COLORS } from "../../styles/constants";
+import { NavLink } from "react-router-dom";
 import Button from "../Button";
 import Brand from "../Brand";
-import TextLink from "../TextLink";
 import CartSpot from "../Cart/CartSpot";
 
 const Navbar = () => {
@@ -12,10 +12,10 @@ const Navbar = () => {
         <Brand />
         <NavLinks>
           <NavItem>
-            <TextLink href="/products">products</TextLink>
+            <TextLink to="/products">products</TextLink>
           </NavItem>
           <NavItem>
-            <TextLink href="/orders">orders</TextLink>
+            <TextLink to="/orders">orders</TextLink>
           </NavItem>
           <NavItem>
             <Button variant="default" href="/login">
@@ -58,6 +58,22 @@ const NavLinks = styled.ul`
 
 const NavItem = styled.li`
   margin-left: 24px;
+`;
+
+const TextLink = styled(NavLink)`
+  color: ${COLORS.text};
+  text-decoration: none;
+  text-transform: uppercase;
+
+  &:hover {
+    color: ${COLORS.secondary};
+    text-decoration: revert;
+  }
+
+  &.active {
+    color: ${COLORS.secondary};
+    font-weight: 500;
+  }
 `;
 
 export default Navbar;
