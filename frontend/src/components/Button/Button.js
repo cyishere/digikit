@@ -1,6 +1,7 @@
 import styled from "styled-components/macro";
 import { Link } from "react-router-dom";
 import { Wrapper as Form } from "../Form/Form";
+import { Wrapper as Table } from "../Table/Table";
 import { COLORS } from "../../styles/constants";
 
 const VARIANTS = {
@@ -58,6 +59,10 @@ const Wrapper = styled.button`
 
   ${Form} & {
     width: 100%;
+  }
+
+  ${Table} & {
+    padding: 8px 16px;
   }
 `;
 
