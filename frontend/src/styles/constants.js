@@ -7,7 +7,7 @@ const COLORS = {
   grayLight: "hsl(0,0%,97.3%)",
   white: "hsl(0,0%,100%)",
   danger: "hsl(0,83%,48.4%)",
-  dangerLight: "rgba(226,21,21, 0.5)",
+  dangerLight: "hsl(0,84.6%,97.5%)",
 };
 
 export { COLORS };

@@ -1,6 +1,7 @@
 import styled from "styled-components/macro";
 import { Link } from "react-router-dom";
 import { FooterContainer } from "../Footer/Footer";
+import { Wrapper as Breadcrumbs } from "../Breadcrumbs/Breadcrumbs";
 import { COLORS } from "../../styles/constants";
 
 const TextLink = ({ children, href, to }) => {
@@ -28,6 +29,10 @@ export const Wrapper = styled.div`
     &:hover {
       color: ${COLORS.text};
     }
+  }
+
+  ${Breadcrumbs} & {
+    text-transform: none;
   }
 `;
 
