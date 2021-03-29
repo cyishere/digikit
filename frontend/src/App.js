@@ -5,7 +5,7 @@ import Login from "./pages/client/Login";
 import Signup from "./pages/client/Signup";
 import ProductList from "./pages/client/ProductList";
 import ProductShow from "./pages/client/ProductShow";
-import CheckoutCart from "./pages/client/CheckoutCart";
+import CheckoutCart from "./pages/client/Checkout/CartPage";
 import Dashboard from "./pages/admin/Home";
 
 const App = () => {

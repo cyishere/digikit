@@ -11,9 +11,7 @@ const Breadcrumbs = ({ children }) => {
 
 export const Wrapper = styled.nav`
   border-bottom: ${COLORS.grayLightDim};
-  padding-top: 32px;
-  padding-bottom: 32px;
-  margin-bottom: 32px;
+  margin-bottom: 48px;
 `;
 
 export default Breadcrumbs;
