@@ -14,6 +14,7 @@ export const OrderList = () => (
         <HeadCell>#</HeadCell>
         <HeadCell>Order Number</HeadCell>
         <HeadCell>Place On</HeadCell>
+        <HeadCell>Status</HeadCell>
         <HeadCell>Actions</HeadCell>
       </Row>
     </Head>
@@ -22,6 +23,7 @@ export const OrderList = () => (
         <Cell>1</Cell>
         <Cell>sejwoiwjeaj-93u978237</Cell>
         <Cell>2020-03-09 18:36</Cell>
+        <Cell>Pending</Cell>
         <Cell>
           <Button variant="primary" href="/order/1">
             View
@@ -32,6 +34,7 @@ export const OrderList = () => (
         <Cell>2</Cell>
         <Cell>sejwoiwjeaj-93u978237</Cell>
         <Cell>2020-03-09 18:36</Cell>
+        <Cell>Shipped</Cell>
         <Cell>
           <Button variant="primary" href="/order/1">
             View
@@ -42,6 +45,7 @@ export const OrderList = () => (
         <Cell>3</Cell>
         <Cell>sejwoiwjeaj-93u978237</Cell>
         <Cell>2020-03-09 18:36</Cell>
+        <Cell>Finished</Cell>
         <Cell>
           <Button variant="primary" href="/order/1">
             View
@@ -52,6 +56,7 @@ export const OrderList = () => (
         <Cell>4</Cell>
         <Cell>sejwoiwjeaj-93u978237</Cell>
         <Cell>2020-03-09 18:36</Cell>
+        <Cell>Canceled</Cell>
         <Cell>
           <Button variant="primary" href="/order/1">
             View

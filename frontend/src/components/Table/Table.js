@@ -7,6 +7,7 @@ const Table = ({ children }) => {
 
 export const Wrapper = styled.table`
   background-color: ${COLORS.white};
+  width: 100%;
 `;
 
 export default Table;
