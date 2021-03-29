@@ -1,9 +1,8 @@
 import styled from "styled-components/macro";
-import { COLORS } from "../../styles/constants";
-import Layout from "./Layout";
-import Sidebar from "../../components/Sidebar";
-import SidebarCard from "../../components/Sidebar/SidebarCard";
-import Card from "../../components/Card";
+import { COLORS } from "../../../styles/constants";
+import Layout from "../Layout";
+import { Sidebar, SidebarCard } from "../../../components/Sidebar";
+import Card from "../../../components/Card";
 
 const categories = [
   { id: "1", name: "Speaker" },

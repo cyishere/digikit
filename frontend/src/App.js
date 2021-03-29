@@ -3,8 +3,7 @@ import GlobalStyles from "./styles/GlobalStyles";
 import Home from "./pages/client/Home";
 import Login from "./pages/client/Login";
 import Signup from "./pages/client/Signup";
-import ProductList from "./pages/client/ProductList";
-import ProductShow from "./pages/client/ProductShow";
+import { ProductList, ProductShow } from "./pages/client/Product";
 import {
   CheckoutCart,
   CheckoutShipping,

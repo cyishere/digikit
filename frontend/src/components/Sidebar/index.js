@@ -1,1 +1,4 @@
-export { default } from "./Sidebar";
+import Sidebar from "./Sidebar";
+import SidebarCard from "./SidebarCard";
+
+export { Sidebar, SidebarCard };

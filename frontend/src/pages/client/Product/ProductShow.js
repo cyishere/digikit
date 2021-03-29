@@ -1,9 +1,9 @@
 import styled from "styled-components/macro";
-import { COLORS } from "../../styles/constants";
-import formatCurrency from "../../utils/formatCurrency";
-import Layout from "./Layout";
-import CountGroup from "../../components/CountGroup";
-import Button from "../../components/Button";
+import { COLORS } from "../../../styles/constants";
+import formatCurrency from "../../../utils/formatCurrency";
+import Layout from "./../Layout";
+import CountGroup from "../../../components/CountGroup";
+import Button from "../../../components/Button";
 
 const product = {
   countInStock: 100,
