@@ -12,12 +12,6 @@ import Card from "../../../components/Card";
 import Loader from "../../../components/Loader";
 import Message from "../../../components/Message";
 
-// const categories = [
-//   { id: "1", name: "Speaker" },
-//   { id: "2", name: "Headphone" },
-//   { id: "3", name: "Keyboard" },
-// ];
-
 const brands = [
   { id: "1", title: "B&O" },
   { id: "2", title: "GMK" },
