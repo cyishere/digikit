@@ -95,3 +95,8 @@ const categorySlice = createSlice({
 });
 
 export default categorySlice.reducer;
+
+/**
+ * ===== Reusable Selector Functions =====
+ */
+export const selectAllCategories = (state) => state.category.entities;

@@ -1,7 +1,13 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllProducts } from "../../../slices/productSlice";
-import { getAllCategories } from "../../../slices/categorySlice";
+import {
+  selectAllProducts,
+  getAllProducts,
+} from "../../../slices/productSlice";
+import {
+  selectAllCategories,
+  getAllCategories,
+} from "../../../slices/categorySlice";
 import fetchStates from "../../../utils/fetchStates";
 
 import styled from "styled-components/macro";
@@ -21,10 +27,10 @@ const brands = [
 
 const ProductList = () => {
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.product.entities);
+  const products = useSelector(selectAllProducts);
   const productStatus = useSelector((state) => state.product.status);
   const productError = useSelector((state) => state.product.message);
-  const categories = useSelector((state) => state.category.entities);
+  const categories = useSelector(selectAllCategories);
   const categoryStatus = useSelector((state) => state.category.status);
   const categoryError = useSelector((state) => state.category.message);
 
