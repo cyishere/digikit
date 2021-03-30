@@ -1,16 +1,16 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import GlobalStyles from "./styles/GlobalStyles";
-import Home from "./pages/client/Home";
-import Login from "./pages/client/Login";
-import Signup from "./pages/client/Signup";
-import { ProductList, ProductShow } from "./pages/client/Product";
+import GlobalStyles from "../styles/GlobalStyles";
+import Home from "../pages/client/Home";
+import Login from "../pages/client/Login";
+import Signup from "../pages/client/Signup";
+import { ProductList, ProductShow } from "../pages/client/Product";
 import {
   CheckoutCart,
   CheckoutShipping,
   CheckoutPayment,
-} from "./pages/client/Checkout";
-import { OrderList } from "./pages/client/Order";
-import Dashboard from "./pages/admin/Home";
+} from "../pages/client/Checkout";
+import { OrderList } from "../pages/client/Order";
+import Dashboard from "../pages/admin/Home";
 
 const App = () => {
   return (
