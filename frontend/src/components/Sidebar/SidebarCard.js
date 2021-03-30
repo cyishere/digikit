@@ -8,8 +8,8 @@ const SidebarCard = ({ title, listContent }) => {
       <Title>{title}</Title>
       <ul>
         <SidebarCardItem name="All" isActive={true} />
-        {listContent.map((item, i) => (
-          <SidebarCardItem key={i} name={item.name} />
+        {listContent.map((item) => (
+          <SidebarCardItem key={item.id} name={item.title} />
         ))}
       </ul>
     </Wrapper>

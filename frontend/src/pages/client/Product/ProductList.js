@@ -1,49 +1,83 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllProducts } from "../../../slices/productSlice";
+import { getAllCategories } from "../../../slices/categorySlice";
+import fetchStates from "../../../utils/fetchStates";
+
 import styled from "styled-components/macro";
 import { COLORS } from "../../../styles/constants";
 import Layout from "../SubLayout";
 import { Sidebar, SidebarCard } from "../../../components/Sidebar";
 import Card from "../../../components/Card";
+import Loader from "../../../components/Loader";
+import Message from "../../../components/Message";
 
-const categories = [
-  { id: "1", name: "Speaker" },
-  { id: "2", name: "Headphone" },
-  { id: "3", name: "Keyboard" },
-];
+// const categories = [
+//   { id: "1", name: "Speaker" },
+//   { id: "2", name: "Headphone" },
+//   { id: "3", name: "Keyboard" },
+// ];
 
 const brands = [
-  { name: "B&O" },
-  { name: "GMK" },
-  { name: "IQUNIX" },
-  { name: "HHBK" },
+  { id: "1", title: "B&O" },
+  { id: "2", title: "GMK" },
+  { id: "3", title: "IQUNIX" },
+  { id: "4", title: "HHBK" },
 ];
 
 const ProductList = () => {
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.product.entities);
+  const productStatus = useSelector((state) => state.product.status);
+  const productError = useSelector((state) => state.product.message);
+  const categories = useSelector((state) => state.category.entities);
+  const categoryStatus = useSelector((state) => state.category.status);
+  const categoryError = useSelector((state) => state.category.message);
+
+  useEffect(() => {
+    if (productStatus === "idle") {
+      dispatch(getAllProducts());
+    }
+    if (categoryStatus === "idle") {
+      dispatch(getAllCategories());
+    }
+  }, [categoryStatus, dispatch, productStatus]);
+
+  let content, sidebarCategories;
+
+  if (productStatus === fetchStates.fetching) {
+    content = <Loader />;
+  } else if (productStatus === fetchStates.success) {
+    content = products.map((product) => (
+      <Card
+        key={product.id}
+        id={product.id}
+        title={product.title}
+        image={product.images[0]}
+        price={product.price}
+      />
+    ));
+  } else if (productStatus === fetchStates.error) {
+    content = <Message variant="danger">{productError}</Message>;
+  }
+
+  if (categoryStatus === fetchStates.fetching) {
+    sidebarCategories = <Loader />;
+  } else if (categoryStatus === fetchStates.success) {
+    sidebarCategories = (
+      <SidebarCard title="Category" listContent={categories} />
+    );
+  } else if (categoryStatus === fetchStates.error) {
+    sidebarCategories = <Message variant="danger">{categoryError}</Message>;
+  }
+
   return (
     <Layout>
       <Sidebar>
-        <SidebarCard title="Category" listContent={categories} />
+        {sidebarCategories}
         <SidebarCard title="Brand" listContent={brands} />
       </Sidebar>
-      <MainContainer>
-        <Card
-          id="1"
-          title="GMK Maestro"
-          image="http://localhost:3000/assets/products/gmk-maestro.jpg"
-          price="134.99"
-        />
-        <Card
-          id="2"
-          title="IQUNIX L80 Formula Typing Wireless Mechanical Keyboard"
-          image="http://localhost:3000/assets/products/iqunix-f96.jpg"
-          price="265"
-        />
-        <Card
-          id="3"
-          title="B&O Play Bang & Olufsen 1645126 H8i"
-          image="http://localhost:3000/assets/products/b&o-h8i.jpg"
-          price="293"
-        />
-      </MainContainer>
+      <MainContainer>{content}</MainContainer>
     </Layout>
   );
 };

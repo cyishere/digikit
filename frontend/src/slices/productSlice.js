@@ -1,7 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { BACKEND } from "../../utils/config";
+import { BACKEND } from "../utils/config";
+import fetchStates from "../utils/fetchStates";
 
 const initialState = {
+  status: "idle",
   entities: [],
   currentProduct: {},
   message: null,
@@ -63,15 +65,21 @@ const productSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
+    [getAllProducts.pending]: (state, action) => {
+      state.status = fetchStates.fetching;
+    },
     [getAllProducts.fulfilled]: (state, action) => {
       if (action.payload.type !== "error") {
         state.entities = action.payload.products;
+        state.status = fetchStates.success;
       } else {
         state.message = action.payload.message;
+        state.status = fetchStates.error;
       }
     },
     [getAllProducts.rejected]: (state, action) => {
       state.message = action.payload;
+      state.status = fetchStates.error;
     },
     [getProductById.fulfilled]: (state, action) => {
       if (action.payload.type !== "error") {

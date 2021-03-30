@@ -1,7 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { BACKEND } from "../../utils/config";
+import { BACKEND } from "../utils/config";
+import fetchStates from "../utils/fetchStates";
 
 const initialState = {
+  status: "idle",
   entities: [],
   message: null,
 };
@@ -65,12 +67,21 @@ const categorySlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
+    [getAllCategories.pending]: (state, action) => {
+      state.status = fetchStates.fetching;
+    },
     [getAllCategories.fulfilled]: (state, action) => {
       if (action.payload.type !== "error") {
         state.entities = action.payload.categories;
+        state.status = fetchStates.success;
       } else {
         state.message = action.payload.message;
+        state.status = fetchStates.error;
       }
+    },
+    [getAllCategories.rejected]: (state, action) => {
+      state.status = fetchStates.error;
+      state.message = action.payload.message;
     },
     [addNewCategory.fulfilled]: (state, action) => {
       if (action.payload.type === "error") {
