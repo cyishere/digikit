@@ -31,6 +31,12 @@ export const Secondary = () => (
   </Button>
 );
 
+export const Disabled = () => (
+  <Button variant="primary" onClick={action("Clicked")} disabled>
+    add to cart
+  </Button>
+);
+
 const Wrapper = styled.div`
   & > * {
     margin-right: 16px;

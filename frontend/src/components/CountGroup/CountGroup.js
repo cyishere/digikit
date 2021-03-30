@@ -1,12 +1,23 @@
+import { useState } from "react";
+
 import styled from "styled-components/macro";
 import { COLORS } from "../../styles/constants";
 
-const CountGroup = () => {
+const CountGroup = ({ countInStock }) => {
+  const [qty, setQty] = useState(1);
+
+  const handleIncrease = () => setQty(qty + 1);
+
+  const handleDecrease = () => setQty(qty - 1);
   return (
     <Group>
-      <Button>-</Button>
-      <Input type="text" value="1" />
-      <Button>+</Button>
+      <Button disabled={qty <= 1} onClick={handleDecrease}>
+        -
+      </Button>
+      <Input type="text" value={qty} readOnly />
+      <Button disabled={qty === countInStock} onClick={handleIncrease}>
+        +
+      </Button>
     </Group>
   );
 };
@@ -28,6 +39,11 @@ const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
 `;
 
 const Input = styled.input`

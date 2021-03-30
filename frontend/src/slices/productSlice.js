@@ -103,3 +103,10 @@ const productSlice = createSlice({
 });
 
 export default productSlice.reducer;
+
+/**
+ * ===== Reusable Selector Functions =====
+ */
+export const selectAllProducts = (state) => state.product.entities;
+export const selectProductById = (state, productId) =>
+  state.product.entities.find((product) => product.id === productId);

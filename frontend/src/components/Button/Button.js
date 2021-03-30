@@ -57,6 +57,11 @@ const Wrapper = styled.button`
     opacity: 0.8;
   }
 
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
   ${Form} & {
     width: 100%;
   }

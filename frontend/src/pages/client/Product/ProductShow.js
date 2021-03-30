@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+import { selectProductById } from "../../../slices/productSlice";
 import styled from "styled-components/macro";
 import { COLORS } from "../../../styles/constants";
 import formatCurrency from "../../../utils/formatCurrency";
@@ -5,17 +7,20 @@ import Layout from "./../Layout";
 import CountGroup from "../../../components/CountGroup";
 import Button from "../../../components/Button";
 
-const product = {
-  countInStock: 100,
-  images: ["/assets/products/iqunix-f96.jpg"],
-  title: "IQUNIX L80 Formula Typing Wireless Mechanical Keyboard",
-  description:
-    "80% Layout with 83 keys\n\n10% smaller than most 87-key mechanical keyboards.\nL80 improves design aesthetics while keeping the complete functionality of the keyboards.",
-  price: 265,
-  brand: "IQUNIX",
-};
+const ProductShow = ({ match }) => {
+  const { productId } = match.params;
+  const product = useSelector((state) => selectProductById(state, productId));
 
-const ProductShow = () => {
+  if (!product) {
+    return (
+      <Layout>
+        <Wrapper>
+          <Info>Product not found.</Info>
+        </Wrapper>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <Wrapper>
@@ -27,10 +32,17 @@ const ProductShow = () => {
               $<Em>{formatCurrency(product.price)}</Em>
             </Price>
             <Description>{product.description}</Description>
-            <ProductCount>
-              <CountGroup />
-            </ProductCount>
-            <Button variant="secondary">Add to Cart</Button>
+            {product.countInStock > 0 ? (
+              <>
+                <ProductCount>
+                  <CountGroup countInStock={product.countInStock} />
+                  <p>{product.countInStock} in stock.</p>
+                </ProductCount>
+                <Button variant="secondary">Add to Cart</Button>
+              </>
+            ) : (
+              <Info>Out of stock.</Info>
+            )}
           </Content>
         </Grid>
       </Wrapper>
@@ -81,7 +93,23 @@ const Description = styled.div`
 `;
 
 export const ProductCount = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
   margin-bottom: 16px;
+
+  & > * {
+    margin-right: 16px;
+  }
+`;
+
+const Info = styled.p`
+  color: ${COLORS.textLight};
+  padding: 16px;
+
+  ${Content} & {
+    padding: 0;
+  }
 `;
 
 export default ProductShow;
