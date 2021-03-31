@@ -17,7 +17,6 @@ const Wrapper = styled.a`
   background-image: url(${(props) => `assets/${props.category}.jpg`});
   background-size: cover;
   position: relative;
-  z-index: 1;
   grid-area: ${(props) => props.category};
   transition: all 0.1s ease-in-out;
 

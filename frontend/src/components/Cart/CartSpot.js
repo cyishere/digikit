@@ -15,7 +15,7 @@ const CartSpot = () => {
 
 export const Wrapper = styled.div`
   position: relative;
-  z-index: 2;
+  z-index: 1;
 
   &:hover .widget {
     display: block;
