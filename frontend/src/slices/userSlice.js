@@ -13,15 +13,12 @@ const initialState = {
   info: {},
 };
 
-// TODO change endpoint
-const apiUrl = "http://localhost:3001/api";
-
 // communicate with api
 /**
  * @feature REGISTER
  */
 export const addNewUser = createAsyncThunk("user/addNewUser", (userInfo) => {
-  return fetch("http://localhost:3001/api/register", {
+  return fetch(`${BACKEND.API_ADDRESS}/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -44,7 +41,7 @@ export const addNewUser = createAsyncThunk("user/addNewUser", (userInfo) => {
  * @feature LOGIN
  */
 export const userLogin = createAsyncThunk("user/userLogin", (userInfo) => {
-  return fetch(`${apiUrl}/login`, {
+  return fetch(`${BACKEND.API_ADDRESS}/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
