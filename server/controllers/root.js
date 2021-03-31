@@ -8,6 +8,7 @@ const {
   validateEmail,
   validatePassword,
 } = require("../utils/validators");
+const { badRequestError } = require("../utils/errorHelper");
 
 /**
  * @feature API ROOT ENTRY
@@ -18,6 +19,8 @@ router.get("/", (req, res) => {
 
 /**
  * @feature LOGIN
+ * @route   POST /api/login
+ * @access  Pulic
  */
 router.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
@@ -26,25 +29,19 @@ router.post("/login", async (req, res, next) => {
 
   try {
     if (emailTrimed === "" || passwordTrimed === "") {
-      const error = new Error("Input cannot be empty.");
-      error.statusCode = 400;
-      throw error;
+      badRequestError("Input cannot be empty.");
     }
 
     const foundUser = await User.findOne({ email });
 
     if (!foundUser) {
-      const error = new Error("This email haven't registered.");
-      error.statusCode = 400;
-      throw error;
+      badRequestError("This email haven't registered.");
     }
 
     const isEqual = await bcrypt.compare(passwordTrimed, foundUser.password);
 
     if (!isEqual) {
-      const error = new Error("Password is wrong.");
-      error.statusCode = 400;
-      throw error;
+      badRequestError("Password is wrong.");
     }
 
     const token = jwt.sign(
@@ -65,6 +62,8 @@ router.post("/login", async (req, res, next) => {
 
 /**
  * @feature REGISTER
+ * @route   POST /api/register
+ * @access  Public
  */
 router.post("/register", async (req, res, next) => {
   const { firstName, lastName, email, password, passconf } = req.body;
@@ -82,9 +81,7 @@ router.post("/register", async (req, res, next) => {
       passwordTrimed === "" ||
       passconfTrimed === ""
     ) {
-      const error = new Error("Input cannot be empty.");
-      error.statusCode = 400;
-      throw error;
+      badRequestError("Input cannot be empty.");
     }
 
     const firstNameValid = await validateName(firstNameTrimed, next);

@@ -2,15 +2,16 @@ const router = require("express").Router();
 const Category = require("../models/category");
 const Product = require("../models/product");
 const User = require("../models/user");
-const { notAdmin } = require("../utils/validators");
+const { userAuth, userAdmin } = require("../utils/auth");
+const { badRequestError, notFoundError } = require("../utils/errorHelper");
 
 /**
- * Post One
+ * @feature Add a product
+ * @route   POST /api/product
+ * @access  Private (admin only)
  */
-router.post("/", async (req, res, next) => {
+router.post("/", userAuth, userAdmin, async (req, res, next) => {
   try {
-    notAdmin(req);
-
     const {
       title,
       price,
@@ -28,26 +29,20 @@ router.post("/", async (req, res, next) => {
       brand.trim() === "" ||
       imageUrl.trim() === ""
     ) {
-      const error = new Error("Content cannot be empty...");
-      error.statusCode = 400;
-      throw error;
+      badRequestError("Content cannot be empty...");
     }
 
     const categoryInDB = await Category.findOne({ _id: category });
 
     if (!categoryInDB) {
-      const error = new Error("This category doesn't exist...");
-      error.statusCode = 409;
-      throw error;
+      badRequestError("This category doesn't exist...");
     }
 
     if (+price < 0) {
-      const error = new Error("Price must greater or equal to 0!");
-      error.statusCode = 400;
-      throw error;
+      badRequestError("Price must greater or equal to 0!");
     }
 
-    const owner = req.userId;
+    const owner = req.user.id;
 
     const newProduct = new Product({
       title,
@@ -80,7 +75,9 @@ router.post("/", async (req, res, next) => {
 });
 
 /**
- * Get ALL
+ * @feature Get all products
+ * @route   GET /api/product
+ * @access  Public
  */
 router.get("/", async (req, res, next) => {
   try {
@@ -92,7 +89,9 @@ router.get("/", async (req, res, next) => {
 });
 
 /**
- * Get ONE
+ * @feature Get a product
+ * @route   GET /api/product/:id
+ * @access  Public
  */
 router.get("/:id", async (req, res, next) => {
   try {
@@ -100,9 +99,7 @@ router.get("/:id", async (req, res, next) => {
     const product = await Product.findById(productId);
 
     if (!product) {
-      const error = new Error("Product not found.");
-      error.statusCode = 404;
-      throw error;
+      notFoundError("Product not found.");
     }
 
     product._doc.id = product._doc._id;
@@ -124,22 +121,24 @@ router.get("/:id", async (req, res, next) => {
 });
 
 // TODO
-// Update
+/**
+ * @feature Update a product
+ * @route   PUT /api/product/:id
+ * @access  Private (admin only)
+ */
 
 /**
- * Delete ONE
+ * @feature Delete a product
+ * @route   DELETE /api/product/:id
+ * @access  Private (admin only)
  */
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", userAuth, userAdmin, async (req, res, next) => {
   try {
-    notAdmin(req);
-
     const product = await Product.findByIdAndRemove(req.params.id);
-    console.log("deletedProduct", product);
+    // console.log("deletedProduct", product);
 
     if (!product) {
-      const error = new Error("Product not found.");
-      error.statusCode = 404;
-      throw error;
+      notFoundError("Product not found.");
     }
 
     // 1. Remove from User

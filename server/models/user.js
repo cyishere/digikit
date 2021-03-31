@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-
 const Schema = mongoose.Schema;
+const { USER_ROLE_BASIC } = require("../utils/config");
 
 const userSchema = new Schema({
   firstName: {
@@ -23,7 +23,7 @@ const userSchema = new Schema({
   role: {
     type: String,
     required: true,
-    default: "USER",
+    default: USER_ROLE_BASIC,
   },
   address: String,
   city: String,
