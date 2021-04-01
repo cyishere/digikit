@@ -44,14 +44,8 @@ export const userLogin = createAsyncThunk("user/userLogin", (userInfo) => {
     },
     body: JSON.stringify(userInfo),
   })
-    .then((response) => {
-      console.log("response in reducer:", response);
-      return response.json();
-    })
-    .then((json) => {
-      console.log("json in reducer:", json);
-      return json;
-    })
+    .then((response) => response.json())
+    .then((json) => json)
     .catch((error) => {
       console.log("error in reducer:", error);
       return error;
@@ -132,6 +126,7 @@ const userSlice = createSlice({
     },
   },
   extraReducers: {
+    // Register
     [addNewUser.fulfilled]: (state, action) => {
       if (action.payload.type !== "error") {
         state.entities = state.entities.concat(action.payload.user);
@@ -142,10 +137,16 @@ const userSlice = createSlice({
     [addNewUser.rejected]: (state, action) => {
       state.message = action.payload.message;
     },
+    // Login
     [userLogin.fulfilled]: (state, action) => {
       if (action.payload.type !== "error") {
         state.loginUser = action.payload;
+      } else {
+        state.message = action.payload.message;
       }
+    },
+    [userLogin.rejected]: (state, action) => {
+      state.message = action.payload.message;
     },
     [authAcess.fulfilled]: (state, action) => {
       if (action.payload.type !== "error") {

@@ -2,7 +2,7 @@ const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
-const config = require("../utils/config");
+const { SECRET } = require("../utils/config");
 const {
   validateName,
   validateEmail,
@@ -50,7 +50,7 @@ router.post("/login", async (req, res, next) => {
         email: emailTrimed,
         role: foundUser.role,
       },
-      config.SECRET
+      SECRET
     );
 
     res.json({ userId: foundUser._id.toString(), token });
