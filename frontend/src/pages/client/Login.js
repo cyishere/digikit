@@ -75,7 +75,11 @@ const Login = () => {
             placeholder="Please write your password here"
           />
 
-          <Button variant="primary" type="submit">
+          <Button
+            variant="primary"
+            type="submit"
+            disabled={requestStatus === fetchStates.fetching}
+          >
             Login
           </Button>
         </Form>
