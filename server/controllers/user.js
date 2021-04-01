@@ -28,9 +28,10 @@ router.get("/", userAuth, userAdmin, async (req, res, next) => {
  * @access  Private
  */
 router.get("/:id", userAuth, async (req, res, next) => {
+  console.log("req.user:", req.user);
   try {
     // check wheather is the user herself getting it
-    if (req.user.role !== USER_ROLE_ADMIN || req.userId !== req.params.id) {
+    if (req.user.role !== USER_ROLE_ADMIN || req.user.id !== req.params.id) {
       unAuthorizedError("Not allowed");
     }
 

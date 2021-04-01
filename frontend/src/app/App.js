@@ -1,4 +1,8 @@
+import { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserInfo } from "../slices/userSlice";
+
 import GlobalStyles from "../styles/GlobalStyles";
 import Home from "../pages/client/Home";
 import Login from "../pages/client/Login";
@@ -13,6 +17,17 @@ import { OrderList } from "../pages/client/Order";
 import Dashboard from "../pages/admin/Home";
 
 const App = () => {
+  const loginUser = useSelector((state) => state.user.loginUser);
+  const localUser = localStorage.getItem("digiUser");
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (localUser && !loginUser.userId) {
+      dispatch(getUserInfo(JSON.parse(localUser)));
+    }
+  }, [dispatch, localUser, loginUser.userId]);
+
   return (
     <Router>
       <Switch>

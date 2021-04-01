@@ -158,9 +158,11 @@ const userSlice = createSlice({
     [authAcess.rejected]: (state, action) => {
       state.message = action.payload.message;
     },
+    // Get user info
     [getUserInfo.fulfilled]: (state, action) => {
       if (action.payload.type !== "error") {
         state.info = action.payload.user;
+        state.loginUser = JSON.parse(localStorage.getItem("digiUser"));
       } else {
         state.message = action.payload.message;
       }
