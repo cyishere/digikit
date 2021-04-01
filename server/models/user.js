@@ -3,11 +3,7 @@ const Schema = mongoose.Schema;
 const { USER_ROLE_BASIC } = require("../utils/config");
 
 const userSchema = new Schema({
-  firstName: {
-    type: String,
-    required: true,
-  },
-  lastName: {
+  name: {
     type: String,
     required: true,
   },

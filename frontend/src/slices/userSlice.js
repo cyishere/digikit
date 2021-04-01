@@ -3,7 +3,7 @@ import { BACKEND } from "../utils/config";
 
 const initialState = {
   entities: [],
-  message: "",
+  message: null,
   errors: {},
   loginUser: {
     userId: null,
@@ -25,12 +25,8 @@ export const addNewUser = createAsyncThunk("user/addNewUser", (userInfo) => {
     },
     body: JSON.stringify(userInfo),
   })
-    .then((response) => {
-      return response.json();
-    })
-    .then((json) => {
-      return json;
-    })
+    .then((response) => response.json())
+    .then((json) => json)
     .catch((error) => {
       console.log("error in reducer:", error);
       return error;
@@ -138,8 +134,13 @@ const userSlice = createSlice({
   extraReducers: {
     [addNewUser.fulfilled]: (state, action) => {
       if (action.payload.type !== "error") {
-        state.entities = state.entities.concat(action.payload);
+        state.entities = state.entities.concat(action.payload.user);
+      } else {
+        state.message = action.payload.message;
       }
+    },
+    [addNewUser.rejected]: (state, action) => {
+      state.message = action.payload.message;
     },
     [userLogin.fulfilled]: (state, action) => {
       if (action.payload.type !== "error") {

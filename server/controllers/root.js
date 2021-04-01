@@ -66,17 +66,16 @@ router.post("/login", async (req, res, next) => {
  * @access  Public
  */
 router.post("/register", async (req, res, next) => {
-  const { firstName, lastName, email, password, passconf } = req.body;
+  const { name, email, password, passconf } = req.body;
 
-  const firstNameTrimed = firstName.trim();
-  const lastNameTrimed = lastName.trim();
+  const nameTrimed = name.trim();
   const emailTrimed = email.trim();
   const passwordTrimed = password.trim();
   const passconfTrimed = passconf.trim();
 
   try {
     if (
-      firstNameTrimed === "" ||
+      nameTrimed === "" ||
       emailTrimed === "" ||
       passwordTrimed === "" ||
       passconfTrimed === ""
@@ -84,11 +83,8 @@ router.post("/register", async (req, res, next) => {
       badRequestError("Input cannot be empty.");
     }
 
-    const firstNameValid = await validateName(firstNameTrimed, next);
+    const firstNameValid = await validateName(nameTrimed, next);
     if (!firstNameValid) return;
-
-    const lastNameValid = await validateName(lastNameTrimed, next);
-    if (!lastNameValid) return;
 
     const emailValid = await validateEmail(emailTrimed, next);
     if (!emailValid) return;
@@ -104,8 +100,7 @@ router.post("/register", async (req, res, next) => {
     const passwordHashed = await bcrypt.hash(passwordTrimed, saltRounds);
 
     const newUser = new User({
-      firstName: firstNameTrimed,
-      lastName: lastNameTrimed,
+      name: nameTrimed,
       email: emailTrimed,
       password: passwordHashed,
       createdAt: new Date(),

@@ -1,8 +1,8 @@
 import styled from "styled-components/macro";
 import { COLORS } from "../../styles/constants";
 
-const Form = ({ children }) => {
-  return <Wrapper>{children}</Wrapper>;
+const Form = ({ children, ...rest }) => {
+  return <Wrapper {...rest}>{children}</Wrapper>;
 };
 
 export const Wrapper = styled.form`

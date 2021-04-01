@@ -10,6 +10,10 @@ const VARIANTS = {
     "--bgColor": COLORS.dangerLight,
     "--textColor": COLORS.danger,
   },
+  success: {
+    "--bgColor": COLORS.successLight,
+    "--textColor": COLORS.success,
+  },
 };
 
 const Message = ({ children, variant }) => {

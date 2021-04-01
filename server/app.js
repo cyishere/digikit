@@ -14,7 +14,6 @@ const rootRouter = require("./controllers/root");
 // middlewares & others
 const config = require("./utils/config");
 const middleware = require("./utils/middleware");
-const { isAuth } = require("./utils/validators");
 
 /**
  * DATABASE Setting
@@ -46,7 +45,6 @@ app.use((req, res, next) => {
   next();
 });
 app.use(middleware.requestLogger);
-app.use(isAuth);
 
 // routes
 app.use("/api/category", categoryRouter);

@@ -11,6 +11,8 @@ const COLORS = {
   dangerLight: "hsl(0,84.6%,97.5%)",
   info: "hsl(208.9,91.9%,70.8%)",
   infoLight: "hsl(214.3,100%,98.6%)",
+  success: "hsl(136.6,100%,36.1%)",
+  successLight: "hsl(146.7,52.9%,96.7%)",
 };
 
 export { COLORS };
