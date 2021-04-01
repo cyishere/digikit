@@ -7,4 +7,8 @@ export default {
   component: Navbar,
 };
 
-export const Default = () => <Navbar />;
+const loginUser = { userId: null };
+
+export const NotLogin = () => <Navbar loginUser={loginUser.userId} />;
+
+export const LoggedIn = () => <Navbar loginUser={(loginUser.userId = "1")} />;

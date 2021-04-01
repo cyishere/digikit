@@ -1,3 +1,6 @@
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../slices/userSlice";
+
 import styled from "styled-components/macro";
 import { COLORS } from "../../styles/constants";
 import { NavLink } from "react-router-dom";
@@ -6,6 +9,41 @@ import Brand from "../Brand";
 import CartSpot from "../Cart/CartSpot";
 
 const Navbar = () => {
+  const loginUser = useSelector((state) => state.user.loginUser);
+
+  const dispatch = useDispatch();
+
+  const handleLogoutClick = () => {
+    dispatch(logoutUser());
+  };
+
+  const navContent =
+    loginUser.userId !== null ? (
+      <>
+        <NavItem>
+          <TextLink to="/orders">orders</TextLink>
+        </NavItem>
+        <NavItem>
+          <Button variant="default" onClick={handleLogoutClick}>
+            Logout
+          </Button>
+        </NavItem>
+      </>
+    ) : (
+      <>
+        <NavItem>
+          <Button variant="default" href="/login">
+            login
+          </Button>
+        </NavItem>
+        <NavItem>
+          <Button variant="primary" href="/register">
+            signup
+          </Button>
+        </NavItem>
+      </>
+    );
+
   return (
     <Wrapper>
       <Container>
@@ -14,19 +52,7 @@ const Navbar = () => {
           <NavItem>
             <TextLink to="/products">products</TextLink>
           </NavItem>
-          <NavItem>
-            <TextLink to="/orders">orders</TextLink>
-          </NavItem>
-          <NavItem>
-            <Button variant="default" href="/login">
-              login
-            </Button>
-          </NavItem>
-          <NavItem>
-            <Button variant="primary" href="/register">
-              signup
-            </Button>
-          </NavItem>
+          {navContent}
           <NavItem>
             <CartSpot />
           </NavItem>

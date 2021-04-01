@@ -115,6 +115,7 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    // TODO what's this for??
     setLocalUserToState: (state, action) => {
       state.loginUser = action.payload;
     },
@@ -123,6 +124,8 @@ const userSlice = createSlice({
         userId: null,
         token: null,
       };
+      state.info = {};
+      localStorage.removeItem("digiUser");
     },
   },
   extraReducers: {
