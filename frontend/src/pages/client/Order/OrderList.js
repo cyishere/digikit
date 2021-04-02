@@ -1,3 +1,7 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getOrders } from "../../../slices/orderSlice";
+
 import styled from "styled-components/macro";
 import { COLORS } from "../../../styles/constants";
 import { Sidebar, SidebarCard } from "../../../components/Sidebar";
@@ -14,11 +18,20 @@ import {
 import Button from "../../../components/Button";
 
 const settings = [
-  { id: "1", name: "Orders" },
-  { id: "2", name: "Profile" },
+  { id: "1", title: "Orders" },
+  { id: "2", title: "Profile" },
 ];
 
 const OrderList = () => {
+  const orders = useSelector((state) => state.order.entities);
+  const { token } = useSelector((state) => state.user.loginUser);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getOrders(token));
+  }, [dispatch, token]);
+
   return (
     <Layout>
       <Sidebar>
@@ -37,50 +50,27 @@ const OrderList = () => {
             </Row>
           </Head>
           <Body>
-            <Row>
-              <Cell>1</Cell>
-              <Cell>sejwoiwjeaj-93u978237</Cell>
-              <Cell>2020-03-09 18:36</Cell>
-              <Cell>Pending</Cell>
-              <Cell>
-                <Button variant="primary" href="/order/1">
-                  View
-                </Button>
-              </Cell>
-            </Row>
-            <Row>
-              <Cell>2</Cell>
-              <Cell>sejwoiwjeaj-93u978237</Cell>
-              <Cell>2020-03-09 18:36</Cell>
-              <Cell>Shipped</Cell>
-              <Cell>
-                <Button variant="primary" href="/order/1">
-                  View
-                </Button>
-              </Cell>
-            </Row>
-            <Row>
-              <Cell>3</Cell>
-              <Cell>sejwoiwjeaj-93u978237</Cell>
-              <Cell>2020-03-09 18:36</Cell>
-              <Cell>Finished</Cell>
-              <Cell>
-                <Button variant="primary" href="/order/1">
-                  View
-                </Button>
-              </Cell>
-            </Row>
-            <Row>
-              <Cell>4</Cell>
-              <Cell>sejwoiwjeaj-93u978237</Cell>
-              <Cell>2020-03-09 18:36</Cell>
-              <Cell>Canceled</Cell>
-              <Cell>
-                <Button variant="primary" href="/order/1">
-                  View
-                </Button>
-              </Cell>
-            </Row>
+            {orders.length < 1 ? (
+              <Row>
+                <Cell colSpan="5">You haven't order anything.</Cell>
+              </Row>
+            ) : (
+              <>
+                {orders.map((order, index) => (
+                  <Row key={order.id}>
+                    <Cell>{index + 1}</Cell>
+                    <Cell>{order.number}</Cell>
+                    <Cell>{new Date(order.createdAt).toLocaleString()}</Cell>
+                    <Cell>{order.status}</Cell>
+                    <Cell>
+                      <Button variant="primary" href={`/orders/${order.id}`}>
+                        View
+                      </Button>
+                    </Cell>
+                  </Row>
+                ))}
+              </>
+            )}
           </Body>
         </Table>
       </MainContainer>

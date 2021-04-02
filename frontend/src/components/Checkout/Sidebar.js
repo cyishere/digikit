@@ -1,5 +1,8 @@
-import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import formatCurrency from "../../utils/formatCurrency";
+import { createOrder } from "../../slices/orderSlice";
+import { clearCart } from "../../slices/cartSlice";
 
 import styled from "styled-components/macro";
 import { COLORS } from "../../styles/constants";
@@ -9,6 +12,35 @@ const Sidebar = ({ step }) => {
   const { products, subtotal, shippingFee, total } = useSelector(
     (state) => state.cart
   );
+  const { token } = useSelector((state) => state.user.loginUser);
+
+  const dispatch = useDispatch();
+
+  const history = useHistory();
+
+  let handleConfirmOrder;
+  if (step === "payment") {
+    handleConfirmOrder = async () => {
+      const productInfos = products.map((product) => ({
+        id: product.id,
+        qty: product.qty,
+      }));
+      const orderInfo = { products: productInfos, value: +total };
+      try {
+        // console.log({ products: productInfos, value: +total, token });
+        const result = await dispatch(createOrder({ orderInfo, token }));
+        if (result.payload.type === "error") {
+          alert(result.payload.message);
+        } else {
+          alert("Payment successful!");
+          dispatch(clearCart());
+          history.push("/orders");
+        }
+      } catch (error) {
+        alert(error.message);
+      }
+    };
+  }
 
   let action;
 
@@ -25,7 +57,11 @@ const Sidebar = ({ step }) => {
       </Button>
     );
   } else if (step === "payment") {
-    action = <Button variant="secondary">Confirm the Order</Button>;
+    action = (
+      <Button variant="secondary" onClick={handleConfirmOrder}>
+        Confirm the Order
+      </Button>
+    );
   }
   return (
     <Wrapper>

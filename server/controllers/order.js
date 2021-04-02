@@ -47,7 +47,7 @@ router.post("/", userAuth, async (req, res, next) => {
  */
 router.get("/", userAuth, async (req, res, next) => {
   try {
-    let orders = null;
+    let orders = [];
 
     if (req.user.role === USER_ROLE_ADMIN) {
       // get all
