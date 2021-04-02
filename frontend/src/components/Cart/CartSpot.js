@@ -1,14 +1,18 @@
+import { useSelector } from "react-redux";
+
 import styled from "styled-components/macro";
 import { COLORS } from "../../styles/constants";
 import { Cart } from "@styled-icons/ionicons-outline";
 import CartWidget from "./CartWidget";
 
 const CartSpot = () => {
+  const { products, subtotal } = useSelector((state) => state.cart);
+
   return (
     <Wrapper>
       <CartIcon size="36" />
-      <Count>6</Count>
-      <CartWidget />
+      <Count>{products.length}</Count>
+      <CartWidget products={products} subtotal={subtotal} />
     </Wrapper>
   );
 };

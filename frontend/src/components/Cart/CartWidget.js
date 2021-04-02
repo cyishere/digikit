@@ -1,49 +1,30 @@
+import formatCurrency from "../../utils/formatCurrency";
+
 import styled from "styled-components/macro";
 import { COLORS } from "../../styles/constants";
 import CartItem from "./CartItem";
 import Button from "../Button";
 
-const products = [
-  {
-    id: "1",
-    title: "GMK Maestro",
-    image: "http://localhost:3000/assets/products/gmk-maestro.jpg",
-    price: "134.99",
-    qty: 1,
-  },
-  {
-    id: "2",
-    title: "IQUNIX L80 Formula Typing Wireless Mechanical Keyboard",
-    image: "http://localhost:3000/assets/products/iqunix-f96.jpg",
-    price: "265",
-    qty: 1,
-  },
-
-  {
-    id: "3",
-    title: "IQUNIX L80 Formula Typing Wireless Mechanical Keyboard",
-    image: "http://localhost:3000/assets/products/iqunix-f96.jpg",
-    price: "265",
-    qty: 1,
-  },
-];
-
-const CartWidget = () => {
+const CartWidget = ({ products, subtotal }) => {
   return (
     <Wrapper className="widget">
       <Title>
-        <TitleText>Recently added items (6)</TitleText>
+        <TitleText>Recently added items ({products.length})</TitleText>
       </Title>
-      <Section>
-        {products.map((product) => (
-          <CartItem key={product.id} product={product} position="widget" />
-        ))}
-      </Section>
+      {products.length === 0 ? (
+        <EmptyContainer>Your cart is empty.</EmptyContainer>
+      ) : (
+        <Section>
+          {products.map((product) => (
+            <CartItem key={product.id} product={product} position="widget" />
+          ))}
+        </Section>
+      )}
       <Footer>
         <Subtotal>
           <span>Subtotal:</span>
           <SubtotalPrice>
-            $<Em>538.00</Em>
+            $<Em>{formatCurrency(subtotal)}</Em>
           </SubtotalPrice>
         </Subtotal>
         <Control>
@@ -73,6 +54,11 @@ const Title = styled.div`
 const TitleText = styled.h3`
   font-size: 1rem;
   text-transform: uppercase;
+`;
+
+const EmptyContainer = styled.p`
+  padding: 16px;
+  background-color: ${COLORS.white};
 `;
 
 const Section = styled.section`
