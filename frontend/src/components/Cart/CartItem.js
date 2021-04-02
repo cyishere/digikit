@@ -1,4 +1,5 @@
 import { useDispatch } from "react-redux";
+import { useQtyChange } from "../../utils/hooks";
 import { removeFromCart } from "../../slices/cartSlice";
 
 import styled from "styled-components/macro";
@@ -9,6 +10,10 @@ import Button from "../Button";
 import CountGroup from "../CountGroup";
 
 const CartItem = ({ product, position }) => {
+  const { value: qty, handleIncrease, handleDecrease } = useQtyChange(
+    product.qty
+  );
+
   const dispatch = useDispatch();
 
   const deleteItemFromCart = (productInfo) => {
@@ -24,7 +29,7 @@ const CartItem = ({ product, position }) => {
 
     controlContent = (
       <ControlLite>
-        {product.qty} x ${formatCurrency(product.price)}
+        {qty} x ${formatCurrency(product.price)}
       </ControlLite>
     );
 
@@ -43,14 +48,19 @@ const CartItem = ({ product, position }) => {
             deleteItemFromCart({
               id: product.id,
               price: product.price,
-              qty: product.qty,
+              qty,
             })
           }
         >
           Remove
         </Button>
         <Meta>
-          <CountGroup />
+          <CountGroup
+            countInStock={product.countInStock}
+            qty={qty}
+            handleIncrease={handleIncrease}
+            handleDecrease={handleDecrease}
+          />
           <span>x</span>
           <span>
             $<Em>{formatCurrency(product.price)}</Em>
@@ -70,7 +80,7 @@ const CartItem = ({ product, position }) => {
 
       <Content>
         <Title>
-          <TextLink>{title}</TextLink>
+          <TextLink to={`/products/${product.id}`}>{title}</TextLink>
         </Title>
         {controlContent}
       </Content>

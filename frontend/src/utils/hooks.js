@@ -20,3 +20,17 @@ export const useFormChange = (initialValues) => {
     resetValues,
   };
 };
+
+export const useQtyChange = (initialValue) => {
+  const [value, setValue] = useState(initialValue);
+
+  const handleIncrease = () => setValue(value + 1);
+
+  const handleDecrease = () => setValue(value - 1);
+
+  return {
+    value,
+    handleIncrease,
+    handleDecrease,
+  };
+};

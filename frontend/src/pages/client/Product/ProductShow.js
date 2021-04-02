@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useQtyChange } from "../../../utils/hooks";
 import { selectProductById } from "../../../slices/productSlice";
 import { addToCart } from "../../../slices/cartSlice";
 
@@ -13,11 +14,8 @@ import Button from "../../../components/Button";
 const ProductShow = ({ match }) => {
   const { productId } = match.params;
   const product = useSelector((state) => selectProductById(state, productId));
-  const [qty, setQty] = useState(1);
 
-  const handleIncrease = () => setQty(qty + 1);
-
-  const handleDecrease = () => setQty(qty - 1);
+  const { value: qty, handleIncrease, handleDecrease } = useQtyChange(1);
 
   const dispatch = useDispatch();
 
