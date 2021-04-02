@@ -110,3 +110,10 @@ const orderSlice = createSlice({
 });
 
 export default orderSlice.reducer;
+
+/**
+ * ===== Reusable Selector Functions =====
+ */
+export const selectAllOrders = (state) => state.order.entities;
+export const selectOrderById = (state, orderId) =>
+  state.order.entities.find((order) => order.id === orderId);

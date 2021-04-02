@@ -14,7 +14,7 @@ import {
   CheckoutShipping,
   CheckoutPayment,
 } from "../pages/client/Checkout";
-import { OrderList } from "../pages/client/Order";
+import { OrderList, OrderShow } from "../pages/client/Order";
 import Dashboard from "../pages/admin/Home";
 
 const App = () => {
@@ -48,6 +48,7 @@ const App = () => {
         <Route exact path="/checkout/shipping" component={CheckoutShipping} />
         <Route exact path="/checkout/payment" component={CheckoutPayment} />
         <Route exact path="/orders" component={OrderList} />
+        <Route exact path="/orders/:orderId" component={OrderShow} />
       </Switch>
       <GlobalStyles />
     </Router>
