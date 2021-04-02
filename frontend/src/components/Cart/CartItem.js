@@ -1,3 +1,6 @@
+import { useDispatch } from "react-redux";
+import { removeFromCart } from "../../slices/cartSlice";
+
 import styled from "styled-components/macro";
 import { COLORS } from "../../styles/constants";
 import formatCurrency from "../../utils/formatCurrency";
@@ -6,6 +9,12 @@ import Button from "../Button";
 import CountGroup from "../CountGroup";
 
 const CartItem = ({ product, position }) => {
+  const dispatch = useDispatch();
+
+  const deleteItemFromCart = (productInfo) => {
+    dispatch(removeFromCart(productInfo));
+  };
+
   let Wrapper;
   let controlContent;
   let title;
@@ -28,7 +37,18 @@ const CartItem = ({ product, position }) => {
 
     controlContent = (
       <ControlFull>
-        <Button variant="danger">Remove</Button>
+        <Button
+          variant="danger"
+          onClick={() =>
+            deleteItemFromCart({
+              id: product.id,
+              price: product.price,
+              qty: product.qty,
+            })
+          }
+        >
+          Remove
+        </Button>
         <Meta>
           <CountGroup />
           <span>x</span>

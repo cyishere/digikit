@@ -1,8 +1,15 @@
+import { useSelector } from "react-redux";
+import formatCurrency from "../../utils/formatCurrency";
+
 import styled from "styled-components/macro";
 import { COLORS } from "../../styles/constants";
 import Button from "../Button";
 
 const Sidebar = ({ step }) => {
+  const { products, subtotal, shippingFee, total } = useSelector(
+    (state) => state.cart
+  );
+
   let action;
 
   if (step === "cart") {
@@ -27,21 +34,21 @@ const Sidebar = ({ step }) => {
         <OrderCountWrapper>
           You are ordering
           <br />
-          <OrderCount>6 item(s)</OrderCount>
+          <OrderCount>{products.length} item(s)</OrderCount>
         </OrderCountWrapper>
       </div>
       <div>
         <OrderInfo>
           <span>Subtotal:</span>
-          <span>$538.00</span>
+          <span>${formatCurrency(subtotal)}</span>
         </OrderInfo>
         <OrderInfo>
           <span>Shipping (Standard):</span>
-          <span>$8.00</span>
+          <span>${formatCurrency(shippingFee)}</span>
         </OrderInfo>
         <OrderInfo>
           <span>Total:</span>
-          <TotalPrice>$546.00</TotalPrice>
+          <TotalPrice>${formatCurrency(total)}</TotalPrice>
         </OrderInfo>
         <ButtonWrapper>{action}</ButtonWrapper>
       </div>
