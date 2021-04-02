@@ -50,7 +50,7 @@ const Sidebar = ({ step }) => {
           <span>Total:</span>
           <TotalPrice>${formatCurrency(total)}</TotalPrice>
         </OrderInfo>
-        <ButtonWrapper>{action}</ButtonWrapper>
+        <ButtonWrapper>{products.length > 0 && action}</ButtonWrapper>
       </div>
     </Wrapper>
   );

@@ -21,12 +21,22 @@ export const useFormChange = (initialValues) => {
   };
 };
 
-export const useQtyChange = (initialValue) => {
+export const useQtyChange = (initialValue, callback) => {
   const [value, setValue] = useState(initialValue);
 
-  const handleIncrease = () => setValue(value + 1);
+  const handleIncrease = () => {
+    setValue(value + 1);
+    if (callback) {
+      callback(value + 1);
+    }
+  };
 
-  const handleDecrease = () => setValue(value - 1);
+  const handleDecrease = () => {
+    setValue(value - 1);
+    if (callback) {
+      callback(value - 1);
+    }
+  };
 
   return {
     value,

@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useQtyChange } from "../../utils/hooks";
-import { removeFromCart } from "../../slices/cartSlice";
+import { removeFromCart, updateQty } from "../../slices/cartSlice";
 
 import styled from "styled-components/macro";
 import { COLORS } from "../../styles/constants";
@@ -10,11 +10,21 @@ import Button from "../Button";
 import CountGroup from "../CountGroup";
 
 const CartItem = ({ product, position }) => {
-  const { value: qty, handleIncrease, handleDecrease } = useQtyChange(
-    product.qty
-  );
-
   const dispatch = useDispatch();
+
+  const handleQtyChange = (newQty) => {
+    dispatch(
+      updateQty({
+        productId: product.id,
+        newQty: parseInt(newQty),
+      })
+    );
+  };
+
+  const { value: qty, handleIncrease, handleDecrease } = useQtyChange(
+    product.qty,
+    handleQtyChange
+  );
 
   const deleteItemFromCart = (productInfo) => {
     dispatch(removeFromCart(productInfo));
