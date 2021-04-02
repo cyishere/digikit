@@ -2,17 +2,17 @@ const router = require("express").Router();
 const { v4: uuidv4 } = require("uuid");
 const Order = require("../models/order");
 const Product = require("../models/product");
-const { notAdmin } = require("../utils/validators");
+const { userAuth } = require("../utils/auth");
+const { USER_ROLE_ADMIN } = require("../utils/config");
+const { unAuthorizedError, notFoundError } = require("../utils/errorHelper");
 
-// Create One
-router.post("/", async (req, res, next) => {
+/**
+ * @feature Create an order
+ * @route   POST /api/order
+ * @access  Private
+ */
+router.post("/", userAuth, async (req, res, next) => {
   try {
-    if (!req.authenticated) {
-      const error = new Error("Please login.");
-      error.statusCode = 403;
-      throw error;
-    }
-
     const products = req.body.products;
 
     const newOrder = new Order({
@@ -40,23 +40,21 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-// Get All Orders & Get Orders by User
-router.get("/", async (req, res, next) => {
+/**
+ * @feature Get All Orders & Get Orders by User
+ * @route   GET /api/order
+ * @access  Private
+ */
+router.get("/", userAuth, async (req, res, next) => {
   try {
-    if (!req.authenticated) {
-      const error = new Error("Please login.");
-      error.statusCode = 403;
-      throw error;
-    }
+    let orders = [];
 
-    let orders = null;
-
-    if (req.userAdmin) {
+    if (req.user.role === USER_ROLE_ADMIN) {
       // get all
       orders = await Order.find();
     } else {
       // get orders by user
-      orders = await Order.find({ customer: req.userId });
+      orders = await Order.find({ customer: req.user.id });
     }
 
     res.json({ orders });
@@ -65,20 +63,27 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-// Delete
-router.delete("/:id", async (req, res, next) => {
+/**
+ * @feature Delete an order
+ * @route   DELETE /api/order/:id
+ * @access  Private (user only)
+ */
+router.delete("/:id", userAuth, async (req, res, next) => {
   try {
-    notAdmin(req);
+    // find the order
+    const order = await Order.findById(req.params.id);
 
-    const deletedOrder = await Order.findByIdAndRemove(req.params.id);
-
-    if (!deletedOrder) {
-      const error = new Error("Order not found.");
-      error.statusCode = 400;
-      throw error;
+    if (!order) {
+      notFoundError("Order not found.");
     }
 
-    res.json({ id: deletedOrder.id });
+    if (order.customer !== req.user.id) {
+      unAuthorizedError("Not allowed");
+    }
+
+    await Order.findByIdAndRemove(req.params.id);
+
+    res.json({ id: order.id });
   } catch (error) {
     next(error);
   }

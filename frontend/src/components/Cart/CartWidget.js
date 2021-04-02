@@ -1,43 +1,98 @@
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import formatCurrency from "../../utils/formatCurrency";
+
+import styled from "styled-components/macro";
+import { COLORS } from "../../styles/constants";
 import CartItem from "./CartItem";
-import "./CartWidget.scss";
-import "../../styles/button.scss";
+import Button from "../Button";
 
-const CartWidget = ({ show, cartItems }) => {
-  const subtotal = useSelector((state) => state.cart.subtotal);
-
+const CartWidget = ({ products, subtotal }) => {
   return (
-    <div className={`cart-widget ${show ? "show" : ""}`}>
-      <div className="cart-widget__header">
-        <h2 className="cart-widget__header-title">
-          Recently added items ({cartItems.length})
-        </h2>
-      </div>
-      <div className="cart-widget__body">
-        {cartItems.length === 0 ? (
-          <p style={{ padding: "10px" }}>Shopping cart is empty.</p>
-        ) : (
-          <>
-            {cartItems.map((item) => (
-              <CartItem styleStatus="small" key={item.id} product={item} />
-            ))}
-          </>
-        )}
-      </div>
-      <div className="cart-widget__footer">
-        <div className="cart-widget__meta">
-          <h4 className="title">Cart Subtotal:</h4>
-          <div className="cost">${formatCurrency(subtotal)}</div>
-        </div>
-
-        <Link className="button button-primary" to="/checkout/cart">
-          <i className="la la-shopping-bag"></i> Checkout
-        </Link>
-      </div>
-    </div>
+    <Wrapper className="widget">
+      <Title>
+        <TitleText>Recently added items ({products.length})</TitleText>
+      </Title>
+      {products.length === 0 ? (
+        <EmptyContainer>Your cart is empty.</EmptyContainer>
+      ) : (
+        <Section>
+          {products.map((product) => (
+            <CartItem key={product.id} product={product} position="widget" />
+          ))}
+        </Section>
+      )}
+      <Footer>
+        <Subtotal>
+          <span>Subtotal:</span>
+          <SubtotalPrice>
+            $<Em>{formatCurrency(subtotal)}</Em>
+          </SubtotalPrice>
+        </Subtotal>
+        <Control>
+          <Button variant="secondary" href="/checkout/cart">
+            Checkout
+          </Button>
+        </Control>
+      </Footer>
+    </Wrapper>
   );
 };
+
+export const Wrapper = styled.aside`
+  width: 320px;
+  border: 1px solid ${COLORS.primary};
+  position: absolute;
+  right: 0;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  display: none;
+`;
+
+const Title = styled.div`
+  background-color: ${COLORS.grayLight};
+  padding: 16px;
+`;
+
+const TitleText = styled.h3`
+  font-size: 1rem;
+  text-transform: uppercase;
+`;
+
+const EmptyContainer = styled.p`
+  padding: 16px;
+  background-color: ${COLORS.white};
+`;
+
+const Section = styled.section`
+  padding: 16px;
+  background-color: ${COLORS.white};
+  max-height: 360px;
+  overflow-y: scroll;
+`;
+
+const Footer = styled.div`
+  background-color: ${COLORS.grayLight};
+  padding: 16px;
+`;
+
+const Subtotal = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+`;
+
+const SubtotalPrice = styled.span`
+  color: ${COLORS.textLight};
+`;
+
+const Em = styled.em`
+  color: ${COLORS.secondary};
+`;
+
+const Control = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+`;
 
 export default CartWidget;

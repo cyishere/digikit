@@ -1,28 +1,29 @@
 const router = require("express").Router();
 const Category = require("../models/category");
-const { notAdmin } = require("../utils/validators");
+const { userAuth, userAdmin } = require("../utils/auth");
+const {
+  badRequestError,
+  conflictError,
+  notFoundError,
+} = require("../utils/errorHelper");
 
 /**
- * Create
+ * @feature Create a category
+ * @route   POST /api/category
+ * @access  Private (admin only)
  */
-router.post("/", async (req, res, next) => {
+router.post("/", userAuth, userAdmin, async (req, res, next) => {
   try {
-    notAdmin(req);
-
     const { title } = req.body;
 
     if (title.trim() === "") {
-      const error = new Error("Category cannot be empty!");
-      error.statusCode = 400;
-      throw error;
+      badRequestError("Category cannot be empty!");
     }
 
     const existCategory = await Category.findOne({ title: title });
 
     if (existCategory) {
-      const error = new Error("This category is already exist!");
-      error.statusCode = 409;
-      throw error;
+      conflictError("This category is already exist!");
     }
 
     const newCategory = new Category({ title });
@@ -30,12 +31,14 @@ router.post("/", async (req, res, next) => {
 
     res.json({ category: newCategory, message: "Successfully add!" });
   } catch (error) {
-    return next(error);
+    next(error);
   }
 });
 
 /**
- * Get ALL
+ * @feature Get all categories
+ * @route   GET /api/category
+ * @access  Public
  */
 router.get("/", async (req, res, next) => {
   try {
@@ -47,7 +50,9 @@ router.get("/", async (req, res, next) => {
 });
 
 /**
- * Get ONE
+ * @feature Get a category
+ * @route   GET /api/category/:id
+ * @access  Pulic
  */
 router.get("/:id", async (req, res, next) => {
   try {
@@ -56,9 +61,7 @@ router.get("/:id", async (req, res, next) => {
     const category = await Category.findById(categoryId);
 
     if (!category) {
-      const error = new Error("Category not found.");
-      error.statusCode = 404;
-      throw error;
+      notFoundError("Category not found.");
     }
 
     res.json({ category });
@@ -68,38 +71,28 @@ router.get("/:id", async (req, res, next) => {
 });
 
 /**
- * Update One
+ * @feature Update a category
+ * @route   PUT /api/category
+ * @access  Private (admin only)
  */
-router.put("/:id", async (req, res, next) => {
+router.put("/:id", userAuth, userAdmin, async (req, res, next) => {
   try {
-    if (!req.userAdmin) {
-      const error = new Error("403 Unauthorized");
-      error.statusCode = 403;
-      throw error;
-    }
-
     const { title } = req.body;
 
     if (!title) {
-      const error = new Error("Title cannot be empty.");
-      error.statusCode = 400;
-      throw error;
+      notFoundError("Title cannot be empty.");
     }
 
     const exist = await Category.findById(req.params.id);
 
     if (!exist) {
-      const error = new Error("Unvalid ID");
-      error.statusCode = 400;
-      throw error;
+      notFoundError("Unvalid ID");
     }
 
     const existCategory = await Category.findOne({ title: title });
 
     if (existCategory) {
-      const error = new Error("This category is already exist!");
-      error.statusCode = 409;
-      throw error;
+      conflictError("This category is already exist!");
     }
 
     const updatedCategory = await Category.findByIdAndUpdate(
@@ -108,33 +101,29 @@ router.put("/:id", async (req, res, next) => {
       { new: true }
     );
 
-    res.json(updatedCategory);
+    res.json({ category: updatedCategory });
   } catch (error) {
     next(error);
   }
 });
 
 /**
- * Delete One
+ * @feature Delete a category
+ * @route   DELETE /api/category
+ * @access  Private (admin only)
  */
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", userAuth, userAdmin, async (req, res, next) => {
   try {
-    notAdmin(req);
-
     const id = req.params.id;
 
     const category = await Category.findById(id);
 
     if (!category) {
-      const error = new Error("Category not found.");
-      error.statusCode = 404;
-      throw error;
+      notFoundError("Category not found.");
     }
 
     if (category.products.length > 0) {
-      const error = new Error("There are products in this category.");
-      error.statusCode = 400;
-      throw error;
+      notFoundError("There are products in this category.");
     }
 
     await Category.findByIdAndRemove(id);

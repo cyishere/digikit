@@ -3,7 +3,7 @@ import { BACKEND } from "../utils/config";
 
 const initialState = {
   entities: [],
-  message: "",
+  message: null,
   errors: {},
   loginUser: {
     userId: null,
@@ -13,27 +13,20 @@ const initialState = {
   info: {},
 };
 
-// TODO change endpoint
-const apiUrl = "http://localhost:3001/api";
-
 // communicate with api
 /**
  * @feature REGISTER
  */
 export const addNewUser = createAsyncThunk("user/addNewUser", (userInfo) => {
-  return fetch("http://localhost:3001/api/register", {
+  return fetch(`${BACKEND.API_ADDRESS}/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(userInfo),
   })
-    .then((response) => {
-      return response.json();
-    })
-    .then((json) => {
-      return json;
-    })
+    .then((response) => response.json())
+    .then((json) => json)
     .catch((error) => {
       console.log("error in reducer:", error);
       return error;
@@ -44,21 +37,15 @@ export const addNewUser = createAsyncThunk("user/addNewUser", (userInfo) => {
  * @feature LOGIN
  */
 export const userLogin = createAsyncThunk("user/userLogin", (userInfo) => {
-  return fetch(`${apiUrl}/login`, {
+  return fetch(`${BACKEND.API_ADDRESS}/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(userInfo),
   })
-    .then((response) => {
-      console.log("response in reducer:", response);
-      return response.json();
-    })
-    .then((json) => {
-      console.log("json in reducer:", json);
-      return json;
-    })
+    .then((response) => response.json())
+    .then((json) => json)
     .catch((error) => {
       console.log("error in reducer:", error);
       return error;
@@ -128,6 +115,7 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    // TODO what's this for??
     setLocalUserToState: (state, action) => {
       state.loginUser = action.payload;
     },
@@ -136,18 +124,32 @@ const userSlice = createSlice({
         userId: null,
         token: null,
       };
+      state.info = {};
+      localStorage.removeItem("digiUser");
     },
   },
   extraReducers: {
+    // Register
     [addNewUser.fulfilled]: (state, action) => {
       if (action.payload.type !== "error") {
-        state.entities = state.entities.concat(action.payload);
+        state.entities = state.entities.concat(action.payload.user);
+      } else {
+        state.message = action.payload.message;
       }
     },
+    [addNewUser.rejected]: (state, action) => {
+      state.message = action.payload.message;
+    },
+    // Login
     [userLogin.fulfilled]: (state, action) => {
       if (action.payload.type !== "error") {
         state.loginUser = action.payload;
+      } else {
+        state.message = action.payload.message;
       }
+    },
+    [userLogin.rejected]: (state, action) => {
+      state.message = action.payload.message;
     },
     [authAcess.fulfilled]: (state, action) => {
       if (action.payload.type !== "error") {
@@ -159,9 +161,14 @@ const userSlice = createSlice({
     [authAcess.rejected]: (state, action) => {
       state.message = action.payload.message;
     },
+    // Get user info
     [getUserInfo.fulfilled]: (state, action) => {
       if (action.payload.type !== "error") {
         state.info = action.payload.user;
+
+        if (state.loginUser.userId === null) {
+          state.loginUser = JSON.parse(localStorage.getItem("digiUser"));
+        }
       } else {
         state.message = action.payload.message;
       }

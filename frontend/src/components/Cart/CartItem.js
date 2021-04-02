@@ -1,69 +1,178 @@
-import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { updateQty, removeFromCart } from "../../slices/cartSlice";
-import formatCurrency from "../../utils/formatCurrency";
-import Button from "../Button";
-import "./CartItem.scss";
+import { useQtyChange } from "../../utils/hooks";
+import { removeFromCart, updateQty } from "../../slices/cartSlice";
 
-const CartItem = ({ styleStatus, product }) => {
+import styled from "styled-components/macro";
+import { COLORS } from "../../styles/constants";
+import formatCurrency from "../../utils/formatCurrency";
+import TextLink from "../TextLink";
+import Button from "../Button";
+import CountGroup from "../CountGroup";
+
+const CartItem = ({ product, position }) => {
   const dispatch = useDispatch();
 
-  // Update qty
-  const handleQtyChange = (e) => {
+  const handleQtyChange = (newQty) => {
     dispatch(
-      updateQty({ productId: product.id, newQty: parseInt(e.target.value) })
+      updateQty({
+        productId: product.id,
+        newQty: parseInt(newQty),
+      })
     );
   };
 
+  const { value: qty, handleIncrease, handleDecrease } = useQtyChange(
+    product.qty,
+    handleQtyChange
+  );
+
   const deleteItemFromCart = (productInfo) => {
-    console.log("product id:", productInfo);
     dispatch(removeFromCart(productInfo));
   };
 
-  return (
-    <div className={`cart-item ${styleStatus ? styleStatus : ""}`}>
-      <div className="cart-item__cover">
-        <img
-          className="cart-item__cover-img"
-          src={product.images[0]}
-          alt={product.title}
-        />
-      </div>
-      <div className="cart-item__info">
-        <h3 className="cart-item__info-title">
-          <Link to={`/product/${product.id}`}>{product.title}</Link>
-        </h3>
-        <div className="cart-item__actions">
-          <Button
-            styleStatus="link danger"
-            onClickHandler={deleteItemFromCart}
-            handlerArgs={{
+  let Wrapper;
+  let controlContent;
+  let title;
+
+  if (position === "widget") {
+    Wrapper = WrapperLite;
+
+    controlContent = (
+      <ControlLite>
+        {qty} x ${formatCurrency(product.price)}
+      </ControlLite>
+    );
+
+    title =
+      product.title.length >= 13
+        ? product.title.substring(0, 12) + "..."
+        : product.title;
+  } else if (position === "page") {
+    Wrapper = WrapperFull;
+
+    controlContent = (
+      <ControlFull>
+        <Button
+          variant="danger"
+          onClick={() =>
+            deleteItemFromCart({
               id: product.id,
               price: product.price,
-              qty: product.qty,
-            }}
-          >
-            Remove
-          </Button>
-        </div>
-      </div>
-      <div className="cart-item__meta">
-        <div className="cart-item__count">
-          <label htmlFor="qty">Qty:</label>
-          <input
-            type="number"
-            id="qty"
-            className="input-text small"
-            value={product.qty}
-            onChange={handleQtyChange}
-            min="1"
-            max={product.countInStock}
+              qty,
+            })
+          }
+        >
+          Remove
+        </Button>
+        <Meta>
+          <CountGroup
+            countInStock={product.countInStock}
+            qty={qty}
+            handleIncrease={handleIncrease}
+            handleDecrease={handleDecrease}
           />
-        </div>
-        <div className="cart-item__price">${formatCurrency(product.price)}</div>
-      </div>
-    </div>
+          <span>x</span>
+          <span>
+            $<Em>{formatCurrency(product.price)}</Em>
+          </span>
+        </Meta>
+      </ControlFull>
+    );
+
+    title = product.title;
+  } else {
+    throw new Error("Invalid viewpoint");
+  }
+
+  return (
+    <Wrapper>
+      <Img src={product.images[0]} alt={product.title} />
+
+      <Content>
+        <Title>
+          <TextLink to={`/products/${product.id}`}>{title}</TextLink>
+        </Title>
+        {controlContent}
+      </Content>
+    </Wrapper>
   );
 };
+
+const WrapperBase = styled.div`
+  display: grid;
+  border-bottom: 8px solid ${COLORS.grayLightDim};
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:first-child {
+    padding-top: 0;
+  }
+`;
+
+const WrapperFull = styled(WrapperBase)`
+  grid-template-columns: 150px 1fr;
+  grid-gap: 32px;
+  padding: 32px 0;
+`;
+
+const WrapperLite = styled(WrapperBase)`
+  grid-template-columns: 100px 1fr;
+  grid-gap: 16px;
+  padding: 16px 0;
+`;
+
+const Img = styled.img`
+  width: 100%;
+  border: 1px solid ${COLORS.primary};
+`;
+
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+`;
+
+const Title = styled.h4`
+  font-size: 1.25rem;
+
+  ${WrapperLite} & {
+    font-size: 1rem;
+  }
+`;
+
+const ControlFull = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+  margin-left: -16px;
+`;
+
+const ControlLite = styled.div`
+  display: block;
+  width: 100%;
+  text-align: right;
+`;
+
+const Meta = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  color: ${COLORS.textLight};
+
+  & > * {
+    margin-left: 16px;
+  }
+`;
+
+const Em = styled.em`
+  color: ${COLORS.secondary};
+`;
 
 export default CartItem;

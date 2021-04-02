@@ -1,14 +1,30 @@
-import Sidebar from "../../components/Admin/Sidebar";
+import styled from "styled-components";
+import { COLORS } from "../../styles/constants";
+import DashHeader from "../../components/DashHeader";
+import Footer from "../../components/Footer";
+import TextLink from "../../components/TextLink";
 
 const Layout = ({ children }) => {
   return (
-    <main className="main-page">
-      <div className="grid grid-1-3">
-        <Sidebar />
-        <section>{children}</section>
-      </div>
-    </main>
+    <div>
+      <DashWrapper>
+        <DashHeader />
+        {children}
+        <Footer>
+          A mock website made with <Emoji>☕</Emoji> by{" "}
+          <TextLink href="https://cyishere.dev">CY</TextLink>.
+        </Footer>
+      </DashWrapper>
+    </div>
   );
 };
+
+export const DashWrapper = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  background: ${COLORS.white};
+`;
+
+const Emoji = styled.span``;
 
 export default Layout;

@@ -1,37 +1,44 @@
 const router = require("express").Router();
 const User = require("../models/user");
-// const {
-//   validatorForBasicUserInfo,
-//   validatorForEmail,
-//   validatorForName,
-// } = require("../utils/validators");
+const { userAuth, userAdmin } = require("../utils/auth");
+const { USER_ROLE_ADMIN } = require("../utils/config");
+const {
+  unAuthorizedError,
+  notFoundError,
+  badRequestError,
+} = require("../utils/errorHelper");
 
-// Get ALL
-router.get("/", async (req, res) => {
+/**
+ * @feature Get all users
+ * @route   GET /api/user
+ * @access  Private (admin only)
+ */
+router.get("/", userAuth, userAdmin, async (req, res, next) => {
   try {
     const users = await User.find({}).sort({ createdAt: -1 });
-    res.json(users);
+    res.json({ users });
   } catch (error) {
-    console.log("Error at fetch all users: ", error.message);
+    next(error);
   }
 });
 
-// Get ONE
-router.get("/:id", async (req, res, next) => {
+/**
+ * @feature Fetch an user
+ * @route   GET /api/user
+ * @access  Private
+ */
+router.get("/:id", userAuth, async (req, res, next) => {
+  console.log("req.user:", req.user);
   try {
     // check wheather is the user herself getting it
-    if (req.userId !== req.params.id) {
-      const error = new Error("401 Unauthorized");
-      error.statusCode = 401;
-      throw error;
+    if (req.user.role !== USER_ROLE_ADMIN || req.user.id !== req.params.id) {
+      unAuthorizedError("Not allowed");
     }
 
     const user = await User.findById(req.params.id);
 
     if (!user) {
-      const error = new Error("User Not Found");
-      error.statusCode = 400;
-      throw error;
+      notFoundError("User Not Found");
     }
 
     res.json({ user });
@@ -40,14 +47,16 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-// UPDATE
-router.put("/:id", async (req, res, next) => {
+/**
+ * @feature Update an user
+ * @route   PUT /api/user
+ * @access  Private (owner only)
+ */
+router.put("/:id", userAuth, async (req, res, next) => {
   const id = req.params.id;
   try {
-    if (req.userId !== id) {
-      const error = new Error("401 Unauthorized");
-      error.statusCode = 401;
-      throw error;
+    if (req.user.id !== id) {
+      unAuthorizedError("Not allowed");
     }
 
     const updatedUser = await User.findByIdAndUpdate(id, req.body);
@@ -59,15 +68,17 @@ router.put("/:id", async (req, res, next) => {
   }
 });
 
-// DELETE
-router.delete("/:id", async (req, res, next) => {
+/**
+ * @feature Delete an user
+ * @route   DELETE /api/user
+ * @access  Private (admin only)
+ */
+router.delete("/:id", userAuth, userAdmin, async (req, res, next) => {
   try {
     const deletedUser = await User.findByIdAndRemove(req.params.id);
 
     if (!deletedUser) {
-      const error = new Error("User Not Found");
-      error.statusCode = 400;
-      throw error;
+      badRequestError("User Not Found");
     }
 
     return res.json({

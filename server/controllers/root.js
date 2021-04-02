@@ -2,12 +2,13 @@ const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
-const config = require("../utils/config");
+const { SECRET } = require("../utils/config");
 const {
   validateName,
   validateEmail,
   validatePassword,
 } = require("../utils/validators");
+const { badRequestError } = require("../utils/errorHelper");
 
 /**
  * @feature API ROOT ENTRY
@@ -18,6 +19,8 @@ router.get("/", (req, res) => {
 
 /**
  * @feature LOGIN
+ * @route   POST /api/login
+ * @access  Pulic
  */
 router.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
@@ -26,25 +29,19 @@ router.post("/login", async (req, res, next) => {
 
   try {
     if (emailTrimed === "" || passwordTrimed === "") {
-      const error = new Error("Input cannot be empty.");
-      error.statusCode = 400;
-      throw error;
+      badRequestError("Input cannot be empty.");
     }
 
     const foundUser = await User.findOne({ email });
 
     if (!foundUser) {
-      const error = new Error("This email haven't registered.");
-      error.statusCode = 400;
-      throw error;
+      badRequestError("This email haven't registered.");
     }
 
     const isEqual = await bcrypt.compare(passwordTrimed, foundUser.password);
 
     if (!isEqual) {
-      const error = new Error("Password is wrong.");
-      error.statusCode = 400;
-      throw error;
+      badRequestError("Password is wrong.");
     }
 
     const token = jwt.sign(
@@ -53,7 +50,7 @@ router.post("/login", async (req, res, next) => {
         email: emailTrimed,
         role: foundUser.role,
       },
-      config.SECRET
+      SECRET
     );
 
     res.json({ userId: foundUser._id.toString(), token });
@@ -65,33 +62,29 @@ router.post("/login", async (req, res, next) => {
 
 /**
  * @feature REGISTER
+ * @route   POST /api/register
+ * @access  Public
  */
 router.post("/register", async (req, res, next) => {
-  const { firstName, lastName, email, password, passconf } = req.body;
+  const { name, email, password, passconf } = req.body;
 
-  const firstNameTrimed = firstName.trim();
-  const lastNameTrimed = lastName.trim();
+  const nameTrimed = name.trim();
   const emailTrimed = email.trim();
   const passwordTrimed = password.trim();
   const passconfTrimed = passconf.trim();
 
   try {
     if (
-      firstNameTrimed === "" ||
+      nameTrimed === "" ||
       emailTrimed === "" ||
       passwordTrimed === "" ||
       passconfTrimed === ""
     ) {
-      const error = new Error("Input cannot be empty.");
-      error.statusCode = 400;
-      throw error;
+      badRequestError("Input cannot be empty.");
     }
 
-    const firstNameValid = await validateName(firstNameTrimed, next);
+    const firstNameValid = await validateName(nameTrimed, next);
     if (!firstNameValid) return;
-
-    const lastNameValid = await validateName(lastNameTrimed, next);
-    if (!lastNameValid) return;
 
     const emailValid = await validateEmail(emailTrimed, next);
     if (!emailValid) return;
@@ -107,8 +100,7 @@ router.post("/register", async (req, res, next) => {
     const passwordHashed = await bcrypt.hash(passwordTrimed, saltRounds);
 
     const newUser = new User({
-      firstName: firstNameTrimed,
-      lastName: lastNameTrimed,
+      name: nameTrimed,
       email: emailTrimed,
       password: passwordHashed,
       createdAt: new Date(),
