@@ -23,6 +23,11 @@ const Wrapper = styled.input`
     border: none;
     background-color: ${COLORS.grayLight};
   }
+
+  &:disabled {
+    background-color: ${COLORS.grayLight};
+    border-color: ${COLORS.gray};
+  }
 `;
 
 export default Input;

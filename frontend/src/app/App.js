@@ -19,6 +19,7 @@ import Dashboard from "../pages/admin/Home";
 
 const App = () => {
   const loginUser = useSelector((state) => state.user.loginUser);
+  const cartItems = useSelector((state) => state.cart.products);
 
   const dispatch = useDispatch();
 
@@ -29,10 +30,10 @@ const App = () => {
     }
 
     const localCart = JSON.parse(localStorage.getItem("digiCart")) || [];
-    if (localCart.length > 0) {
+    if (localCart.length > 0 && cartItems.length === 0) {
       dispatch(initCart(localCart));
     }
-  }, [dispatch, loginUser.userId]);
+  }, [cartItems, dispatch, loginUser.userId]);
 
   return (
     <Router>

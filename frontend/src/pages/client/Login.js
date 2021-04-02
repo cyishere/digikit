@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useFormChange } from "../../utils/hooks";
 import fetchStates from "../../utils/fetchStates";
-import { userLogin } from "../../slices/userSlice";
+import { userLogin, getUserInfo } from "../../slices/userSlice";
 
 import styled from "styled-components/macro";
 import Layout from "./Layout";
@@ -14,6 +14,8 @@ import Button from "../../components/Button";
 import Message from "../../components/Message";
 
 const Login = () => {
+  const prevLocation = useSelector((state) => state.location.prev);
+
   const { values, handleChange, resetValues } = useFormChange({
     email: "",
     password: "",
@@ -34,12 +36,17 @@ const Login = () => {
         setRequestStatus(fetchStates.error);
         setRequestMessage(result.message);
       } else {
+        dispatch(getUserInfo(result));
         // 1. set localStorage
         localStorage.setItem("digiUser", JSON.stringify(result));
         // 2. reset form values
         resetValues();
         // 3. redirect to home page
-        history.push("/");
+        if (prevLocation) {
+          history.push(prevLocation);
+        } else {
+          history.push("/");
+        }
       }
     } catch (error) {
       setRequestStatus(fetchStates.error);

@@ -1,10 +1,11 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
 import { COLORS } from "../../styles/constants";
 
 const Brand = () => {
   return (
     <Wrapper>
-      <TextLink href="/">
+      <TextLink to="/">
         digi<TextEm>kit</TextEm>
       </TextLink>
     </Wrapper>
@@ -16,7 +17,7 @@ export const Wrapper = styled.h1`
   font-size: 2.5rem;
 `;
 
-export const TextLink = styled.a`
+export const TextLink = styled(Link)`
   text-decoration: none;
   text-transform: uppercase;
 

@@ -165,7 +165,10 @@ const userSlice = createSlice({
     [getUserInfo.fulfilled]: (state, action) => {
       if (action.payload.type !== "error") {
         state.info = action.payload.user;
-        state.loginUser = JSON.parse(localStorage.getItem("digiUser"));
+
+        if (state.loginUser.userId === null) {
+          state.loginUser = JSON.parse(localStorage.getItem("digiUser"));
+        }
       } else {
         state.message = action.payload.message;
       }
