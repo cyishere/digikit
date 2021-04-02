@@ -8,7 +8,6 @@ import SubLayout from "../SubLayout";
 import { Sidebar, SidebarCard } from "../../../components/Sidebar";
 import PageHeader from "../../../components/PageHeader";
 import ProductItem from "../../../components/ProductItem";
-import Button from "../../../components/Button";
 
 const OrderShow = ({ match }) => {
   const settings = [
@@ -50,7 +49,6 @@ const OrderShow = ({ match }) => {
             {formatCurrency(shippingFee)} shipping fee)
           </Content>
         </ContentContainer>
-        <Button variant="danger">Cancel Order</Button>
       </MainContainer>
     </SubLayout>
   );
@@ -63,7 +61,7 @@ const MainContainer = styled.main`
 `;
 
 const ContentContainer = styled.dl`
-  border-bottom: 8px solid ${COLORS.grayLightDim};
+  /* border-bottom: 8px solid ${COLORS.grayLightDim}; */
   margin-bottom: 16px;
 `;
 
