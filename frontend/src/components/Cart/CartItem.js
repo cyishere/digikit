@@ -46,7 +46,7 @@ const CartItem = ({ product, position }) => {
 
   return (
     <Wrapper>
-      <Img src={product.image} alt={product.title} />
+      <Img src={product.images[0]} alt={product.title} />
 
       <Content>
         <Title>

@@ -1,5 +1,8 @@
-import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { selectProductById } from "../../../slices/productSlice";
+import { addToCart } from "../../../slices/cartSlice";
+
 import styled from "styled-components/macro";
 import { COLORS } from "../../../styles/constants";
 import formatCurrency from "../../../utils/formatCurrency";
@@ -10,6 +13,17 @@ import Button from "../../../components/Button";
 const ProductShow = ({ match }) => {
   const { productId } = match.params;
   const product = useSelector((state) => selectProductById(state, productId));
+  const [qty, setQty] = useState(1);
+
+  const handleIncrease = () => setQty(qty + 1);
+
+  const handleDecrease = () => setQty(qty - 1);
+
+  const dispatch = useDispatch();
+
+  const handleCheckout = ({ product, qty }) => {
+    dispatch(addToCart({ product, qty: parseInt(qty) }));
+  };
 
   if (!product) {
     return (
@@ -35,10 +49,20 @@ const ProductShow = ({ match }) => {
             {product.countInStock > 0 ? (
               <>
                 <ProductCount>
-                  <CountGroup countInStock={product.countInStock} />
+                  <CountGroup
+                    countInStock={product.countInStock}
+                    qty={qty}
+                    handleIncrease={handleIncrease}
+                    handleDecrease={handleDecrease}
+                  />
                   <p>{product.countInStock} in stock.</p>
                 </ProductCount>
-                <Button variant="secondary">Add to Cart</Button>
+                <Button
+                  variant="secondary"
+                  onClick={() => handleCheckout({ product, qty })}
+                >
+                  Add to Cart
+                </Button>
               </>
             ) : (
               <Info>Out of stock.</Info>

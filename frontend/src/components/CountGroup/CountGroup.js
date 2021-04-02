@@ -1,14 +1,7 @@
-import { useState } from "react";
-
 import styled from "styled-components/macro";
 import { COLORS } from "../../styles/constants";
 
-const CountGroup = ({ countInStock }) => {
-  const [qty, setQty] = useState(1);
-
-  const handleIncrease = () => setQty(qty + 1);
-
-  const handleDecrease = () => setQty(qty - 1);
+const CountGroup = ({ countInStock, qty, handleIncrease, handleDecrease }) => {
   return (
     <Group>
       <Button disabled={qty <= 1} onClick={handleDecrease}>
