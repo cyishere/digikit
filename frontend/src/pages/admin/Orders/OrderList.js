@@ -31,7 +31,9 @@ const OrderList = () => {
             <Cell>$117.00</Cell>
             <Cell>New</Cell>
             <Cell>
-              <Button variant="info">View</Button>
+              <Button variant="info" href="/admin/orders/edit/1">
+                View
+              </Button>
             </Cell>
           </Row>
         </Body>

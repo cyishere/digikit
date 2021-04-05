@@ -14,6 +14,11 @@ import Button from "../../../components/Button";
 const ProductList = () => {
   return (
     <Layout pageTitle="Product List">
+      <BtnWrapper>
+        <Button href="/admin/products/add" variant="info">
+          New
+        </Button>
+      </BtnWrapper>
       <Table>
         <Head>
           <Row>
@@ -35,7 +40,12 @@ const ProductList = () => {
             <Cell>$117.00</Cell>
             <Cell>287</Cell>
             <Cell>
-              <Button variant="info">View</Button>
+              <Button variant="info" href="/products/1">
+                View &#8599;
+              </Button>
+              <Button variant="secondary" href="/admin/products/edit/1">
+                Edit
+              </Button>
             </Cell>
           </Row>
         </Body>
@@ -43,6 +53,10 @@ const ProductList = () => {
     </Layout>
   );
 };
+
+const BtnWrapper = styled.section`
+  margin-bottom: 48px;
+`;
 
 const Img = styled.img`
   width: 100px;

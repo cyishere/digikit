@@ -1,3 +1,4 @@
+import styled from "styled-components/macro";
 import { SubLayout as Layout } from "../../../components/Admin";
 import {
   Table,
@@ -12,6 +13,12 @@ import Button from "../../../components/Button";
 const CategoryList = () => {
   return (
     <Layout pageTitle="Category List">
+      <BtnWrapper>
+        <Button href="/admin/categories/add" variant="info">
+          New
+        </Button>
+      </BtnWrapper>
+
       <Table>
         <Head>
           <Row>
@@ -27,7 +34,9 @@ const CategoryList = () => {
             <Cell>Keyboard</Cell>
             <Cell>2021</Cell>
             <Cell>
-              <Button variant="info">View</Button>
+              <Button variant="info" href="/admin/categories/edit/1">
+                Edit
+              </Button>
             </Cell>
           </Row>
         </Body>
@@ -35,5 +44,9 @@ const CategoryList = () => {
     </Layout>
   );
 };
+
+const BtnWrapper = styled.section`
+  margin-bottom: 48px;
+`;
 
 export default CategoryList;

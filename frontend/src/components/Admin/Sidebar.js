@@ -62,12 +62,12 @@ const Link = styled(NavLink)`
   text-decoration: none;
   font-size: 1.25rem;
 
-  &:hover {
+  &.active {
     background-color: ${COLORS.adminPrimaryLighter};
     color: ${COLORS.adminPrimary};
   }
 
-  &.active {
+  &:hover {
     background-color: ${COLORS.adminGray};
   }
 `;

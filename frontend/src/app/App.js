@@ -22,6 +22,11 @@ import {
   OrderList as AdminOrders,
   CategoryList,
   UserList,
+  CategoryAddForm,
+  CategoryEditForm,
+  ProductAddForm,
+  ProductEditForm,
+  OrderDetails,
 } from "../pages/admin";
 
 const App = () => {
@@ -68,6 +73,31 @@ const App = () => {
           component={CategoryList}
         />
         <ProtectedRoutes exact path="/admin/users" component={UserList} />
+        <ProtectedRoutes
+          exact
+          path="/admin/categories/add"
+          component={CategoryAddForm}
+        />
+        <ProtectedRoutes
+          exact
+          path="/admin/products/add"
+          component={ProductAddForm}
+        />
+        <ProtectedRoutes
+          exact
+          path="/admin/categories/edit/:categoryId"
+          component={CategoryEditForm}
+        />
+        <ProtectedRoutes
+          exact
+          path="/admin/products/edit/:productId"
+          component={ProductEditForm}
+        />
+        <ProtectedRoutes
+          exact
+          path="/admin/orders/edit/:orderId"
+          component={OrderDetails}
+        />
       </Switch>
       <GlobalStyles />
     </Router>
