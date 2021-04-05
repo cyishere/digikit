@@ -1,3 +1,9 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAllOrders, getOrders } from "../../../slices/orderSlice";
+import fetchStates from "../../../utils/fetchStates";
+import formatCurrency from "../../../utils/formatCurrency";
+
 import { SubLayout as Layout } from "../../../components/Admin";
 import {
   Table,
@@ -10,6 +16,18 @@ import {
 import Button from "../../../components/Button";
 
 const OrderList = () => {
+  const { token } = useSelector((state) => state.user.loginUser);
+  const orders = useSelector(selectAllOrders);
+  const orderStatus = useSelector((state) => state.order.status);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (orderStatus === fetchStates.idle) {
+      dispatch(getOrders(token));
+    }
+  }, [dispatch, orderStatus, token]);
+
   return (
     <Layout pageTitle="Order List">
       <Table>
@@ -24,18 +42,20 @@ const OrderList = () => {
           </Row>
         </Head>
         <Body>
-          <Row>
-            <Cell>1</Cell>
-            <Cell>dskejwiej-3232</Cell>
-            <Cell>2021-03-24 15:17</Cell>
-            <Cell>$117.00</Cell>
-            <Cell>New</Cell>
-            <Cell>
-              <Button variant="info" href="/admin/orders/edit/1">
-                View
-              </Button>
-            </Cell>
-          </Row>
+          {orders.map((order, index) => (
+            <Row key={order.id}>
+              <Cell>{index + 1}</Cell>
+              <Cell>{order.number}</Cell>
+              <Cell>{new Date(order.createdAt).toLocaleString()}</Cell>
+              <Cell>${formatCurrency(order.value)}</Cell>
+              <Cell>{order.status}</Cell>
+              <Cell>
+                <Button variant="info" href={`/admin/orders/edit/${order.id}`}>
+                  View
+                </Button>
+              </Cell>
+            </Row>
+          ))}
         </Body>
       </Table>
     </Layout>

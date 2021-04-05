@@ -4,6 +4,7 @@ import { BACKEND } from "../utils/config";
 const initialState = {
   entities: [],
   message: null,
+  status: "idle",
 };
 
 /**

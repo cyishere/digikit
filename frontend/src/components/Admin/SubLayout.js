@@ -13,7 +13,7 @@ const SubLayout = ({ children, pageTitle }) => {
   );
 };
 
-const Section = styled.section`
+export const Section = styled.section`
   background-color: ${COLORS.white};
   border-radius: 16px;
   padding: 32px;
