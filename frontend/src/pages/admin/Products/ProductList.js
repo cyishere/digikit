@@ -1,3 +1,12 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectAllProducts,
+  getAllProducts,
+} from "../../../slices/productSlice";
+import fetchStates from "../../../utils/fetchStates";
+import formatCurrency from "../../../utils/formatCurrency";
+
 import styled from "styled-components/macro";
 import { COLORS } from "../../../styles/constants";
 import { SubLayout as Layout } from "../../../components/Admin";
@@ -12,6 +21,17 @@ import {
 import Button from "../../../components/Button";
 
 const ProductList = () => {
+  const products = useSelector(selectAllProducts);
+  const productStatus = useSelector((state) => state.product.status);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (productStatus === fetchStates.idle) {
+      dispatch(getAllProducts());
+    }
+  }, [dispatch, productStatus]);
+
   return (
     <Layout pageTitle="Product List">
       <BtnWrapper>
@@ -31,23 +51,28 @@ const ProductList = () => {
           </Row>
         </Head>
         <Body>
-          <Row>
-            <Cell>1</Cell>
-            <Cell>
-              <Img src="/assets/products/gmk-maestro.jpg" alt="GMK Maestro" />
-            </Cell>
-            <Cell>GMK Maestro</Cell>
-            <Cell>$117.00</Cell>
-            <Cell>287</Cell>
-            <Cell>
-              <Button variant="info" href="/products/1">
-                View &#8599;
-              </Button>
-              <Button variant="secondary" href="/admin/products/edit/1">
-                Edit
-              </Button>
-            </Cell>
-          </Row>
+          {products.map((product, index) => (
+            <Row key={product.id}>
+              <Cell>{index + 1}</Cell>
+              <Cell>
+                <Img src={product.images[0]} alt={product.title} />
+              </Cell>
+              <Cell>{product.title}</Cell>
+              <Cell>${formatCurrency(product.price)}</Cell>
+              <Cell>{product.countInStock}</Cell>
+              <Cell>
+                <Button variant="info" href={`/products/${product.id}`}>
+                  View &#8599;
+                </Button>
+                <Button
+                  variant="secondary"
+                  href={`/admin/products/edit/${product.id}`}
+                >
+                  Edit
+                </Button>
+              </Cell>
+            </Row>
+          ))}
         </Body>
       </Table>
     </Layout>

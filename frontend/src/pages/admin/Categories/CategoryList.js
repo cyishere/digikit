@@ -1,3 +1,11 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectAllCategories,
+  getAllCategories,
+} from "../../../slices/categorySlice";
+import fetchStates from "../../../utils/fetchStates";
+
 import styled from "styled-components/macro";
 import { SubLayout as Layout } from "../../../components/Admin";
 import {
@@ -11,6 +19,17 @@ import {
 import Button from "../../../components/Button";
 
 const CategoryList = () => {
+  const categories = useSelector(selectAllCategories);
+  const categoryStatus = useSelector((state) => state.category.status);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (categoryStatus === fetchStates.idle) {
+      dispatch(getAllCategories());
+    }
+  }, [categoryStatus, dispatch]);
+
   return (
     <Layout pageTitle="Category List">
       <BtnWrapper>
@@ -29,16 +48,21 @@ const CategoryList = () => {
           </Row>
         </Head>
         <Body>
-          <Row>
-            <Cell>1</Cell>
-            <Cell>Keyboard</Cell>
-            <Cell>2021</Cell>
-            <Cell>
-              <Button variant="info" href="/admin/categories/edit/1">
-                Edit
-              </Button>
-            </Cell>
-          </Row>
+          {categories.map((category, index) => (
+            <Row key={category.id}>
+              <Cell>{index + 1}</Cell>
+              <Cell>{category.title}</Cell>
+              <Cell>{category.products.length}</Cell>
+              <Cell>
+                <Button
+                  variant="info"
+                  href={`/admin/categories/edit/${category.id}`}
+                >
+                  Edit
+                </Button>
+              </Cell>
+            </Row>
+          ))}
         </Body>
       </Table>
     </Layout>

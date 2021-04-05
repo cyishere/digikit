@@ -100,3 +100,6 @@ export default categorySlice.reducer;
  * ===== Reusable Selector Functions =====
  */
 export const selectAllCategories = (state) => state.category.entities;
+
+export const selectCategoryById = (state, categoryId) =>
+  state.category.entities.find((category) => category.id === categoryId);

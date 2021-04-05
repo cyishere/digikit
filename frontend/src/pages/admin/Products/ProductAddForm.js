@@ -1,9 +1,14 @@
+import { useSelector } from "react-redux";
+import { selectAllCategories } from "../../../slices/categorySlice";
+
 import { SubLayout as Layout } from "../../../components/Admin";
 import { Form, Label, Input, Textarea } from "../../../components/Form";
 import Button from "../../../components/Button";
 import TextLink from "../../../components/TextLink";
 
 const ProductAddForm = () => {
+  const categories = useSelector(selectAllCategories);
+
   return (
     <Layout pageTitle="Add New Product">
       <TextLink to="/admin/products">&larr; Back to product list</TextLink>
@@ -22,7 +27,11 @@ const ProductAddForm = () => {
 
         <Label htmlFor="category">Category</Label>
         <select name="category" id="category">
-          <option>--</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.title}
+            </option>
+          ))}
         </select>
 
         <Label htmlFor="countInStock">Count in Stock</Label>

@@ -1,3 +1,8 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAllUsers, getAllUsers } from "../../../slices/userSlice";
+import fetchStates from "../../../utils/fetchStates";
+
 import { SubLayout as Layout } from "../../../components/Admin";
 import {
   Table,
@@ -7,9 +12,21 @@ import {
   Body,
   Cell,
 } from "../../../components/Table";
-import Button from "../../../components/Button";
 
 const UserList = () => {
+  const { token } = useSelector((state) => state.user.loginUser);
+  const users = useSelector(selectAllUsers);
+  const userStatus = useSelector((state) => state.user.status);
+  console.log("users:", users);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (userStatus === fetchStates.idle) {
+      dispatch(getAllUsers(token));
+    }
+  }, [dispatch, token, userStatus]);
+
   return (
     <Layout pageTitle="User List">
       <Table>
@@ -18,20 +35,24 @@ const UserList = () => {
             <HeadCell>#</HeadCell>
             <HeadCell>Name</HeadCell>
             <HeadCell>Email</HeadCell>
-            <HeadCell>Orders</HeadCell>
-            <HeadCell>Actions</HeadCell>
+            <HeadCell>Sign Up At</HeadCell>
           </Row>
         </Head>
         <Body>
-          <Row>
-            <Cell>1</Cell>
-            <Cell>Debbie Ocean</Cell>
-            <Cell>debbie@oceans.com</Cell>
-            <Cell>117</Cell>
-            <Cell>
-              <Button variant="info">View</Button>
-            </Cell>
-          </Row>
+          {users.length === 0 ? (
+            <Row>
+              <Cell colSpan="4">No user.</Cell>
+            </Row>
+          ) : (
+            users.map((user, index) => (
+              <Row key={user.id}>
+                <Cell>{index + 1}</Cell>
+                <Cell>{user.name}</Cell>
+                <Cell>{user.email}</Cell>
+                <Cell>{new Date(user.createdAt).toLocaleString()}</Cell>
+              </Row>
+            ))
+          )}
         </Body>
       </Table>
     </Layout>
