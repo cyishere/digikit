@@ -15,7 +15,7 @@ import {
   CheckoutPayment,
 } from "../pages/client/Checkout";
 import { OrderList, OrderShow } from "../pages/client/Order";
-import Dashboard from "../pages/admin/Home";
+import { Dashboard } from "../pages/admin";
 
 const App = () => {
   const loginUser = useSelector((state) => state.user.loginUser);
