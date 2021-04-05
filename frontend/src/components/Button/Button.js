@@ -29,6 +29,12 @@ const VARIANTS = {
     "--padding": "8px 16px",
     "--textDecoration": "underline",
   },
+  info: {
+    "--backgroundColor": COLORS.adminPrimary,
+    "--textColor": COLORS.white,
+    "--padding": "16px 24px",
+    "--textDecoration": "none",
+  },
 };
 
 const Button = ({ variant, href, children, ...rest }) => {

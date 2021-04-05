@@ -1,6 +1,5 @@
 import styled from "styled-components/macro";
 import Brand from "../Brand";
-import { DashWrapper } from "../../pages/admin/Layout";
 import { COLORS } from "../../styles/constants";
 
 const Footer = ({ children }) => {
@@ -17,13 +16,6 @@ const Footer = ({ children }) => {
 const Wrapper = styled.footer`
   border-top: 8px solid ${COLORS.primary};
   background-color: ${COLORS.white};
-
-  ${DashWrapper} & {
-    border-top: none;
-    background-color: ${COLORS.grayLight};
-    padding-left: 48px;
-    padding-right: 48px;
-  }
 `;
 
 export const FooterContainer = styled.div`

@@ -7,9 +7,10 @@ import { NavLink } from "react-router-dom";
 import Button from "../Button";
 import Brand from "../Brand";
 import CartSpot from "../Cart/CartSpot";
+import { TrailSign } from "@styled-icons/ionicons-outline";
 
 const Navbar = () => {
-  const loginUser = useSelector((state) => state.user.loginUser);
+  const { userId, authAdmin } = useSelector((state) => state.user.loginUser);
 
   const dispatch = useDispatch();
 
@@ -18,7 +19,7 @@ const Navbar = () => {
   };
 
   const navContent =
-    loginUser.userId !== null ? (
+    userId !== null ? (
       <>
         <NavItem>
           <TextLink to="/orders">orders</TextLink>
@@ -52,6 +53,13 @@ const Navbar = () => {
           <NavItem>
             <TextLink to="/products">products</TextLink>
           </NavItem>
+          {authAdmin && (
+            <NavItem>
+              <TextLink to="/admin/dashboard">
+                <Icon size="24" /> dashboard
+              </TextLink>
+            </NavItem>
+          )}
           {navContent}
           <NavItem>
             <CartSpot />
@@ -100,6 +108,10 @@ const TextLink = styled(NavLink)`
     color: ${COLORS.secondary};
     font-weight: 500;
   }
+`;
+
+const Icon = styled(TrailSign)`
+  color: currentColor;
 `;
 
 export default Navbar;

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { BACKEND } from "../utils/config";
+import fetchStates from "../utils/fetchStates";
 
 const initialState = {
   entities: [],
@@ -8,9 +9,10 @@ const initialState = {
   loginUser: {
     userId: null,
     token: null,
+    authAdmin: false,
   },
-  authAcessStatus: false,
   info: {},
+  status: fetchStates.idle,
 };
 
 // communicate with api
@@ -53,23 +55,8 @@ export const userLogin = createAsyncThunk("user/userLogin", (userInfo) => {
 });
 
 /**
- * @feature Auth for Page Access
+ * @feature Get User Info
  */
-export const authAcess = createAsyncThunk("user/authAcess", (token) => {
-  return fetch(`${BACKEND.API_ADDRESS}/auth`, {
-    headers: {
-      Authorization: "Bearer " + token,
-    },
-  })
-    .then((response) => response.json())
-    .then((json) => json)
-    .catch((error) => {
-      console.log("error in reducer:", error);
-      return error;
-    });
-});
-
-// Get User Info
 export const getUserInfo = createAsyncThunk(
   "user/getUserInfo",
   ({ userId, token }) => {
@@ -87,7 +74,9 @@ export const getUserInfo = createAsyncThunk(
   }
 );
 
-// Update User Info
+/**
+ * @feature Update User Info
+ */
 export const updateUserInfo = createAsyncThunk(
   "user/updateUserInfo",
   ({ userId, token, userInfo }) => {
@@ -107,6 +96,25 @@ export const updateUserInfo = createAsyncThunk(
       });
   }
 );
+
+/**
+ * @feature Get all users
+ */
+export const getAllUsers = createAsyncThunk("user/getAllUsers", (token) => {
+  return fetch(`${BACKEND.API_ADDRESS}/user`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => data)
+    .catch((error) => {
+      console.log("error in reducer:", error);
+      return error;
+    });
+});
 
 /**
  * @feature The Default Slice
@@ -151,16 +159,6 @@ const userSlice = createSlice({
     [userLogin.rejected]: (state, action) => {
       state.message = action.payload.message;
     },
-    [authAcess.fulfilled]: (state, action) => {
-      if (action.payload.type !== "error") {
-        state.authAcessStatus = true;
-      } else {
-        state.message = action.payload.message;
-      }
-    },
-    [authAcess.rejected]: (state, action) => {
-      state.message = action.payload.message;
-    },
     // Get user info
     [getUserInfo.fulfilled]: (state, action) => {
       if (action.payload.type !== "error") {
@@ -185,9 +183,31 @@ const userSlice = createSlice({
     [updateUserInfo.rejected]: (state, action) => {
       state.message = action.payload.message;
     },
+    // Get All Users
+    [getAllUsers.pending]: (state, action) => {
+      state.status = fetchStates.fetching;
+    },
+    [getAllUsers.fulfilled]: (state, action) => {
+      if (action.payload.type !== fetchStates.error) {
+        state.status = fetchStates.success;
+        state.entities = action.payload.users;
+      } else {
+        state.status = fetchStates.error;
+        state.message = action.payload.message;
+      }
+    },
+    [getAllUsers.rejected]: (state, action) => {
+      state.status = fetchStates.error;
+      state.message = action.payload.message;
+    },
   },
 });
 
 export const { setLocalUserToState, logoutUser } = userSlice.actions;
 
 export default userSlice.reducer;
+
+/**
+ * ===== Reusable Selector Functions =====
+ */
+export const selectAllUsers = (state) => state.user.entities;
