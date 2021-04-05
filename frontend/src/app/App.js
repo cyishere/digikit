@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserInfo } from "../slices/userSlice";
 import { initCart } from "../slices/cartSlice";
+import ProtectedRoutes from "./ProtectedRoutes";
 
 import GlobalStyles from "../styles/GlobalStyles";
 import Home from "../pages/client/Home";
@@ -54,11 +55,19 @@ const App = () => {
         <Route exact path="/checkout/payment" component={CheckoutPayment} />
         <Route exact path="/orders" component={OrderList} />
         <Route exact path="/orders/:orderId" component={OrderShow} />
-        <Route exact path="/admin/dashboard" component={Dashboard} />
-        <Route exact path="/admin/products" component={AdminProducts} />
-        <Route exact path="/admin/orders" component={AdminOrders} />
-        <Route exact path="/admin/categories" component={CategoryList} />
-        <Route exact path="/admin/users" component={UserList} />
+        <ProtectedRoutes exact path="/admin/dashboard" component={Dashboard} />
+        <ProtectedRoutes
+          exact
+          path="/admin/products"
+          component={AdminProducts}
+        />
+        <ProtectedRoutes exact path="/admin/orders" component={AdminOrders} />
+        <ProtectedRoutes
+          exact
+          path="/admin/categories"
+          component={CategoryList}
+        />
+        <ProtectedRoutes exact path="/admin/users" component={UserList} />
       </Switch>
       <GlobalStyles />
     </Router>

@@ -2,7 +2,7 @@ const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
-const { SECRET } = require("../utils/config");
+const { SECRET, USER_ROLE_ADMIN } = require("../utils/config");
 const {
   validateName,
   validateEmail,
@@ -53,7 +53,11 @@ router.post("/login", async (req, res, next) => {
       SECRET
     );
 
-    res.json({ userId: foundUser._id.toString(), token });
+    res.json({
+      userId: foundUser._id.toString(),
+      token,
+      authAdmin: foundUser.role === USER_ROLE_ADMIN,
+    });
   } catch (error) {
     console.log({ error });
     next(error);
@@ -109,22 +113,6 @@ router.post("/register", async (req, res, next) => {
     const savedUser = await newUser.save();
 
     res.json({ user: savedUser });
-  } catch (error) {
-    next(error);
-  }
-});
-
-/**
- * @feature ADMIN ACCESS AUTH
- */
-router.get("/auth", async (req, res, next) => {
-  try {
-    if (!req.userAdmin) {
-      const error = new Error("403 Unauthorized");
-      error.statusCode = 403;
-      throw error;
-    }
-    res.json({ message: "accessed" });
   } catch (error) {
     next(error);
   }

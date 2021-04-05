@@ -20,6 +20,7 @@ const Layout = ({ children }) => {
 };
 
 const Wrapper = styled.div`
+  min-height: 100vh;
   display: grid;
   grid-template-columns: 360px 1fr;
   background-color: ${COLORS.adminGrayLighter};

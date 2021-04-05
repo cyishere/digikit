@@ -8,8 +8,8 @@ const initialState = {
   loginUser: {
     userId: null,
     token: null,
+    authAdmin: false,
   },
-  authAcessStatus: false,
   info: {},
 };
 
@@ -43,23 +43,6 @@ export const userLogin = createAsyncThunk("user/userLogin", (userInfo) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(userInfo),
-  })
-    .then((response) => response.json())
-    .then((json) => json)
-    .catch((error) => {
-      console.log("error in reducer:", error);
-      return error;
-    });
-});
-
-/**
- * @feature Auth for Page Access
- */
-export const authAcess = createAsyncThunk("user/authAcess", (token) => {
-  return fetch(`${BACKEND.API_ADDRESS}/auth`, {
-    headers: {
-      Authorization: "Bearer " + token,
-    },
   })
     .then((response) => response.json())
     .then((json) => json)
@@ -149,16 +132,6 @@ const userSlice = createSlice({
       }
     },
     [userLogin.rejected]: (state, action) => {
-      state.message = action.payload.message;
-    },
-    [authAcess.fulfilled]: (state, action) => {
-      if (action.payload.type !== "error") {
-        state.authAcessStatus = true;
-      } else {
-        state.message = action.payload.message;
-      }
-    },
-    [authAcess.rejected]: (state, action) => {
       state.message = action.payload.message;
     },
     // Get user info
