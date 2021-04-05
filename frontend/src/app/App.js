@@ -15,7 +15,13 @@ import {
   CheckoutPayment,
 } from "../pages/client/Checkout";
 import { OrderList, OrderShow } from "../pages/client/Order";
-import { Dashboard } from "../pages/admin";
+import {
+  Dashboard,
+  ProductList as AdminProducts,
+  OrderList as AdminOrders,
+  CategoryList,
+  UserList,
+} from "../pages/admin";
 
 const App = () => {
   const loginUser = useSelector((state) => state.user.loginUser);
@@ -42,13 +48,17 @@ const App = () => {
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Signup} />
         <Route exact path="/products" component={ProductList} />
-        <Route exact path="/admin" component={Dashboard} />
         <Route exact path="/products/:productId" component={ProductShow} />
         <Route exact path="/checkout/cart" component={CheckoutCart} />
         <Route exact path="/checkout/shipping" component={CheckoutShipping} />
         <Route exact path="/checkout/payment" component={CheckoutPayment} />
         <Route exact path="/orders" component={OrderList} />
         <Route exact path="/orders/:orderId" component={OrderShow} />
+        <Route exact path="/admin/dashboard" component={Dashboard} />
+        <Route exact path="/admin/products" component={AdminProducts} />
+        <Route exact path="/admin/orders" component={AdminOrders} />
+        <Route exact path="/admin/categories" component={CategoryList} />
+        <Route exact path="/admin/users" component={UserList} />
       </Switch>
       <GlobalStyles />
     </Router>

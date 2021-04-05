@@ -11,7 +11,7 @@ const Sidebar = () => {
       </SideHeader>
       <LinkWrapper>
         <LinkContainer>
-          <Link to="/admin">Dashboard</Link>
+          <Link to="/admin/dashboard">Dashboard</Link>
         </LinkContainer>
         <LinkContainer>
           <Link to="/admin/products">Products</Link>
