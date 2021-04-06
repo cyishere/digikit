@@ -74,6 +74,7 @@ const Wrapper = styled.button`
 
   ${Table} & {
     padding: 8px 16px;
+    display: inline-block;
   }
 `;
 

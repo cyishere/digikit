@@ -107,7 +107,27 @@ export const deleteCategory = createAsyncThunk(
 const categorySlice = createSlice({
   name: "category",
   initialState,
-  reducers: {},
+  reducers: {
+    updateWithProductRemoved: (state, action) => {
+      const { productId, categoryId } = action.payload;
+
+      state.entities.forEach((entity) => {
+        if (entity.id === categoryId) {
+          entity.products = entity.products.filter(
+            (product) => product !== productId
+          );
+        }
+      });
+    },
+    updateWithProductAdded: (state, action) => {
+      const { productId, categoryId } = action.payload;
+      state.entities.forEach((entity) => {
+        if (entity.id === categoryId) {
+          entity.products = entity.products.concat(productId);
+        }
+      });
+    },
+  },
   extraReducers: {
     [getAllCategories.pending]: (state, action) => {
       state.status = fetchStates.fetching;
@@ -170,6 +190,11 @@ const categorySlice = createSlice({
     },
   },
 });
+
+export const {
+  updateWithProductRemoved,
+  updateWithProductAdded,
+} = categorySlice.actions;
 
 export default categorySlice.reducer;
 
