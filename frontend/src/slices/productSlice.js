@@ -12,6 +12,7 @@ const initialState = {
 /**
  * ACTIONS
  */
+// Get All
 export const getAllProducts = createAsyncThunk("product/getAllProducts", () => {
   return fetch(`${BACKEND.API_ADDRESS}/product`)
     .then((response) => response.json())
@@ -42,6 +43,27 @@ export const addNewProduct = createAsyncThunk(
   ({ productInfo, token }) => {
     return fetch(`${BACKEND.API_ADDRESS}/product`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify(productInfo),
+    })
+      .then((response) => response.json())
+      .then((json) => json)
+      .catch((error) => {
+        console.log("error in reducer:", error);
+        return error.message;
+      });
+  }
+);
+
+// Update One
+export const updateProduct = createAsyncThunk(
+  "product/updateProduct",
+  ({ productInfo, token }) => {
+    return fetch(`${BACKEND.API_ADDRESS}/product/${productInfo.id}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -101,6 +123,31 @@ const productSlice = createSlice({
       }
     },
     [addNewProduct.rejected]: (state, action) => {
+      state.message = action.payload;
+    },
+    // Update One
+    [updateProduct.fulfilled]: (state, action) => {
+      if (action.payload.type === "error") {
+        state.message = action.payload.message;
+      } else {
+        const { product, message } = action.payload;
+
+        state.entities.forEach((entity) => {
+          if (entity.id === product.id) {
+            entity.title = product.title;
+            entity.price = product.price;
+            entity.brand = product.brand;
+            entity.category = product.category;
+            entity.description = product.description;
+            entity.countInStock = product.countInStock;
+            entity.images = product.images;
+          }
+        });
+
+        state.message = message;
+      }
+    },
+    [updateProduct.rejected]: (state, action) => {
       state.message = action.payload;
     },
   },
