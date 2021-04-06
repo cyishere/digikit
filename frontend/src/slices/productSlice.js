@@ -79,6 +79,26 @@ export const updateProduct = createAsyncThunk(
   }
 );
 
+// Delete One
+export const deleteProduct = createAsyncThunk(
+  "product/deleteProduct",
+  ({ productId, token }) => {
+    return fetch(`${BACKEND.API_ADDRESS}/product/${productId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => json)
+      .catch((error) => {
+        console.log("error in reducer:", error);
+        return error.message;
+      });
+  }
+);
+
 /**
  * Main Slice
  */
@@ -148,6 +168,22 @@ const productSlice = createSlice({
       }
     },
     [updateProduct.rejected]: (state, action) => {
+      state.message = action.payload;
+    },
+    // Delete One
+    [deleteProduct.fulfilled]: (state, action) => {
+      if (action.payload.type === fetchStates.error) {
+        state.message = action.payload.message;
+      } else {
+        const { productId, message } = action.payload;
+        state.entities = state.entities.filter(
+          (entity) => entity.id !== productId
+        );
+
+        state.message = message;
+      }
+    },
+    [deleteProduct.rejected]: (state, action) => {
       state.message = action.payload;
     },
   },

@@ -120,7 +120,6 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-// TODO
 /**
  * @feature Update a product
  * @route   PUT /api/product/:id
@@ -197,8 +196,6 @@ router.put("/:id", userAuth, userAdmin, async (req, res, next) => {
       new: true,
     });
 
-    console.log({ product: updatedProduct, message: "Successfully updated!" });
-
     res.json({ product: updatedProduct, message: "Successfully updated!" });
   } catch (error) {
     next(error);
@@ -229,7 +226,7 @@ router.delete("/:id", userAuth, userAdmin, async (req, res, next) => {
       $pull: { products: product.id },
     });
 
-    res.json({ message: "Delete successfully!" });
+    res.json({ productId: req.params.id, message: "Delete successfully!" });
   } catch (error) {
     next(error);
   }

@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
-import { selectAllCategories } from "../../../slices/categorySlice";
+import {
+  selectAllCategories,
+  updateWithProductAdded,
+} from "../../../slices/categorySlice";
 import { selectLoginUser } from "../../../slices/userSlice";
 import { addNewProduct } from "../../../slices/productSlice";
 import { useFormChange } from "../../../utils/hooks";
@@ -31,9 +34,10 @@ const ProductAddForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const categoryId = e.target.category.value;
     const productInfo = {
       ...values,
-      category: e.target.category.value,
+      category: categoryId,
     };
     const actionResult = await dispatch(addNewProduct({ productInfo, token }));
     const result = unwrapResult(actionResult);
@@ -41,6 +45,8 @@ const ProductAddForm = () => {
     if (result.type === fetchStates.error) {
       setRequestStatus(fetchStates.error);
     } else {
+      const productId = result.product.id;
+      dispatch(updateWithProductAdded({ productId, categoryId }));
       setRequestStatus(fetchStates.success);
       resetValues();
     }
