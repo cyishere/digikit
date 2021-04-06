@@ -1,5 +1,14 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import fetchStates from "../../utils/fetchStates";
+import { getAllProducts, selectAllProducts } from "../../slices/productSlice";
+import {
+  getAllCategories,
+  selectAllCategories,
+} from "../../slices/categorySlice";
+import { getOrders, selectAllOrders } from "../../slices/orderSlice";
+import { getAllUsers, selectAllUsers } from "../../slices/userSlice";
 
 import styled from "styled-components/macro";
 import { Basket, Cube, FileTray, People } from "@styled-icons/ionicons-outline";
@@ -7,7 +16,39 @@ import { COLORS } from "../../styles/constants";
 import { Layout } from "../../components/Admin";
 
 const Dashboard = () => {
-  const categories = useSelector((state) => state.category.entities);
+  const { token } = useSelector((state) => state.user.loginUser);
+
+  const products = useSelector(selectAllProducts);
+  const productStatus = useSelector((state) => state.product.status);
+
+  const categories = useSelector(selectAllCategories);
+  const categoryStatus = useSelector((state) => state.category.status);
+
+  const orders = useSelector(selectAllOrders);
+  const orderStatus = useSelector((state) => state.order.status);
+
+  const users = useSelector(selectAllUsers);
+  const userStatus = useSelector((state) => state.user.status);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (productStatus === fetchStates.idle) {
+      dispatch(getAllProducts());
+    }
+
+    if (categoryStatus === fetchStates.idle) {
+      dispatch(getAllCategories());
+    }
+
+    if (orderStatus === fetchStates.idle) {
+      dispatch(getOrders(token));
+    }
+
+    if (userStatus === fetchStates.idle) {
+      dispatch(getAllUsers(token));
+    }
+  }, [categoryStatus, dispatch, orderStatus, productStatus, token, userStatus]);
 
   return (
     <Layout>
@@ -17,7 +58,7 @@ const Dashboard = () => {
           <TextLink to="/admin/products">Products</TextLink>
         </Title>
 
-        <Number>187</Number>
+        <Number>{products.length}</Number>
       </Section>
       <Section>
         <Title>
@@ -25,7 +66,7 @@ const Dashboard = () => {
           <TextLink to="/admin/orders">Orders</TextLink>
         </Title>
 
-        <Number>187</Number>
+        <Number>{orders.length}</Number>
       </Section>
       <Section>
         <Title>
@@ -41,7 +82,7 @@ const Dashboard = () => {
           <TextLink to="/admin/users">Users</TextLink>
         </Title>
 
-        <Number>3</Number>
+        <Number>{users.length}</Number>
       </Section>
     </Layout>
   );
