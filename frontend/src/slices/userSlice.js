@@ -123,10 +123,6 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    // TODO what's this for??
-    setLocalUserToState: (state, action) => {
-      state.loginUser = action.payload;
-    },
     logoutUser: (state, action) => {
       state.loginUser = {
         userId: null,
@@ -203,7 +199,7 @@ const userSlice = createSlice({
   },
 });
 
-export const { setLocalUserToState, logoutUser } = userSlice.actions;
+export const { logoutUser } = userSlice.actions;
 
 export default userSlice.reducer;
 

@@ -26,7 +26,7 @@ router.post("/", userAuth, async (req, res, next) => {
 
     const savedOrder = await newOrder.save();
 
-    // TODO remove countInStock from products
+    // remove countInStock from products
     products.forEach(async (item) => {
       const product = await Product.findById(item.id);
       await Product.findByIdAndUpdate(item.id, {
