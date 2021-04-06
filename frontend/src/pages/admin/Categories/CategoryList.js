@@ -1,8 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { unwrapResult } from "@reduxjs/toolkit";
 import {
   selectAllCategories,
   getAllCategories,
+  deleteCategory,
 } from "../../../slices/categorySlice";
 import fetchStates from "../../../utils/fetchStates";
 
@@ -17,10 +19,14 @@ import {
   Cell,
 } from "../../../components/Table";
 import Button from "../../../components/Button";
+import Message from "../../../components/Message";
 
 const CategoryList = () => {
   const categories = useSelector(selectAllCategories);
   const categoryStatus = useSelector((state) => state.category.status);
+  const message = useSelector((state) => state.category.message);
+  const { token } = useSelector((state) => state.user.loginUser);
+  const [deleteStatus, setDeleteStatus] = useState(fetchStates.idle);
 
   const dispatch = useDispatch();
 
@@ -30,6 +36,20 @@ const CategoryList = () => {
     }
   }, [categoryStatus, dispatch]);
 
+  const handleDelete = async (categoryId) => {
+    try {
+      const actionResult = await dispatch(
+        deleteCategory({ categoryId, token })
+      );
+      const result = unwrapResult(actionResult);
+      if (result.type === fetchStates.error) {
+        setDeleteStatus(fetchStates.error);
+      }
+    } catch (error) {
+      setDeleteStatus(fetchStates.error);
+    }
+  };
+
   return (
     <Layout pageTitle="Category List">
       <BtnWrapper>
@@ -37,6 +57,10 @@ const CategoryList = () => {
           New
         </Button>
       </BtnWrapper>
+
+      {deleteStatus === fetchStates.error && (
+        <Message variant="danger">{message}</Message>
+      )}
 
       <Table>
         <Head>
@@ -59,6 +83,13 @@ const CategoryList = () => {
                   href={`/admin/categories/edit/${category.id}`}
                 >
                   Edit
+                </Button>
+                <Button
+                  variant="danger"
+                  type="button"
+                  onClick={() => handleDelete(category.id)}
+                >
+                  Delete
                 </Button>
               </Cell>
             </Row>

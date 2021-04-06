@@ -1,11 +1,14 @@
 import { Link } from "react-router-dom";
-import { Basket, Cube, FileTray, People } from "@styled-icons/ionicons-outline";
+import { useSelector } from "react-redux";
 
 import styled from "styled-components/macro";
+import { Basket, Cube, FileTray, People } from "@styled-icons/ionicons-outline";
 import { COLORS } from "../../styles/constants";
 import { Layout } from "../../components/Admin";
 
 const Dashboard = () => {
+  const categories = useSelector((state) => state.category.entities);
+
   return (
     <Layout>
       <Section>
@@ -30,7 +33,7 @@ const Dashboard = () => {
           <TextLink to="/admin/categories">Categories</TextLink>
         </Title>
 
-        <Number>3</Number>
+        <Number>{categories.length}</Number>
       </Section>
       <Section>
         <Title>

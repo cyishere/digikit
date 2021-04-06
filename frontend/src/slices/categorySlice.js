@@ -3,7 +3,7 @@ import { BACKEND } from "../utils/config";
 import fetchStates from "../utils/fetchStates";
 
 const initialState = {
-  status: "idle",
+  status: fetchStates.idle,
   entities: [],
   message: null,
 };
@@ -11,6 +11,7 @@ const initialState = {
 /**
  * ACTIONS
  */
+// Get All
 export const getAllCategories = createAsyncThunk(
   "category/getAllCategories",
   () => {
@@ -33,7 +34,7 @@ export const getOneCategory = createAsyncThunk(
       .then((json) => json)
       .catch((error) => {
         console.log("error in reducer:", error);
-        return error;
+        return error.message;
       });
   }
 );
@@ -59,6 +60,47 @@ export const addNewCategory = createAsyncThunk(
   }
 );
 
+// Update One
+export const updateCategory = createAsyncThunk(
+  "category/updateCategory",
+  ({ cateInfo, token }) => {
+    return fetch(`${BACKEND.API_ADDRESS}/category/${cateInfo.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify(cateInfo),
+    })
+      .then((response) => response.json())
+      .then((data) => data)
+      .catch((error) => {
+        console.log("error in reducer:", error);
+        return error.message;
+      });
+  }
+);
+
+// Delete One
+export const deleteCategory = createAsyncThunk(
+  "category/deleteCategory",
+  ({ categoryId, token }) => {
+    return fetch(`${BACKEND.API_ADDRESS}/category/${categoryId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => data)
+      .catch((error) => {
+        console.log("error in reducer:", error);
+        return error.message;
+      });
+  }
+);
+
 /**
  * Main Slice
  */
@@ -71,7 +113,7 @@ const categorySlice = createSlice({
       state.status = fetchStates.fetching;
     },
     [getAllCategories.fulfilled]: (state, action) => {
-      if (action.payload.type !== "error") {
+      if (action.payload.type !== fetchStates.error) {
         state.entities = action.payload.categories;
         state.status = fetchStates.success;
       } else {
@@ -81,15 +123,50 @@ const categorySlice = createSlice({
     },
     [getAllCategories.rejected]: (state, action) => {
       state.status = fetchStates.error;
-      state.message = action.payload.message;
+      state.message = action.payload;
     },
+    // Add One
     [addNewCategory.fulfilled]: (state, action) => {
-      if (action.payload.type === "error") {
+      if (action.payload.type === fetchStates.error) {
         state.message = action.payload.message;
       } else {
         state.entities = state.entities.concat(action.payload.category);
         state.message = action.payload.message;
       }
+    },
+    [addNewCategory.rejected]: (state, action) => {
+      state.message = action.payload;
+    },
+    // Update One Category
+    [updateCategory.fulfilled]: (state, action) => {
+      if (action.payload.type === fetchStates.error) {
+        state.message = action.payload.message;
+      } else {
+        const { category, message } = action.payload;
+        state.entities.forEach((entity) => {
+          if (entity.id === category.id) {
+            entity.title = category.title;
+          }
+        });
+        state.message = message;
+      }
+    },
+    [updateCategory.rejected]: (state, action) => {
+      state.message = action.payload;
+    },
+    // Delete
+    [deleteCategory.fulfilled]: (state, action) => {
+      if (action.payload.type === fetchStates.error) {
+        state.message = action.payload.message;
+      } else {
+        const { categoryId } = action.payload;
+        state.entities = state.entities.filter(
+          (entity) => entity.id !== categoryId
+        );
+      }
+    },
+    [deleteCategory.rejected]: (state, action) => {
+      state.message = action.payload;
     },
   },
 });

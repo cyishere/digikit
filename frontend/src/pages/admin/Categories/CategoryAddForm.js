@@ -23,15 +23,19 @@ const CategoryAddForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const actionResult = await dispatch(
-      addNewCategory({ cateInfo: values, token })
-    );
-    const result = unwrapResult(actionResult);
-    if (result.type === fetchStates.error) {
+    try {
+      const actionResult = await dispatch(
+        addNewCategory({ cateInfo: values, token })
+      );
+      const result = unwrapResult(actionResult);
+      if (result.type === fetchStates.error) {
+        setRequestStatus(fetchStates.error);
+      } else {
+        setRequestStatus(fetchStates.success);
+        resetValues();
+      }
+    } catch (error) {
       setRequestStatus(fetchStates.error);
-    } else {
-      setRequestStatus(fetchStates.success);
-      resetValues();
     }
   };
 
