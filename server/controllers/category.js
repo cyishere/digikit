@@ -101,7 +101,7 @@ router.put("/:id", userAuth, userAdmin, async (req, res, next) => {
       { new: true }
     );
 
-    res.json({ category: updatedCategory });
+    res.json({ category: updatedCategory, message: "Successfully updated!" });
   } catch (error) {
     next(error);
   }
@@ -123,12 +123,12 @@ router.delete("/:id", userAuth, userAdmin, async (req, res, next) => {
     }
 
     if (category.products.length > 0) {
-      notFoundError("There are products in this category.");
+      badRequestError("There are products in this category.");
     }
 
     await Category.findByIdAndRemove(id);
 
-    res.status(204).end();
+    res.json({ categoryId: id, message: "Successfully deleted!" });
   } catch (error) {
     next(error);
   }
