@@ -211,3 +211,5 @@ export default userSlice.reducer;
  * ===== Reusable Selector Functions =====
  */
 export const selectAllUsers = (state) => state.user.entities;
+
+export const selectLoginUser = (state) => state.user.loginUser;

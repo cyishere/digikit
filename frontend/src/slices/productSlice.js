@@ -91,6 +91,7 @@ const productSlice = createSlice({
     [getProductById.rejected]: (state, action) => {
       state.message = action.payload;
     },
+    // Add One
     [addNewProduct.fulfilled]: (state, action) => {
       if (action.payload.type === "error") {
         state.message = action.payload.message;
@@ -98,6 +99,9 @@ const productSlice = createSlice({
         state.entities = state.entities.concat(action.payload.product);
         state.message = action.payload.message;
       }
+    },
+    [addNewProduct.rejected]: (state, action) => {
+      state.message = action.payload;
     },
   },
 });
