@@ -1,23 +1,78 @@
-import { useSelector } from "react-redux";
-import { selectProductById } from "../../../slices/productSlice";
-import { selectAllCategories } from "../../../slices/categorySlice";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { selectLoginUser } from "../../../slices/userSlice";
+import { selectProductById, updateProduct } from "../../../slices/productSlice";
+import {
+  selectAllCategories,
+  getAllCategories,
+} from "../../../slices/categorySlice";
 import { useFormChange } from "../../../utils/hooks";
+import fetchStates from "../../../utils/fetchStates";
 
 import { SubLayout as Layout } from "../../../components/Admin";
-import { Form, Label, Input, Textarea } from "../../../components/Form";
+import { Form, Label, Input, Textarea, Select } from "../../../components/Form";
 import Button from "../../../components/Button";
 import TextLink from "../../../components/TextLink";
+import Message from "../../../components/Message";
 
 const ProductEditForm = ({ match }) => {
   const { productId } = match.params;
   const product = useSelector((state) => selectProductById(state, productId));
+  const message = useSelector((state) => state.product.message);
   const categories = useSelector(selectAllCategories);
-  const { values, handleChange } = useFormChange(product);
+  const { token } = useSelector(selectLoginUser);
+  const { values, handleChange } = useFormChange({
+    ...product,
+    imageUrl: product.images[0],
+  });
+  const [requestStatus, setRequestStatus] = useState(fetchStates.idle);
+
+  const dispatch = useDispatch();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const categoryId = e.target.category.value;
+
+    try {
+      const productInfo = {
+        ...values,
+        id: productId,
+        category: categoryId,
+      };
+
+      const actionResult = await dispatch(
+        updateProduct({ productInfo, token })
+      );
+      const result = unwrapResult(actionResult);
+
+      if (result.type === fetchStates.error) {
+        setRequestStatus(fetchStates.error);
+      } else {
+        setRequestStatus(fetchStates.success);
+
+        // whether category is the same one
+        if (categoryId !== product.category) {
+          await dispatch(getAllCategories());
+        }
+      }
+    } catch (error) {
+      setRequestStatus(fetchStates.error);
+    }
+  };
 
   return (
     <Layout pageTitle="Edit Product">
       <TextLink to="/admin/products">&larr; Back to product list</TextLink>
-      <Form>
+
+      {requestStatus === fetchStates.error && (
+        <Message variant="danger">{message}</Message>
+      )}
+      {requestStatus === fetchStates.success && (
+        <Message variant="success">{message}</Message>
+      )}
+
+      <Form onSubmit={handleSubmit}>
         <Label htmlFor="title">Product Title</Label>
         <Input
           type="text"
@@ -37,9 +92,12 @@ const ProductEditForm = ({ match }) => {
         />
 
         <Label htmlFor="description">Description</Label>
-        <Textarea id="description" name="description" onChange={handleChange}>
-          {values.description}
-        </Textarea>
+        <Textarea
+          id="description"
+          name="description"
+          value={values.description}
+          onChange={handleChange}
+        ></Textarea>
 
         <Label htmlFor="brand">Brand</Label>
         <Input
@@ -51,13 +109,13 @@ const ProductEditForm = ({ match }) => {
         />
 
         <Label htmlFor="category">Category</Label>
-        <select name="category" id="category" defaultValue={product.category}>
+        <Select name="category" id="category" defaultValue={product.category}>
           {categories.map((category) => (
             <option key={category.id} value={category.id}>
               {category.title}
             </option>
           ))}
-        </select>
+        </Select>
 
         <Label htmlFor="countInStock">Count in Stock</Label>
         <Input
@@ -78,7 +136,9 @@ const ProductEditForm = ({ match }) => {
           onChange={handleChange}
         />
 
-        <Button variant="info">Save</Button>
+        <Button variant="info" type="submit">
+          Save
+        </Button>
       </Form>
     </Layout>
   );

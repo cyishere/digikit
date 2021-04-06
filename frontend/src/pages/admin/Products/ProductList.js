@@ -1,9 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { unwrapResult } from "@reduxjs/toolkit";
 import {
   selectAllProducts,
   getAllProducts,
+  deleteProduct,
 } from "../../../slices/productSlice";
+import { selectLoginUser } from "../../../slices/userSlice";
+import { updateWithProductRemoved } from "../../../slices/categorySlice";
 import fetchStates from "../../../utils/fetchStates";
 import formatCurrency from "../../../utils/formatCurrency";
 
@@ -19,10 +23,15 @@ import {
   Cell,
 } from "../../../components/Table";
 import Button from "../../../components/Button";
+import Message from "../../../components/Message";
 
 const ProductList = () => {
   const products = useSelector(selectAllProducts);
   const productStatus = useSelector((state) => state.product.status);
+  const message = useSelector((state) => state.product.message);
+  const { token } = useSelector(selectLoginUser);
+
+  const [deleteStatus, setDeleteStatus] = useState(fetchStates.idle);
 
   const dispatch = useDispatch();
 
@@ -32,6 +41,22 @@ const ProductList = () => {
     }
   }, [dispatch, productStatus]);
 
+  const handleDelete = async (productId, categoryId) => {
+    try {
+      const actionResult = await dispatch(deleteProduct({ productId, token }));
+      const result = unwrapResult(actionResult);
+
+      if (result.type === fetchStates.error) {
+        setDeleteStatus(fetchStates.error);
+      } else {
+        // update the category
+        dispatch(updateWithProductRemoved({ productId, categoryId }));
+      }
+    } catch (error) {
+      setDeleteStatus(fetchStates.error);
+    }
+  };
+
   return (
     <Layout pageTitle="Product List">
       <BtnWrapper>
@@ -39,6 +64,11 @@ const ProductList = () => {
           New
         </Button>
       </BtnWrapper>
+
+      {deleteStatus === fetchStates.error && (
+        <Message variant="danger">{message}</Message>
+      )}
+
       <Table>
         <Head>
           <Row>
@@ -69,6 +99,12 @@ const ProductList = () => {
                   href={`/admin/products/edit/${product.id}`}
                 >
                   Edit
+                </Button>
+                <Button
+                  variant="danger"
+                  onClick={() => handleDelete(product.id, product.category)}
+                >
+                  Delete
                 </Button>
               </Cell>
             </Row>

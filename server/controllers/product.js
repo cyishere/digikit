@@ -120,12 +120,87 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-// TODO
 /**
  * @feature Update a product
  * @route   PUT /api/product/:id
  * @access  Private (admin only)
  */
+router.put("/:id", userAuth, userAdmin, async (req, res, next) => {
+  try {
+    const id = req.params.id;
+
+    const {
+      title,
+      price,
+      description,
+      brand,
+      category,
+      countInStock,
+      imageUrl,
+    } = req.body;
+
+    if (
+      title.trim() === "" ||
+      description.trim() === "" ||
+      price.toString().trim() === "" ||
+      brand.trim() === "" ||
+      imageUrl.trim() === "" ||
+      countInStock.toString().trim() === ""
+    ) {
+      badRequestError("Content cannot be empty...");
+    }
+
+    // find the product
+    const originalProduct = await Product.findById(id);
+
+    if (!originalProduct) {
+      notFoundError("Product not found.");
+    }
+
+    // whether is the same category
+    if (originalProduct.category !== category) {
+      const categoryInDB = await Category.findOne({ _id: category });
+
+      if (!categoryInDB) {
+        badRequestError("This category doesn't exist...");
+      }
+
+      // remove product id from the old category
+      await Category.findByIdAndUpdate(originalProduct.category, {
+        $pull: { products: id },
+      });
+
+      // add the product id to the new category
+      await Category.findByIdAndUpdate(category, { $push: { products: id } });
+    }
+
+    const newProductInfo = {
+      title,
+      description,
+      price: +price,
+      brand,
+      category,
+      countInStock: +countInStock,
+    };
+
+    // whether the picture is the same one
+    if (originalProduct.images[0] !== imageUrl) {
+      await Product.findByIdAndUpdate(id, {
+        $pull: { images: originalProduct.images[0] },
+      });
+
+      await Product.findByIdAndUpdate(id, { $push: { images: imageUrl } });
+    }
+
+    const updatedProduct = await Product.findByIdAndUpdate(id, newProductInfo, {
+      new: true,
+    });
+
+    res.json({ product: updatedProduct, message: "Successfully updated!" });
+  } catch (error) {
+    next(error);
+  }
+});
 
 /**
  * @feature Delete a product
@@ -151,7 +226,7 @@ router.delete("/:id", userAuth, userAdmin, async (req, res, next) => {
       $pull: { products: product.id },
     });
 
-    res.json({ message: "Delete successfully!" });
+    res.json({ productId: req.params.id, message: "Delete successfully!" });
   } catch (error) {
     next(error);
   }

@@ -8,6 +8,7 @@ const Cell = ({ children, ...rest }) => {
 
 const Wrapper = styled.td`
   padding: 24px;
+  vertical-align: top;
 
   ${Row}:not(:last-child) & {
     border-bottom: 1px solid ${COLORS.gray};
