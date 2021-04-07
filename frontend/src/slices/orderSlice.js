@@ -100,7 +100,8 @@ const orderSlice = createSlice({
     // Create One
     [createOrder.fulfilled]: (state, action) => {
       if (action.payload.type !== fetchStates.error) {
-        state.entities = state.entities.concat(action.payload.orders);
+        state.entities = state.entities.concat(action.payload.order);
+        state.message = action.payload.message;
       } else {
         state.message = action.payload.message;
       }
