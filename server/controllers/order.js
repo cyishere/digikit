@@ -18,7 +18,7 @@ router.post("/", userAuth, async (req, res, next) => {
     const newOrder = new Order({
       number: uuidv4(),
       createdAt: new Date(),
-      customer: req.userId,
+      customer: req.user.id,
       products,
       value: req.body.value,
       status: "New", // Shipped, Cancelled, Completed
@@ -58,6 +58,43 @@ router.get("/", userAuth, async (req, res, next) => {
     }
 
     res.json({ orders });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * @feature Update an order's status
+ * @route   PUT /api/order/:id
+ * @access  Private
+ */
+router.put("/:id", userAuth, async (req, res, next) => {
+  try {
+    const orderId = req.params.id;
+    const currentUser = req.user;
+
+    const order = await Order.findById(orderId);
+
+    if (!order) {
+      notFoundError("Order Not Found");
+    }
+
+    // if currentUser is not admin or not the user who create this order
+    if (order.customer.toString() !== currentUser.id.toString()) {
+      if (currentUser.role !== USER_ROLE_ADMIN) {
+        unAuthorizedError("Not Allowed");
+      }
+    }
+
+    const { status } = req.body;
+
+    await Order.findByIdAndUpdate(orderId, { status }, { new: true });
+
+    res.json({
+      orderId,
+      newStatus: status,
+      message: "Successfully updated the status!",
+    });
   } catch (error) {
     next(error);
   }

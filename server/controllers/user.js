@@ -29,13 +29,18 @@ router.get("/", userAuth, userAdmin, async (req, res, next) => {
  */
 router.get("/:id", userAuth, async (req, res, next) => {
   console.log("req.user:", req.user);
+  const currentUser = req.user;
+  const userId = req.params.id;
+
   try {
     // check wheather is the user herself getting it
-    if (req.user.role !== USER_ROLE_ADMIN || req.user.id !== req.params.id) {
-      unAuthorizedError("Not allowed");
+    if (currentUser.id.toString() !== userId.toString()) {
+      if (currentUser.role !== USER_ROLE_ADMIN) {
+        unAuthorizedError("Not Allowed");
+      }
     }
 
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(userId);
 
     if (!user) {
       notFoundError("User Not Found");
