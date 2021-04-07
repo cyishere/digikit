@@ -34,7 +34,7 @@ router.post("/", userAuth, async (req, res, next) => {
       });
     });
 
-    res.json({ orderId: savedOrder.id, message: "Purchase successfully!" });
+    res.json({ order: savedOrder, message: "Purchase successfully!" });
   } catch (error) {
     next(error);
   }
