@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrders } from "../../../slices/orderSlice";
+import { getOrders, selectOrdersByUser } from "../../../slices/orderSlice";
+import fetchStates from "../../../utils/fetchStates";
 
 import styled from "styled-components/macro";
 import { COLORS } from "../../../styles/constants";
@@ -23,14 +24,17 @@ const settings = [
 ];
 
 const OrderList = () => {
-  const orders = useSelector((state) => state.order.entities);
-  const { token } = useSelector((state) => state.user.loginUser);
+  const { userId, token } = useSelector((state) => state.user.loginUser);
+  const orders = useSelector((state) => selectOrdersByUser(state, userId));
+  const status = useSelector((state) => state.order.status);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getOrders(token));
-  }, [dispatch, token]);
+    if (status === fetchStates.idle) {
+      dispatch(getOrders(token));
+    }
+  }, [dispatch, status, token]);
 
   return (
     <Layout>
