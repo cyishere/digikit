@@ -64,7 +64,9 @@ router.put("/:id", userAuth, async (req, res, next) => {
       unAuthorizedError("Not allowed");
     }
 
-    const updatedUser = await User.findByIdAndUpdate(id, req.body);
+    const updatedUser = await User.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
 
     res.json({ user: updatedUser, message: "User information updated!" });
   } catch (error) {

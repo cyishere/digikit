@@ -7,6 +7,8 @@ const initialState = {
   entities: [],
   currentProduct: {},
   message: null,
+  filterCategory: null,
+  filterBrand: null,
 };
 
 /**
@@ -195,5 +197,12 @@ export default productSlice.reducer;
  * ===== Reusable Selector Functions =====
  */
 export const selectAllProducts = (state) => state.product.entities;
+
 export const selectProductById = (state, productId) =>
   state.product.entities.find((product) => product.id === productId);
+
+export const selectProductsByCategory = (state, categoryId) =>
+  state.product.entities.filter((product) => product.category === categoryId);
+
+export const selectProductsByBrand = (state, brand) =>
+  state.product.entities.filter((product) => product.brand === brand);

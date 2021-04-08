@@ -9,18 +9,15 @@ import fetchStates from "../../../utils/fetchStates";
 import styled from "styled-components/macro";
 import { COLORS } from "../../../styles/constants";
 import SubLayout from "../SubLayout";
-import { Sidebar, SidebarCard } from "../../../components/Sidebar";
+import SideMenu from "./SideMenu";
 import PageHeader from "../../../components/PageHeader";
 import ProductItem from "../../../components/ProductItem";
 import Button from "../../../components/Button";
 import Message from "../../../components/Message";
+import { BackLinkWrapper } from "../../../components/Utils";
+import TextLink from "../../../components/TextLink";
 
-const OrderShow = ({ match }) => {
-  const settings = [
-    { id: "1", title: "Orders" },
-    { id: "2", title: "Profile" },
-  ];
-
+const OrderShow = ({ match, location }) => {
   const { orderId } = match.params;
   const order = useSelector((state) => selectOrderById(state, orderId));
   const shippingFee = useSelector((state) => state.cart.shippingFee);
@@ -57,11 +54,14 @@ const OrderShow = ({ match }) => {
 
   return (
     <SubLayout>
-      <Sidebar>
-        <SidebarCard title="Settings" listContent={settings} />
-      </Sidebar>
+      <SideMenu location={location} />
       <MainContainer>
         <PageHeader>Order Details</PageHeader>
+
+        <BackLinkWrapper>
+          <TextLink to="/orders">&larr; Back to Order List</TextLink>
+        </BackLinkWrapper>
+
         <ContentContainer>
           <Title>Order Number</Title>
           <Content>{order.number}</Content>

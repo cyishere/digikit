@@ -2,7 +2,7 @@ import styled from "styled-components/macro";
 import { Link } from "react-router-dom";
 import { FooterContainer } from "../Footer/Footer";
 import { Wrapper as Breadcrumbs } from "../Breadcrumbs/Breadcrumbs";
-import { Section as AdminSubLayout } from "../Admin/SubLayout";
+import { Wrapper as BackLinkWrapper } from "../Utils/BackLinkWrapper";
 import { COLORS } from "../../styles/constants";
 
 const TextLink = ({ children, href, to }) => {
@@ -36,8 +36,8 @@ export const Wrapper = styled.div`
     text-transform: none;
   }
 
-  ${AdminSubLayout} & {
-    color: ${COLORS.adminPrimary};
+  ${BackLinkWrapper} & {
+    color: ${COLORS.secondary};
   }
 `;
 

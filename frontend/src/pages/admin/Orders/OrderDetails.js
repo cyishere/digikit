@@ -13,6 +13,7 @@ import TextLink from "../../../components/TextLink";
 import ProductItem from "../../../components/ProductItem";
 import Button from "../../../components/Button";
 import Message from "../../../components/Message";
+import { BackLinkWrapper } from "../../../components/Utils";
 
 const OrderDetails = ({ match }) => {
   const { orderId } = match.params;
@@ -57,7 +58,9 @@ const OrderDetails = ({ match }) => {
 
   return (
     <Layout pageTitle="Order Details">
-      <TextLink to="/admin/orders">&larr; Back to order list</TextLink>
+      <BackLinkWrapper>
+        <TextLink to="/admin/orders">&larr; Back to order list</TextLink>
+      </BackLinkWrapper>
 
       {requestStatus === fetchStates.error && (
         <Message variant="danger">{message}</Message>

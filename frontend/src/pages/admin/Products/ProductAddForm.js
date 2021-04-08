@@ -15,6 +15,7 @@ import { Form, Label, Input, Textarea, Select } from "../../../components/Form";
 import Button from "../../../components/Button";
 import TextLink from "../../../components/TextLink";
 import Message from "../../../components/Message";
+import { BackLinkWrapper } from "../../../components/Utils";
 
 const ProductAddForm = () => {
   const categories = useSelector(selectAllCategories);
@@ -54,7 +55,10 @@ const ProductAddForm = () => {
 
   return (
     <Layout pageTitle="Add New Product">
-      <TextLink to="/admin/products">&larr; Back to product list</TextLink>
+      <BackLinkWrapper>
+        <TextLink to="/admin/products">&larr; Back to product list</TextLink>
+      </BackLinkWrapper>
+
       {requestStatus === fetchStates.error && (
         <Message variant="danger">{message}</Message>
       )}

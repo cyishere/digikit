@@ -10,6 +10,7 @@ import { Form, Label, Input } from "../../../components/Form";
 import Button from "../../../components/Button";
 import TextLink from "../../../components/TextLink";
 import Message from "../../../components/Message";
+import { BackLinkWrapper } from "../../../components/Utils";
 
 const CategoryAddForm = () => {
   const { token } = useSelector((state) => state.user.loginUser);
@@ -41,7 +42,10 @@ const CategoryAddForm = () => {
 
   return (
     <Layout pageTitle="Add New Category">
-      <TextLink to="/admin/categories">&larr; Back to category list</TextLink>
+      <BackLinkWrapper>
+        <TextLink to="/admin/categories">&larr; Back to category list</TextLink>
+      </BackLinkWrapper>
+
       {requestStatus === fetchStates.error && (
         <Message variant="danger">{message}</Message>
       )}
