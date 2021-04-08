@@ -95,5 +95,3 @@ export const {
   clearCart,
 } = cartSlice.actions;
 export default cartSlice.reducer;
-
-// TODO selectors: productIds
