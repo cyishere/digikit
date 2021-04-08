@@ -15,7 +15,7 @@ import {
   CheckoutShipping,
   CheckoutPayment,
 } from "../pages/client/Checkout";
-import { OrderList, OrderShow } from "../pages/client/Order";
+import { OrderList, OrderShow, Profile } from "../pages/client/Settings";
 import {
   Dashboard,
   ProductList as AdminProducts,
@@ -58,6 +58,7 @@ const App = () => {
         <Route exact path="/checkout/cart" component={CheckoutCart} />
         <Route exact path="/checkout/shipping" component={CheckoutShipping} />
         <Route exact path="/checkout/payment" component={CheckoutPayment} />
+        <Route exact path="/profile" component={Profile} />
         <Route exact path="/orders" component={OrderList} />
         <Route exact path="/orders/:orderId" component={OrderShow} />
         <ProtectedRoutes exact path="/admin/dashboard" component={Dashboard} />

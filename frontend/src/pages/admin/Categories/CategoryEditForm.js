@@ -13,6 +13,7 @@ import { Form, Label, Input } from "../../../components/Form";
 import Button from "../../../components/Button";
 import TextLink from "../../../components/TextLink";
 import Message from "../../../components/Message";
+import { BackLinkWrapper } from "../../../components/Utils";
 
 const CategoryEditForm = ({ match }) => {
   const { categoryId } = match.params;
@@ -51,7 +52,10 @@ const CategoryEditForm = ({ match }) => {
 
   return (
     <Layout pageTitle="Edit Category">
-      <TextLink to="/admin/categories">&larr; Back to category list</TextLink>
+      <BackLinkWrapper>
+        <TextLink to="/admin/categories">&larr; Back to category list</TextLink>
+      </BackLinkWrapper>
+
       {requestStatus === fetchStates.error && (
         <Message variant="danger">{message}</Message>
       )}

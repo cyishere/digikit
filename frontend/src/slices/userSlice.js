@@ -135,7 +135,7 @@ const userSlice = createSlice({
   extraReducers: {
     // Register
     [addNewUser.fulfilled]: (state, action) => {
-      if (action.payload.type !== "error") {
+      if (action.payload.type !== fetchStates.error) {
         state.entities = state.entities.concat(action.payload.user);
       } else {
         state.message = action.payload.message;
@@ -146,7 +146,7 @@ const userSlice = createSlice({
     },
     // Login
     [userLogin.fulfilled]: (state, action) => {
-      if (action.payload.type !== "error") {
+      if (action.payload.type !== fetchStates.error) {
         state.loginUser = action.payload;
       } else {
         state.message = action.payload.message;
@@ -157,7 +157,7 @@ const userSlice = createSlice({
     },
     // Get user info
     [getUserInfo.fulfilled]: (state, action) => {
-      if (action.payload.type !== "error") {
+      if (action.payload.type !== fetchStates.error) {
         state.info = action.payload.user;
 
         if (state.loginUser.userId === null) {
@@ -171,8 +171,9 @@ const userSlice = createSlice({
       state.message = action.payload.message;
     },
     [updateUserInfo.fulfilled]: (state, action) => {
-      if (action.payload.type !== "error") {
-        state.info = action.payload.user;
+      if (action.payload.type !== fetchStates.error) {
+        const { user } = action.payload;
+        state.info = user;
       }
       state.message = action.payload.message;
     },

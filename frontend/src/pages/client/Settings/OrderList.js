@@ -5,7 +5,7 @@ import fetchStates from "../../../utils/fetchStates";
 
 import styled from "styled-components/macro";
 import { COLORS } from "../../../styles/constants";
-import { Sidebar, SidebarCard } from "../../../components/Sidebar";
+import SideMenu from "./SideMenu";
 import Layout from "../SubLayout";
 import PageHeader from "../../../components/PageHeader";
 import {
@@ -18,12 +18,7 @@ import {
 } from "../../../components/Table";
 import Button from "../../../components/Button";
 
-const settings = [
-  { id: "1", title: "Orders" },
-  { id: "2", title: "Profile" },
-];
-
-const OrderList = () => {
+const OrderList = ({ location }) => {
   const { userId, token } = useSelector((state) => state.user.loginUser);
   const orders = useSelector((state) => selectOrdersByUser(state, userId));
   const status = useSelector((state) => state.order.status);
@@ -38,9 +33,7 @@ const OrderList = () => {
 
   return (
     <Layout>
-      <Sidebar>
-        <SidebarCard title="Settings" listContent={settings} />
-      </Sidebar>
+      <SideMenu location={location} />
       <MainContainer>
         <PageHeader>Order List</PageHeader>
         <Table>
