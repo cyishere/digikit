@@ -21,4 +21,18 @@ const COLORS = {
   adminPrimaryLighter: "hsl(199.1,92.2%,90%)",
 };
 
-export { COLORS };
+const VIEWS = {
+  xs: "480px",
+  sm: "768px",
+  md: "1024px",
+  lg: "1200px",
+};
+
+const BREAKPOINTS = {
+  xs: `(max-width: ${VIEWS.xs})`,
+  sm: `(max-width: ${VIEWS.sm})`,
+  md: `(max-width: ${VIEWS.md})`,
+  lg: `(max-width: ${VIEWS.lg})`,
+};
+
+export { COLORS, VIEWS, BREAKPOINTS };

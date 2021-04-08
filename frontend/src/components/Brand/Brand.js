@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
-import { COLORS } from "../../styles/constants";
+import { COLORS, BREAKPOINTS } from "../../styles/constants";
 
 const Brand = () => {
   return (
@@ -15,6 +15,10 @@ const Brand = () => {
 export const Wrapper = styled.h1`
   font-family: Actor;
   font-size: 2.5rem;
+
+  @media ${BREAKPOINTS.sm} {
+    margin-bottom: 32px;
+  }
 `;
 
 export const TextLink = styled(Link)`

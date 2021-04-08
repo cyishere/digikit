@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../slices/userSlice";
 
 import styled from "styled-components/macro";
-import { COLORS } from "../../styles/constants";
+import { COLORS, VIEWS, BREAKPOINTS } from "../../styles/constants";
 import { NavLink } from "react-router-dom";
 import Button from "../Button";
 import Brand from "../Brand";
@@ -75,13 +75,23 @@ const Wrapper = styled.header`
 `;
 
 const Container = styled.nav`
-  max-width: 1200px;
+  max-width: ${VIEWS.lg};
   margin: 0 auto;
   padding-top: 32px;
   padding-bottom: 32px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media ${BREAKPOINTS.lg} {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  @media ${BREAKPOINTS.sm} {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
 `;
 
 const NavLinks = styled.ul`

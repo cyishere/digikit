@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 
 import styled from "styled-components/macro";
-import { COLORS } from "../../styles/constants";
+import { BREAKPOINTS, COLORS } from "../../styles/constants";
 
 const Sidebar = () => {
   return (
@@ -32,6 +32,10 @@ const Sidebar = () => {
 
 const Wrapper = styled.aside`
   background-color: ${COLORS.white};
+
+  @media ${BREAKPOINTS.sm} {
+    padding: 0 16px;
+  }
 `;
 
 const SideHeader = styled.header`
@@ -45,7 +49,7 @@ const Logo = styled.img`
 `;
 
 const LinkWrapper = styled.ul`
-  width: 300px;
+  max-width: 300px;
   margin: 0 auto;
 `;
 

@@ -3,7 +3,7 @@ import { useQtyChange } from "../../utils/hooks";
 import { removeFromCart, updateQty } from "../../slices/cartSlice";
 
 import styled from "styled-components/macro";
-import { COLORS } from "../../styles/constants";
+import { COLORS, BREAKPOINTS } from "../../styles/constants";
 import formatCurrency from "../../utils/formatCurrency";
 import TextLink from "../TextLink";
 import Button from "../Button";
@@ -115,6 +115,10 @@ const WrapperFull = styled(WrapperBase)`
   grid-template-columns: 150px 1fr;
   grid-gap: 32px;
   padding: 32px 0;
+
+  @media ${BREAKPOINTS.sm} {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const WrapperLite = styled(WrapperBase)`
@@ -141,6 +145,10 @@ const Title = styled.h4`
   ${WrapperLite} & {
     font-size: 1rem;
   }
+
+  @media ${BREAKPOINTS.sm} {
+    margin-bottom: 32px;
+  }
 `;
 
 const ControlFull = styled.div`
@@ -151,6 +159,11 @@ const ControlFull = styled.div`
   align-items: center;
   font-size: 1rem;
   margin-left: -16px;
+
+  @media ${BREAKPOINTS.xs} {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
 `;
 
 const ControlLite = styled.div`
