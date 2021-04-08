@@ -1,5 +1,5 @@
 import styled from "styled-components/macro";
-import { COLORS } from "../../../styles/constants";
+import { COLORS, VIEWS, BREAKPOINTS } from "../../../styles/constants";
 import AppLayout from "../Layout";
 import PageHeader from "../../../components/PageHeader";
 import { Sidebar } from "../../../components/Checkout";
@@ -42,10 +42,14 @@ const Layout = ({ children, step }) => {
 };
 
 const Wrapper = styled.div`
-  max-width: 1200px;
+  max-width: ${VIEWS.lg};
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 360px;
+
+  @media ${BREAKPOINTS.md} {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const MainContainer = styled.main`

@@ -13,7 +13,7 @@ import {
 import fetchStates from "../../../utils/fetchStates";
 
 import styled from "styled-components/macro";
-import { COLORS } from "../../../styles/constants";
+import { COLORS, BREAKPOINTS } from "../../../styles/constants";
 import Layout from "../SubLayout";
 import {
   Sidebar,
@@ -155,6 +155,10 @@ const MainContainer = styled.main`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 36px;
+
+  @media ${BREAKPOINTS.sm} {
+    grid-template-columns: 1fr;
+  }
 `;
 
 export default ProductList;

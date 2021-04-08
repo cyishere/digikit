@@ -4,7 +4,7 @@ import { selectProductById } from "../../../slices/productSlice";
 import { addToCart } from "../../../slices/cartSlice";
 
 import styled from "styled-components/macro";
-import { COLORS } from "../../../styles/constants";
+import { COLORS, BREAKPOINTS, VIEWS } from "../../../styles/constants";
 import formatCurrency from "../../../utils/formatCurrency";
 import Layout from "./../Layout";
 import CountGroup from "../../../components/CountGroup";
@@ -73,7 +73,7 @@ const ProductShow = ({ match }) => {
 
 const Wrapper = styled.main`
   background-color: ${COLORS.white};
-  max-width: 1200px;
+  max-width: ${VIEWS.lg};
   margin: 48px auto;
 `;
 
@@ -82,6 +82,10 @@ const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 36px;
+
+  @media ${BREAKPOINTS.md} {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const Img = styled.img`
