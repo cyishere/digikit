@@ -1,17 +1,11 @@
 import styled from "styled-components/macro";
 import { COLORS } from "../../styles/constants";
-import SidebarCardItem from "./SidebarCardItem";
 
-const SidebarCard = ({ title, listContent }) => {
+const SidebarCard = ({ children, title }) => {
   return (
     <Wrapper>
       <Title>{title}</Title>
-      <ul>
-        <SidebarCardItem name="All" isActive={true} />
-        {listContent.map((item) => (
-          <SidebarCardItem key={item.id} name={item.title} />
-        ))}
-      </ul>
+      {children}
     </Wrapper>
   );
 };

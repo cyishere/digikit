@@ -1,8 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectAllProducts,
   getAllProducts,
+  selectProductsByCategory,
+  selectProductsByBrand,
 } from "../../../slices/productSlice";
 import {
   selectAllCategories,
@@ -13,16 +15,19 @@ import fetchStates from "../../../utils/fetchStates";
 import styled from "styled-components/macro";
 import { COLORS } from "../../../styles/constants";
 import Layout from "../SubLayout";
-import { Sidebar, SidebarCard } from "../../../components/Sidebar";
+import {
+  Sidebar,
+  SidebarCard,
+  SidebarCardItem,
+} from "../../../components/Sidebar";
 import Card from "../../../components/Card";
 import Loader from "../../../components/Loader";
 import Message from "../../../components/Message";
 
 const brands = [
-  { id: "1", title: "B&O" },
-  { id: "2", title: "GMK" },
+  { id: "1", title: "Bang & Olufsen" },
+  { id: "2", title: "Keychron" },
   { id: "3", title: "IQUNIX" },
-  { id: "4", title: "HHBK" },
 ];
 
 const ProductList = () => {
@@ -43,12 +48,41 @@ const ProductList = () => {
     }
   }, [categoryStatus, dispatch, productStatus]);
 
-  let content, sidebarCategories;
+  const [filterCategory, setFilterCategory] = useState(null);
+  const [filterBrand, setFilterBrand] = useState(null);
+
+  // Filer by category
+  const chooseCategory = (categoryId) => {
+    setFilterCategory(categoryId);
+    setFilterBrand(null);
+  };
+  const productsInCertainCategory = useSelector((state) =>
+    selectProductsByCategory(state, filterCategory)
+  );
+
+  // Filter by brand
+  const chooseBrand = (brand) => {
+    setFilterBrand(brand);
+    setFilterCategory(null);
+  };
+  const productsInCertainBrand = useSelector((state) =>
+    selectProductsByBrand(state, filterBrand)
+  );
+
+  let content, sidebarCategories, filteredProducts;
 
   if (productStatus === fetchStates.fetching) {
     content = <Loader />;
   } else if (productStatus === fetchStates.success) {
-    content = products.map((product) => (
+    if (filterCategory === null && filterBrand === null) {
+      filteredProducts = products;
+    } else if (filterBrand === null) {
+      filteredProducts = productsInCertainCategory;
+    } else if (filterCategory === null) {
+      filteredProducts = productsInCertainBrand;
+    }
+
+    content = filteredProducts.map((product) => (
       <Card
         key={product.id}
         id={product.id}
@@ -65,7 +99,23 @@ const ProductList = () => {
     sidebarCategories = <Loader />;
   } else if (categoryStatus === fetchStates.success) {
     sidebarCategories = (
-      <SidebarCard title="Category" listContent={categories} />
+      <SidebarCard title="Category">
+        <ul>
+          <SidebarCardItem
+            name="All"
+            isActive={filterCategory === null}
+            onClick={() => chooseCategory(null)}
+          />
+          {categories.map((item) => (
+            <SidebarCardItem
+              key={item.id}
+              name={item.title}
+              onClick={() => chooseCategory(item.id)}
+              isActive={filterCategory === item.id}
+            />
+          ))}
+        </ul>
+      </SidebarCard>
     );
   } else if (categoryStatus === fetchStates.error) {
     sidebarCategories = <Message variant="danger">{categoryError}</Message>;
@@ -75,7 +125,23 @@ const ProductList = () => {
     <Layout>
       <Sidebar>
         {sidebarCategories}
-        <SidebarCard title="Brand" listContent={brands} />
+        <SidebarCard title="Brand">
+          <ul>
+            <SidebarCardItem
+              name="All"
+              isActive={filterBrand === null}
+              onClick={() => chooseBrand(null)}
+            />
+            {brands.map((item) => (
+              <SidebarCardItem
+                key={item.id}
+                name={item.title}
+                onClick={() => chooseBrand(item.title)}
+                isActive={filterBrand === item.title}
+              />
+            ))}
+          </ul>
+        </SidebarCard>
       </Sidebar>
       <MainContainer>{content}</MainContainer>
     </Layout>
