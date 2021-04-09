@@ -1,17 +1,38 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAllCategories,
+  selectAllCategories,
+} from "../../slices/categorySlice";
+
 import styled from "styled-components/macro";
+import { COLORS, VIEWS, BREAKPOINTS } from "../../styles/constants";
 import Layout from "./Layout";
 import CategoryCard from "../../components/CategoryCard";
-import { COLORS, VIEWS, BREAKPOINTS } from "../../styles/constants";
+import Loader from "../../components/Loader";
 
 const Home = () => {
+  const categories = useSelector(selectAllCategories);
+  const categoryStatus = useSelector((state) => state.category.status);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (categoryStatus === "idle") {
+      dispatch(getAllCategories());
+    }
+  }, [categoryStatus, dispatch]);
+
+  if (categories.length === 0) return <Loader />;
+
   return (
     <Layout>
       <Wrapper>
         <Container>
           <Grid>
-            <CategoryCard>Speaker</CategoryCard>
-            <CategoryCard>Keyboard</CategoryCard>
-            <CategoryCard>Headphone</CategoryCard>
+            {categories.map((category) => (
+              <CategoryCard key={category.id}>{category.title}</CategoryCard>
+            ))}
           </Grid>
         </Container>
       </Wrapper>

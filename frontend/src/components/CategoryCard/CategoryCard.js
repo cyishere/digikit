@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import styled from "styled-components/macro";
 import { COLORS } from "../../styles/constants";
 
@@ -7,13 +9,13 @@ const CategoryCard = ({ children }) => {
   const category = children.toLowerCase().trim();
 
   return (
-    <Wrapper category={category} href={`/products?category=${category}`}>
+    <Wrapper category={category} to={`/products?category=${category}`}>
       <Title>{children}</Title>
     </Wrapper>
   );
 };
 
-const Wrapper = styled.a`
+const Wrapper = styled(Link)`
   background-image: url(${(props) => `assets/${props.category}.jpg`});
   background-size: cover;
   position: relative;
