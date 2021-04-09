@@ -11,6 +11,7 @@ import {
   getAllCategories,
 } from "../../../slices/categorySlice";
 import fetchStates from "../../../utils/fetchStates";
+import { brands } from "../../../utils/data";
 
 import styled from "styled-components/macro";
 import { COLORS, BREAKPOINTS } from "../../../styles/constants";
@@ -24,13 +25,9 @@ import Card from "../../../components/Card";
 import Loader from "../../../components/Loader";
 import Message from "../../../components/Message";
 
-const brands = [
-  { id: "1", title: "Bang & Olufsen" },
-  { id: "2", title: "Keychron" },
-  { id: "3", title: "IQUNIX" },
-];
+const ProductList = ({ location }) => {
+  const queryCategoryTitle = location.search.split("=")[1];
 
-const ProductList = () => {
   const dispatch = useDispatch();
   const products = useSelector(selectAllProducts);
   const productStatus = useSelector((state) => state.product.status);
@@ -48,7 +45,13 @@ const ProductList = () => {
     }
   }, [categoryStatus, dispatch, productStatus]);
 
-  const [filterCategory, setFilterCategory] = useState(null);
+  const queryCategory = categories.find(
+    (category) => category.title.toLowerCase() === queryCategoryTitle
+  );
+
+  const queryCategoryId = queryCategory ? queryCategory.id : null;
+
+  const [filterCategory, setFilterCategory] = useState(queryCategoryId);
   const [filterBrand, setFilterBrand] = useState(null);
 
   // Filer by category
