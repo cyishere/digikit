@@ -1,27 +1,24 @@
-
 # digiKIT
 
 "digiKIT" is an e-commerce app to demonstrate how to put "full-stack" development together. It contains the basic CRUD for products, shopping cart, and making orders, except actual purchase.
-
-
 
 ## More Information
 
 [Project introduction on my website](https://cyishere.dev/portfolio/digikit)
 
+## Tech Stack
 
-## Environment Variables
+**Backend:**
 
-To run this project, you will need to add the following environment variables to your .env file
+- Node.js / Express.js
+- MongoDB
 
-`MONGO_URI` - The uri of your MongoDB.
+**Frontend:**
 
-`USER_ROLE_ADMIN` - A string to specify the admin role of user.
-
-`USER_ROLE_BASIC` - A string to specify the basic role of user.
-
-`SECRET` - The app's secret for jwt token.
-
+- React
+- Redux
+- styled-components
+- Storybook
 
 ## Features
 
@@ -37,7 +34,6 @@ To run this project, you will need to add the following environment variables to
 - View/update order status in admin panel
 - View user information in admin panel
 
-  
 ## Lessons Learned
 
 I've learned these four major features below by making this project, please read [my article](https://cyishere.dev/portfolio/digikit) for more details about these.
@@ -47,7 +43,17 @@ I've learned these four major features below by making this project, please read
 - Logic of Shopping Cart (with Redux)
 - Protection of routes
 
+## Environment Variables
 
+To run this project, you will need to add the following environment variables to your .env file
+
+`MONGO_URI` - The uri of your MongoDB.
+
+`USER_ROLE_ADMIN` - A string to specify the admin role of user.
+
+`USER_ROLE_BASIC` - A string to specify the basic role of user.
+
+`SECRET` - The app's secret for jwt token.
 
 ## Run Locally
 
@@ -83,9 +89,8 @@ Start the server
   yarn dev
 ```
 
-
 ## Screenshots
 
 ![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
 
-  
+Create this file on [readme.so](https://readme.so/).
