@@ -1,17 +1,91 @@
-# About
 
-This is a mock MERN app to skill myself.
+# digiKIT
 
-```css
-font-family: "GT-Walsheim-Regular", "HelveticaNeue", "Helvetica Neue",
-  Helvetica, Arial, sans-serif;
+"digiKIT" is an e-commerce app to demonstrate how to put "full-stack" development together. It contains the basic CRUD for products, shopping cart, and making orders, except actual purchase.
+
+
+
+## More Information
+
+[Project introduction on my website](https://cyishere.dev/portfolio/digikit)
+
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+`MONGO_URI` - The uri of your MongoDB.
+
+`USER_ROLE_ADMIN` - A string to specify the admin role of user.
+
+`USER_ROLE_BASIC` - A string to specify the basic role of user.
+
+`SECRET` - The app's secret for jwt token.
+
+
+## Features
+
+- Filter products by category
+- Filter products by brand
+- Add product to shopping cart
+- Checkout the shopping cart
+- Add/update shipping (user's) information
+- Confirm orders
+- Cancel orders
+- Manage category in admin panel
+- Manage products in admin panel
+- View/update order status in admin panel
+- View user information in admin panel
+
+  
+## Lessons Learned
+
+I've learned these four major features below by making this project, please read [my article](https://cyishere.dev/portfolio/digikit) for more details about these.
+
+- Error handling
+- Logic of auth
+- Logic of Shopping Cart (with Redux)
+- Protection of routes
+
+
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/cyishere/digikit
 ```
 
-https://en.akkogear.com/product/matcha-red-bean-3087ds-mechanical-keyboard/
+Go to the project directory
 
-Icon Set: [Line Awesome](https://icons8.com/line-awesome)
+```bash
+  cd digikit
+```
 
-## Furthuer Contents
+Install dependencies
 
-- [How to deal with multiple layouts in ReactJS applications](https://medium.com/@iamhrayr/how-do-you-deal-with-multiple-layouts-in-react-js-56ba8ad99c91)
-- How to pass down props with layout??
+```bash
+  cd frontent
+  yarn install
+
+  cd server
+  yarn install
+```
+
+Start the server
+
+```bash
+  cd frontent
+  yarn start
+
+  cd server
+  yarn dev
+```
+
+
+## Screenshots
+
+![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+
+  
