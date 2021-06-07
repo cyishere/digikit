@@ -49,7 +49,7 @@ const Logo = styled.img`
 `;
 
 const LinkWrapper = styled.ul`
-  max-width: 300px;
+  max-width: 260px;
   margin: 0 auto;
 `;
 

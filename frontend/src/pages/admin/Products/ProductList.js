@@ -12,6 +12,7 @@ import fetchStates from "../../../utils/fetchStates";
 import formatCurrency from "../../../utils/formatCurrency";
 
 import styled from "styled-components/macro";
+import { Eye, Create, Trash } from "@styled-icons/ionicons-outline";
 import { COLORS } from "../../../styles/constants";
 import { SubLayout as Layout } from "../../../components/Admin";
 import {
@@ -92,19 +93,19 @@ const ProductList = () => {
               <Cell>{product.countInStock}</Cell>
               <Cell>
                 <Button variant="info" href={`/products/${product.id}`}>
-                  View &#8599;
+                  <Eye size="24" />
                 </Button>
                 <Button
                   variant="secondary"
                   href={`/admin/products/edit/${product.id}`}
                 >
-                  Edit
+                  <Create size="24" />
                 </Button>
                 <Button
                   variant="danger"
                   onClick={() => handleDelete(product.id, product.category)}
                 >
-                  Delete
+                  <Trash size="24" />
                 </Button>
               </Cell>
             </Row>

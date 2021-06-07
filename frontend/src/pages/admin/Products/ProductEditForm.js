@@ -68,13 +68,6 @@ const ProductEditForm = ({ match }) => {
         <TextLink to="/admin/products">&larr; Back to product list</TextLink>
       </BackLinkWrapper>
 
-      {requestStatus === fetchStates.error && (
-        <Message variant="danger">{message}</Message>
-      )}
-      {requestStatus === fetchStates.success && (
-        <Message variant="success">{message}</Message>
-      )}
-
       <Form onSubmit={handleSubmit}>
         <Label htmlFor="title">Product Title</Label>
         <Input
@@ -143,6 +136,13 @@ const ProductEditForm = ({ match }) => {
           Save
         </Button>
       </Form>
+
+      {requestStatus === fetchStates.error && (
+        <Message variant="danger">{message}</Message>
+      )}
+      {requestStatus === fetchStates.success && (
+        <Message variant="success">{message}</Message>
+      )}
     </Layout>
   );
 };

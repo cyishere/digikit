@@ -62,13 +62,6 @@ const OrderDetails = ({ match }) => {
         <TextLink to="/admin/orders">&larr; Back to order list</TextLink>
       </BackLinkWrapper>
 
-      {requestStatus === fetchStates.error && (
-        <Message variant="danger">{message}</Message>
-      )}
-      {requestStatus === fetchStates.success && (
-        <Message variant="success">{message}</Message>
-      )}
-
       <ContentContainer>
         <Title>Order Number</Title>
         <Content>{order.number}</Content>
@@ -128,6 +121,13 @@ const OrderDetails = ({ match }) => {
           )}
         </Content>
       </ContentContainer>
+
+      {requestStatus === fetchStates.error && (
+        <Message variant="danger">{message}</Message>
+      )}
+      {requestStatus === fetchStates.success && (
+        <Message variant="success">{message}</Message>
+      )}
     </Layout>
   );
 };

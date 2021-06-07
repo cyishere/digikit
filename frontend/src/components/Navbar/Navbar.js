@@ -55,9 +55,9 @@ const Navbar = () => {
           </NavItem>
           {authAdmin && (
             <NavItem>
-              <TextLink to="/admin/dashboard">
+              <TextLinkHighlight to="/admin/dashboard">
                 <Icon size="24" /> dashboard
-              </TextLink>
+              </TextLinkHighlight>
             </NavItem>
           )}
           {navContent}
@@ -118,6 +118,10 @@ const TextLink = styled(NavLink)`
     color: ${COLORS.secondary};
     font-weight: 500;
   }
+`;
+
+const TextLinkHighlight = styled(TextLink)`
+  color: red;
 `;
 
 const Icon = styled(TrailSign)`

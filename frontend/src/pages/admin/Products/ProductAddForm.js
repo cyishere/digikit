@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
 import {
@@ -31,6 +32,8 @@ const ProductAddForm = () => {
     countInStock: 0,
   });
 
+  const history = useHistory();
+
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
@@ -50,6 +53,7 @@ const ProductAddForm = () => {
       dispatch(updateWithProductAdded({ productId, categoryId }));
       setRequestStatus(fetchStates.success);
       resetValues();
+      history.push("/admin/products");
     }
   };
 
@@ -59,12 +63,6 @@ const ProductAddForm = () => {
         <TextLink to="/admin/products">&larr; Back to product list</TextLink>
       </BackLinkWrapper>
 
-      {requestStatus === fetchStates.error && (
-        <Message variant="danger">{message}</Message>
-      )}
-      {requestStatus === fetchStates.success && (
-        <Message variant="success">{message}</Message>
-      )}
       <Form onSubmit={handleSubmit}>
         <Label htmlFor="title">Product Title</Label>
         <Input
@@ -139,6 +137,13 @@ const ProductAddForm = () => {
           Save
         </Button>
       </Form>
+
+      {requestStatus === fetchStates.error && (
+        <Message variant="danger">{message}</Message>
+      )}
+      {requestStatus === fetchStates.success && (
+        <Message variant="success">{message}</Message>
+      )}
     </Layout>
   );
 };
