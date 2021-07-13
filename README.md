@@ -91,6 +91,6 @@ Start the server
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![digiKIT Screenshot](https://www.cyishere.dev/img/portfolio/digikit/digikit-cover_l.jpg)
 
 Create this file on [readme.so](https://readme.so/).
